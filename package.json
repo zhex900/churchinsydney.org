@@ -1,5 +1,5 @@
 {
-  "name": "theodorusclarence.com",
+  "name": "churchinsydney.org",
   "version": "1.1.1",
   "private": true,
   "scripts": {
@@ -17,12 +17,9 @@
     "release": "standard-version",
     "push-release": "git push --follow-tags origin main",
     "postbuild": "next-sitemap",
-    "mdgen": "node scripts/cross-post.js",
-    "prepare": "husky install"
+    "mdgen": "node scripts/cross-post.js"
   },
   "dependencies": {
-    "@feedback-fish/react": "^1.2.1",
-    "@giscus/react": "^1.1.2",
     "@headlessui/react": "^1.6.1",
     "axios": "^0.24.0",
     "clsx": "^1.1.1",
