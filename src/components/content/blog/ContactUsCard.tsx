@@ -37,14 +37,14 @@ export default function ContactUsCard({
       })
       .catch((error: Error | AxiosError) => {
         if (axios.isAxiosError(error)) {
-          if (error.response?.data?.message?.includes('subscribed')) {
-            setStatus('subscribed');
-          } else {
-            setStatus('error');
-            setErrMsg(
-              error.response?.data.message ?? 'Something is wrong with the API.'
-            );
-          }
+          // if (error?.response?.data?.message?.includes('subscribed')) {
+          //   setStatus('subscribed');
+          // } else {
+          //   setStatus('error');
+          //   setErrMsg(
+          //     error.response?.data.message ?? 'Something is wrong with the API.'
+          //   );
+          // }
         } else {
           setStatus('error');
           setErrMsg('Something is wrong with the API.');
