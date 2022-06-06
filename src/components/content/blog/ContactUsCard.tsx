@@ -2,13 +2,10 @@ import axios, { AxiosError } from 'axios';
 import clsx from 'clsx';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import useSWR from 'swr';
 
 import Accent from '@/components/Accent';
 import Button from '@/components/buttons/Button';
 import CustomLink from '@/components/links/CustomLink';
-
-import { newsletterFlag } from '@/constants/env';
 
 type ContactUsCardProps = {
   className?: string;
@@ -20,10 +17,6 @@ export default function ContactUsCard({
   title,
   description,
 }: ContactUsCardProps) {
-  const { data: subscriber, mutate } = useSWR<{ count: number }>(
-    newsletterFlag ? '/api/newsletter/count' : null
-  );
-
   const { register, handleSubmit, reset } = useForm<{ email: string }>();
   const [status, setStatus] = React.useState('idle');
   const [errMsg, setErrMsg] = React.useState(
@@ -39,7 +32,7 @@ export default function ContactUsCard({
       })
       .then(() => {
         reset();
-        if (subscriber?.count) mutate({ count: subscriber.count + 1 });
+        // if (subscriber?.count) mutate({ count: subscriber.count + 1 });
         setStatus('success');
       })
       .catch((error: Error | AxiosError) => {

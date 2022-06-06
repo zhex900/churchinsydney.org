@@ -2,9 +2,9 @@ import useTranslation from 'next-translate/useTranslation';
 import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { FiMail, FiMapPin, FiPhoneCall } from 'react-icons/fi';
-import { Tooltip as TooltipTippy } from 'react-tippy';
 
 import Accent from '@/components/Accent';
+import Tooltip from '@/components/tooltip/baseTooltip';
 
 import { data } from '@/../data';
 export default function Footer() {
@@ -60,7 +60,7 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
   return (
     <div className='mt-8 flex items-center justify-center space-x-4 pt-2'>
       {contactUs.map((contact) => (
-        <TooltipTippy
+        <Tooltip
           key={contact.id}
           trigger='mouseenter'
           hideOnClick={false}
@@ -85,7 +85,7 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
               <contact.icon className='h-7 w-7 align-middle text-gray-600 hover:text-primary-300 dark:text-gray-300 dark:hover:text-primary-300' />
             </button>
           </CopyToClipboard>
-        </TooltipTippy>
+        </Tooltip>
       ))}
     </div>
   );

@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import * as React from 'react';
 
 // import sayHello from '@/lib/sayHello';
@@ -14,9 +13,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <Header />
       <div id='skip-nav'>{children}</div>
-      {/* <PreloadProvider>
-        <div id='skip-nav'>{children}</div>
-      </PreloadProvider> */}
       <Footer />
     </>
   );

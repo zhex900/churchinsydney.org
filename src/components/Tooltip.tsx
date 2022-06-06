@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Tooltip as TippyTooltip, TooltipProps } from 'react-tippy';
+import { TooltipProps } from 'react-tippy';
+
+import BaseTooltip from '@/components/tooltip/baseTooltip';
 
 type TooltipTextProps = {
   content?: React.ReactNode;
@@ -21,7 +23,7 @@ export default function Tooltip({
 }: TooltipTextProps) {
   if (!content) return <div>{children}</div>;
   return (
-    <TippyTooltip
+    <BaseTooltip
       trigger='mouseenter'
       interactive
       html={
@@ -47,6 +49,6 @@ export default function Tooltip({
       ) : (
         <>{children}</>
       )}
-    </TippyTooltip>
+    </BaseTooltip>
   );
 }

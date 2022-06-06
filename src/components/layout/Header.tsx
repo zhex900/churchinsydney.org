@@ -1,13 +1,12 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { useTheme } from 'next-themes';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState } from 'react';
-import { FiMoon, FiSun } from 'react-icons/fi';
 
 import UnstyledLink from '@/components/links/UnstyledLink';
 
 import LocaleButton from '../buttons/LocaleButton';
+import ThemeButton from '../buttons/ThemeButton';
 import Logo from '../images/Logo';
 
 type HeaderProps = {
@@ -16,7 +15,7 @@ type HeaderProps = {
 
 export default function Header({ large = false }: HeaderProps) {
   const { t } = useTranslation('common');
-  const { theme, setTheme } = useTheme();
+
   const router = useRouter();
   const arrOfRoute = router.route.split('/');
   const baseRoute = '/' + arrOfRoute[1];
@@ -76,17 +75,7 @@ export default function Header({ large = false }: HeaderProps) {
             ))}
           </ul>
           <div className='flex justify-between space-x-3'>
-            <button
-              className={clsx(
-                'rounded-md p-2.5 focus:outline-none',
-                'border dark:border-gray-600',
-                'hover:border-primary-300 hover:text-primary-300 dark:hover:border-primary-300 dark:hover:text-primary-300',
-                'focus-visible:border-primary-300 focus-visible:text-primary-300 dark:focus-visible:border-primary-300 dark:focus-visible:text-primary-300'
-              )}
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            >
-              {theme === 'light' ? <FiMoon size={20} /> : <FiSun size={20} />}
-            </button>
+            <ThemeButton />
             <LocaleButton />
           </div>
         </nav>
