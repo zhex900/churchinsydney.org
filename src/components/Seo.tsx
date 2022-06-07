@@ -58,7 +58,7 @@ export default function Seo(props: SeoProps) {
       <link rel='icon' href='/favicon/favicon.ico' sizes='any' />
       <link rel='icon' href='/favicon/favicon.svg' type='image/svg+xml' />
       <link rel='mask-icon' href='/favicon/favicon.svg' color='#000000' />
-      <link rel='apple-touch-icon' href='apple-icon-180x180.png' />
+      <link rel='apple-touch-icon' href='/favicon/apple-icon-180x180.png' />
 
       <link rel='manifest' href='/manifest.webmanifest' />
     </Head>
