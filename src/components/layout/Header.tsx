@@ -38,7 +38,7 @@ export default function Header({ large = false }: HeaderProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
-  if (!mounted) return;
+  if (!mounted) return <div />;
   return (
     <header
       className={clsx(
