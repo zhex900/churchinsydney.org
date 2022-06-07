@@ -6,9 +6,9 @@ import { FiMail, FiMapPin, FiPhoneCall } from 'react-icons/fi';
 import { trackEvent } from '@/lib/analytics';
 
 import Accent from '@/components/Accent';
-import BaseTooltip from '@/components/BaseTooltip';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Tooltip from '@/components/Tooltip';
+import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
 import { data } from '@/../data';
 

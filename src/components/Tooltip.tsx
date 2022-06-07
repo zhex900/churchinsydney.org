@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { TooltipProps } from 'react-tippy';
 
-import BaseTooltip from './BaseTooltip';
+import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
 type TooltipTextProps = {
   content?: React.ReactNode;
