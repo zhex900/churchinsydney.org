@@ -7,10 +7,11 @@ import { trackEvent } from '@/lib/analytics';
 
 import Accent from '@/components/Accent';
 import UnstyledLink from '@/components/links/UnstyledLink';
-import BaseTooltip from '@/components/tooltip/BaseTooltip';
 import Tooltip from '@/components/tooltip/Tooltip';
 
 import { data } from '@/../data';
+
+import BaseTooltip from '../tooltip/BaseTooltip';
 
 export default function Footer() {
   const { t } = useTranslation('common');
