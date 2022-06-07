@@ -7,7 +7,7 @@ import { trackEvent } from '@/lib/analytics';
 
 import Accent from '@/components/Accent';
 import UnstyledLink from '@/components/links/UnstyledLink';
-import BaseTooltip from '@/components/tooltip/BaseTooltip';
+// import BaseTooltip from '@/components/tooltip/BaseTooltip';
 import Tooltip from '@/components/tooltip/Tooltip';
 
 import { data } from '@/../data';
@@ -65,7 +65,7 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
 
   return (
     <div className='mt-8 flex items-center justify-center space-x-4 pt-2'>
-      {contactUs.map((contact) => (
+      {/* {contactUs.map((contact) => (
         <BaseTooltip
           key={contact.id}
           trigger='mouseenter'
@@ -92,7 +92,7 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
             </button>
           </CopyToClipboard>
         </BaseTooltip>
-      ))}
+      ))} */}
     </div>
   );
 }
