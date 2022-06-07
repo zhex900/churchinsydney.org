@@ -7,8 +7,8 @@ import { trackEvent } from '@/lib/analytics';
 
 import Accent from '@/components/Accent';
 import UnstyledLink from '@/components/links/UnstyledLink';
-import Tooltip from '@/components/Tooltip';
 import BaseTooltip from '@/components/tooltip/BaseTooltip';
+import Tooltip from '@/components/tooltip/Tooltip';
 
 import { data } from '@/../data';
 
