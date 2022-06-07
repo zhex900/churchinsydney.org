@@ -60,7 +60,7 @@ export default function ContactUsCard({
       <h3 className='mt-2'>
         <Accent>{title ?? 'We love to hear from you!'}</Accent> {'👋 '}
       </h3>
-      <div className='mt-2 flex flex-row gap-10'>
+      <div className='mt-2 flex flex-col gap-10 md:flex-row'>
         <div className='basis-1/2'>
           <p className='mt-2 text-justify text-gray-700 dark:text-gray-300'>
             {description}

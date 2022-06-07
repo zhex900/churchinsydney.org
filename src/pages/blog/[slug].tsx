@@ -164,8 +164,10 @@ export default function SingleBlogPage({
               </div>
             )}
 
-            <div className='mt-8 flex flex-col items-start gap-4 md:flex-row-reverse md:justify-between'>
-              <CustomLink href='/blog'>← Back to blog</CustomLink>
+            <div className='mb-8 mt-8 flex flex-col items-start gap-4'>
+              <CustomLink href='/announcements'>
+                ← Back to announcements
+              </CustomLink>
             </div>
           </div>
         </section>

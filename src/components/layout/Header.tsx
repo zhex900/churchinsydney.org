@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState } from 'react';
 
+import useMediaQuery from '@/hooks/useMediaQuery';
+
 import UnstyledLink from '@/components/links/UnstyledLink';
 
 import LocaleButton from '../buttons/LocaleButton';
@@ -31,6 +33,12 @@ export default function Header({ large = false }: HeaderProps) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const isMobile = useMediaQuery();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return;
   return (
     <header
       className={clsx(
@@ -49,30 +57,33 @@ export default function Header({ large = false }: HeaderProps) {
             <Logo />
           </UnstyledLink>
           <ul className='flex items-center justify-between space-x-3 text-xs md:space-x-4 md:text-base'>
-            {links.map(({ href }) => (
-              <li key={href}>
-                <UnstyledLink
-                  href={href}
-                  className={clsx(
-                    'rounded-sm py-2 transition-colors',
-                    'font-medium text-black dark:text-white',
-                    'group dark:hover:text-primary-300',
-                    'focus:outline-none focus-visible:ring focus-visible:ring-primary-300'
-                  )}
-                >
-                  <span
-                    className={clsx(
-                      'transition-colors',
-                      'bg-primary-300/0 group-hover:bg-primary-300/20 dark:group-hover:bg-primary-300/0',
-                      href === baseRoute &&
-                        '!bg-primary-300/50 dark:bg-gradient-to-tr dark:from-primary-300 dark:to-primary-400 dark:bg-clip-text dark:text-transparent'
-                    )}
-                  >
-                    {t(href.replace(/\//, ''))}
-                  </span>
-                </UnstyledLink>
-              </li>
-            ))}
+            {headerLinks.map(
+              ({ href, mobile }) =>
+                ((isMobile && mobile) || !isMobile) && (
+                  <li key={href}>
+                    <UnstyledLink
+                      href={href}
+                      className={clsx(
+                        'rounded-sm py-2 transition-colors',
+                        'font-medium text-black dark:text-white',
+                        'group dark:hover:text-primary-300',
+                        'focus:outline-none focus-visible:ring focus-visible:ring-primary-300'
+                      )}
+                    >
+                      <span
+                        className={clsx(
+                          'transition-colors',
+                          'bg-primary-300/0 group-hover:bg-primary-300/20 dark:group-hover:bg-primary-300/0',
+                          href === baseRoute &&
+                            '!bg-primary-300/50 dark:bg-gradient-to-tr dark:from-primary-300 dark:to-primary-400 dark:bg-clip-text dark:text-transparent'
+                        )}
+                      >
+                        {t(href.replace(/\//, ''))}
+                      </span>
+                    </UnstyledLink>
+                  </li>
+                )
+            )}
           </ul>
           <div className='flex justify-between space-x-3'>
             <ThemeButton />
@@ -84,9 +95,9 @@ export default function Header({ large = false }: HeaderProps) {
   );
 }
 
-const links = [
-  { href: '/our-beliefs' },
-  { href: '/our-life' },
-  { href: '/announcements' },
-  { href: '/contact-us' },
+export const headerLinks = [
+  { href: '/our-beliefs', mobile: false, text: 'beliefs', tooltip: '' },
+  { href: '/our-life', mobile: true, text: 'life', tooltip: '' },
+  { href: '/announcements', mobile: true, text: 'announcements', tooltip: '' },
+  { href: '/contact-us', mobile: false, text: 'contact', tooltip: '' },
 ];
