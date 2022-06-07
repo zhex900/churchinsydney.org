@@ -47,3 +47,7 @@ rss.xml
 # scripts
 scripts/out
 public/sitemap-0.xml
+public/sw.js
+public/sw.js.map
+public/workbox-74d02f44.js
+public/workbox-74d02f44.js.map

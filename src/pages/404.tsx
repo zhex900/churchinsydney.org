@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import * as React from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 
@@ -5,6 +6,7 @@ import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
 export default function NotFoundPage() {
+  const { t } = useTranslation('common');
   return (
     <>
       <Seo templateTitle='Not Found' />
@@ -16,9 +18,9 @@ export default function NotFoundPage() {
               size={60}
               className='drop-shadow-glow animate-flicker text-yellow-300'
             />
-            <h1 className='mt-8'>Page Not Found</h1>
+            <h1 className='mt-8'>{t('page-not-found')}</h1>
             <CustomLink className='mt-4' href='/'>
-              Back to Home
+              {t('back-to-home')}
             </CustomLink>
           </div>
         </section>

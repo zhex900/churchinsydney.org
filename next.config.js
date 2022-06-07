@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // /* eslint-disable @typescript-eslint/no-var-requires */
 // /**
 //  * @type {import('next').NextConfig}
@@ -36,8 +37,20 @@
 
 const nextTranslate = require('next-translate');
 
-const nextConfig = {
-  reactStrictMode: true,
-};
+// const nextConfig = {
+//   reactStrictMode: true,
+// };
 
-module.exports = nextTranslate(nextConfig);
+// module.exports = nextTranslate(nextConfig);
+const withPWA = require('next-pwa');
+const runtimeCaching = require('next-pwa/cache');
+
+module.exports = withPWA(
+  nextTranslate({
+    reactStrictMode: true,
+    pwa: {
+      dest: 'public',
+      runtimeCaching,
+    },
+  })
+);

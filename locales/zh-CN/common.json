@@ -10,5 +10,7 @@
   "announcements": "通告",
   "members": "会员",
   "sign-in": "登入",
-  "members-login": "会员登入"
+  "members-login": "会员登入",
+  "page-not-found": "网页未找到",
+  "back-to-home": "返回首页"
 }
