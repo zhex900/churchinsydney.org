@@ -3,16 +3,22 @@ import * as React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { FiMail, FiMapPin, FiPhoneCall } from 'react-icons/fi';
 
+import { trackEvent } from '@/lib/analytics';
+
 import Accent from '@/components/Accent';
-import Tooltip from '@/components/tooltip/baseTooltip';
+import UnstyledLink from '@/components/links/UnstyledLink';
+import BaseTooltip from '@/components/tooltip/BaseTooltip';
+import Tooltip from '@/components/tooltip/Tooltip';
 
 import { data } from '@/../data';
+
 export default function Footer() {
   const { t } = useTranslation('common');
   return (
     <footer className='w-full pb-2'>
       <main className='layout flex flex-col items-center border-t border-gray-600 pt-6 dark:border-gray-300'>
-        <p className='mt-2 font-medium text-gray-600 dark:text-gray-300'>
+        <FooterLinks />
+        <p className='mt-12 font-medium text-gray-600 dark:text-gray-300'>
           {t('contact-us')}
         </p>
         <ContactUsLinks {...data.church} />
@@ -60,7 +66,7 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
   return (
     <div className='mt-8 flex items-center justify-center space-x-4 pt-2'>
       {contactUs.map((contact) => (
-        <Tooltip
+        <BaseTooltip
           key={contact.id}
           trigger='mouseenter'
           hideOnClick={false}
@@ -85,8 +91,51 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
               <contact.icon className='h-7 w-7 align-middle text-gray-600 hover:text-primary-300 dark:text-gray-300 dark:hover:text-primary-300' />
             </button>
           </CopyToClipboard>
+        </BaseTooltip>
+      ))}
+    </div>
+  );
+}
+
+function FooterLinks() {
+  return (
+    <div className='flex flex-wrap justify-center gap-y-4 gap-x-8'>
+      {footerLinks.map(({ href, text, tooltip }) => (
+        <Tooltip interactive={false} key={href} content={tooltip}>
+          <UnstyledLink
+            className='animated-underline rounded-sm text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-primary-300 dark:text-gray-200'
+            href={href}
+            onClick={() => {
+              trackEvent(`Footer Link: ${text}`, 'link');
+            }}
+          >
+            {text}
+          </UnstyledLink>
         </Tooltip>
       ))}
     </div>
   );
 }
+
+const footerLinks = [
+  {
+    href: 'https://streampublications.com.au/',
+    text: 'Bookshop',
+    tooltip: <>Purchase ministry books and HWMR</>,
+  },
+  {
+    href: 'https://www.biblesforaustralia.org.au/',
+    text: 'Bible for Austrlia',
+    tooltip: '',
+  },
+  {
+    href: 'https://www.ministrybooks.org/',
+    text: 'Online ministry',
+    tooltip: '',
+  },
+  {
+    href: 'https://songbase.life/',
+    text: 'Hymns and Songs',
+    tooltip: '',
+  },
+];
