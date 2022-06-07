@@ -51,7 +51,7 @@ const ourLife = [
   },
 ];
 
-export default function OurBeliefs() {
+export default function OurLifePage() {
   const isLoaded = useLoaded();
 
   return (

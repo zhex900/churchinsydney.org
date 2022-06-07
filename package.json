@@ -33,7 +33,8 @@
     "react-hook-form": "^7.31.3",
     "react-icons": "^4.4.0",
     "react-intersection-observer": "^9.2.2",
-    "react-tippy": "^1.4.0"
+    "react-tippy": "^1.4.0",
+    "swr": "^1.3.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
@@ -47,15 +48,22 @@
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
     "autoprefixer": "^10.4.7",
+    "esbuild": "^0.14.42",
     "eslint": "^8.17.0",
     "eslint-config-next": "^12.1.6",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "gray-matter": "^4.0.3",
+    "mdx-bundler": "^9.0.1",
     "next-sitemap": "^3.0.5",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
     "prettier-plugin-tailwindcss": "^0.1.11",
     "reading-time": "^1.5.0",
+    "rehype-autolink-headings": "^6.1.1",
+    "rehype-prism-plus": "^1.4.0",
+    "rehype-slug": "^5.0.1",
+    "remark-gfm": "^3.0.1",
     "standard-version": "^9.5.0",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.7.3"

@@ -42,7 +42,7 @@ const statementOfFaith = [
   },
 ];
 
-export default function OurBeliefs() {
+export default function OurBeliefsPage() {
   const isLoaded = useLoaded();
 
   return (

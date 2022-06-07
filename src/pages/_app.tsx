@@ -3,6 +3,10 @@ import { ThemeProvider } from 'next-themes';
 import * as React from 'react';
 
 import '@/styles/globals.css';
+import 'react-tippy/dist/tippy.css';
+import '@/styles/globals.css';
+import '@/styles/mdx.css';
+import '@/styles/dracula.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
