@@ -12,7 +12,7 @@ import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
-import BlogCard from '@/components/content/blog/BlogCard';
+import BlogCard from '@/components/cards/BlogCard';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';

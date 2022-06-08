@@ -11,7 +11,7 @@ import { getRecommendations, parseMDX } from '@/lib/mdx';
 import useScrollSpy from '@/hooks/useScrollspy';
 
 import Accent from '@/components/Accent';
-import BlogCard from '@/components/content/blog/BlogCard';
+import BlogCard from '@/components/cards/BlogCard';
 import MDXComponents from '@/components/content/MDXComponents';
 import ReloadDevtool from '@/components/content/ReloadDevtool';
 import TableOfContents, {

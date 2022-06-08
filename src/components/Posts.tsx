@@ -7,7 +7,7 @@ import { getTags, sortDateFn } from '@/lib/mdx-client';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
-import BlogCard from '@/components/content/blog/BlogCard';
+import BlogCard from '@/components/cards/BlogCard';
 import ContentPlaceholder from '@/components/content/ContentPlaceholder';
 import Tag, { SkipNavTag } from '@/components/content/Tag';
 import StyledInput from '@/components/form/StyledInput';

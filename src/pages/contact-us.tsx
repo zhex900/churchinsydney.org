@@ -2,7 +2,7 @@ import useTranslation from 'next-translate/useTranslation';
 import * as React from 'react';
 
 import Accent from '@/components/Accent';
-import ContactUsCard from '@/components/content/blog/ContactUsCard';
+import ContactUsCard from '@/components/cards/ContactUsCard';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
