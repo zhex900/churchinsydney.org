@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { readdirSync, readFileSync } from 'fs';
 import matter from 'gray-matter';
+import { intersection } from 'lodash';
 import { bundleMDX } from 'mdx-bundler';
 import { join } from 'path';
 import readingTime from 'reading-time';
@@ -12,6 +13,7 @@ import remarkGfm from 'remark-gfm';
 import {
   ContentType,
   Frontmatter,
+  FrontmatterWithTags,
   PickFrontmatter,
 } from '@/types/frontmatters';
 
@@ -138,5 +140,21 @@ export function getFeatured<T extends Frontmatter>(
   // override as T because there is no typechecking on the features array
   return features.map(
     (feat) => contents.find((content) => content.slug === feat) as T
+  );
+}
+
+/**
+ * Get and order frontmatters by tags
+ */
+export function getByTags<T extends FrontmatterWithTags>(
+  contents: Array<T>,
+  fitlerTags: string[]
+) {
+  return contents.filter(
+    ({ tags }) =>
+      intersection(
+        tags.split(',').map((t) => t.trim()),
+        fitlerTags
+      ).length
   );
 }

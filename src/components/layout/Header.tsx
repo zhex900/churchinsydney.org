@@ -96,8 +96,9 @@ export default function Header({ large = false }: HeaderProps) {
 }
 
 export const headerLinks = [
-  { href: '/our-beliefs', mobile: false, text: 'beliefs', tooltip: '' },
-  { href: '/our-life', mobile: true, text: 'life', tooltip: '' },
-  { href: '/announcements', mobile: true, text: 'announcements', tooltip: '' },
-  { href: '/contact-us', mobile: false, text: 'contact', tooltip: '' },
+  { href: '/our-beliefs', mobile: false },
+  { href: '/our-life', mobile: false },
+  { href: '/announcements', mobile: true },
+  { href: '/events', mobile: true },
+  { href: '/contact-us', mobile: false },
 ];

@@ -5,11 +5,11 @@ import { getTags, sortByDate } from '@/lib/mdx-client';
 
 import Posts from '@/components/Posts';
 
-export default function AnnouncementsPage({
+export default function EventsPage({
   posts,
   tags,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  return Posts({ posts, tags, title: 'Announcements' });
+  return Posts({ posts, tags, title: 'Events', filter: 'event' });
 }
 
 export async function getStaticProps() {

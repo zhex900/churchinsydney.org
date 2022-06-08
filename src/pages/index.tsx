@@ -1,23 +1,37 @@
 /* eslint-disable react/jsx-key */
 import clsx from 'clsx';
+import { InferGetStaticPropsType } from 'next';
 import Trans from 'next-translate/Trans';
 import useTranslation from 'next-translate/useTranslation';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { IoArrowDownOutline } from 'react-icons/io5';
+import { InView } from 'react-intersection-observer';
 
+import { getAllFilesFrontmatter, getByTags, getFeatured } from '@/lib/mdx';
 import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
+import BlogCard from '@/components/content/blog/BlogCard';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 import TC from '@/components/TC';
+import Tooltip from '@/components/tooltip/Tooltip';
 
-export default function IndexPage() {
+export default function IndexPage({
+  // featuredPosts,
+  // featuredProjects,
+  currentEvents,
+  featuredPosts,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const isLoaded = useLoaded();
   const { t } = useTranslation('common');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <div />;
   return (
     <Layout>
       <Seo />
@@ -80,6 +94,108 @@ export default function IndexPage() {
             )}
           />
         </section>
+
+        <InView triggerOnce rootMargin='-40% 0px'>
+          {({ ref, inView }) => (
+            <section
+              ref={ref}
+              id='intro'
+              className={clsx('py-20', inView && 'fade-in-start')}
+            >
+              <article
+                className={clsx(
+                  'layout flex flex-col-reverse items-center md:flex-row md:justify-start',
+                  'md:gap-4'
+                )}
+                data-fade='0'
+              >
+                <div className='mt-8 h-full w-full md:mt-0'>
+                  <h2 className='text-4xl md:text-6xl'>
+                    <Accent className='inline decoration-clone leading-snug dark:leading-none'>
+                      Wonderful Church Life!
+                    </Accent>
+                  </h2>
+                  <div className='mt-4 text-base text-gray-600 dark:text-gray-300 md:text-lg'>
+                    God's heart and will in His New Testament{' '}
+                    <Tooltip
+                      withUnderline
+                      content={
+                        <>
+                          The Greek word means <strong>household law</strong>,{' '}
+                          implying distribution (the base of this word is the
+                          same origin as the for pasture in John 10:9, implying
+                          a distribution of the pasture to the flock). It
+                          denotes a household management.
+                        </>
+                      }
+                    >
+                      economy
+                    </Tooltip>
+                    , God's good pleasure, the counsel of His will, and His
+                    purpose are to have a{' '}
+                    <strong className='text-gray-700 dark:text-gray-200'>
+                      Body{' '}
+                    </strong>{' '}
+                    for the enlargement and expression of Christ, the embodiment
+                    of the processed Triune God. (Eph. 1:9-11; 3:9-11)
+                    <br />
+                    <span className='italic'>
+                      The Practical and Organic Building Up of the Church
+                    </span>
+                  </div>
+                </div>
+                <div className='h-full w-full'>
+                  <ul className='relative h-full'>
+                    {featuredPosts.length > 1 && (
+                      <BlogCard
+                        className={clsx(
+                          'absolute max-w-[350px] transform-gpu',
+                          'top-1/2 translate-y-[-55%] md:translate-y-[-50%] lg:translate-y-[-60%]',
+                          'left-1/2 -translate-x-1/2 md:translate-x-[-50%] lg:translate-x-[-30%]',
+                          'rotate-3 md:rotate-6 lg:rotate-12',
+                          'pointer-events-none md:pointer-events-auto'
+                        )}
+                        post={featuredPosts[1]}
+                      />
+                    )}
+                    {featuredPosts.length > 0 && (
+                      <BlogCard
+                        className='mx-auto max-w-[350px]'
+                        post={featuredPosts[0]}
+                      />
+                    )}
+                  </ul>
+                </div>
+              </article>
+            </section>
+          )}
+        </InView>
+        <InView triggerOnce rootMargin='-40% 0px'>
+          {({ ref, inView }) => (
+            <section
+              ref={ref}
+              className={clsx('py-20', inView && 'fade-in-start')}
+            >
+              <article className='layout' data-fade='0'>
+                <h2 className='text-2xl md:text-4xl' id='blog'>
+                  <Accent>Current Events</Accent>
+                </h2>
+                <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
+                  {currentEvents.map((post, i) => (
+                    <BlogCard
+                      key={post.slug}
+                      post={post}
+                      className={clsx(i > 2 && 'hidden sm:block')}
+                    />
+                  ))}
+                </ul>
+                <ButtonLink className='mt-4' href='/events'>
+                  See more events
+                </ButtonLink>
+              </article>
+            </section>
+          )}
+        </InView>
       </main>
     </Layout>
   );
@@ -88,7 +204,15 @@ export default function IndexPage() {
 export async function getStaticProps() {
   generateRss();
 
+  const blogs = await getAllFilesFrontmatter('blog');
+  // const projects = await getAllFilesFrontmatter('projects');
+  // const library = await getAllFilesFrontmatter('library');
+
   return {
-    props: {},
+    props: {
+      // featuredPosts, featuredProjects, featuredLibrary,
+      currentEvents: getByTags(blogs, ['event']),
+      featuredPosts: getByTags(blogs, ['featured']),
+    },
   };
 }
