@@ -13,11 +13,11 @@ import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
 import PostCard from '@/components/cards/PostCard';
+import HeroImage from '@/components/images/HeroImage';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
-import TC from '@/components/TC';
 import Tooltip from '@/components/tooltip/Tooltip';
 
 export default function IndexPage({
@@ -83,12 +83,12 @@ export default function IndexPage({
           >
             <IoArrowDownOutline className='h-8 w-8 animate-bounce md:h-10 md:w-10' />
           </UnstyledLink>
-          <TC
+          <HeroImage
             className={clsx(
-              'absolute bottom-0 right-6',
-              'translate-y-[37%] transform-gpu',
+              'absolute bottom-20 right-6 md:bottom-0',
+              'translate-y-[-20%] transform-gpu md:translate-y-[-30%]',
               'w-[calc(100%-3rem)] md:w-[600px] 2xl:w-[900px]',
-              'z-[-1] opacity-70 dark:opacity-30'
+              'opacity-35 z-[-1] dark:opacity-40'
             )}
           />
         </section>
