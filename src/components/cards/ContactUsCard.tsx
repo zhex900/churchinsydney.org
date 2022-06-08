@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 
 import Accent from '@/components/Accent';
 import Button from '@/components/buttons/Button';
-import CustomLink from '@/components/links/CustomLink';
 
 type ContactUsCardProps = {
   className?: string;
@@ -19,9 +18,6 @@ export default function ContactUsCard({
 }: ContactUsCardProps) {
   const { register, handleSubmit, reset } = useForm<{ email: string }>();
   const [status, setStatus] = React.useState('idle');
-  const [errMsg, setErrMsg] = React.useState(
-    'Sorry, something went wrong please try again later'
-  );
 
   const onSubmit = async (data: { email: string }) => {
     setStatus('loading');
@@ -47,7 +43,6 @@ export default function ContactUsCard({
           // }
         } else {
           setStatus('error');
-          setErrMsg('Something is wrong with the API.');
         }
       });
   };

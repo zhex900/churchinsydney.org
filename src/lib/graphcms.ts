@@ -9,7 +9,7 @@ async function fetchAPI(
     variables,
     preview,
   }: {
-    variables: any;
+    variables: unknown;
     preview: boolean;
   } = {
     variables: {},
