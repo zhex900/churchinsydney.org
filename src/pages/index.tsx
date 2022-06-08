@@ -12,7 +12,7 @@ import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
-import BlogCard from '@/components/cards/BlogCard';
+import PostCard from '@/components/cards/PostCard';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
@@ -145,7 +145,7 @@ export default function IndexPage({
                 <div className='h-full w-full'>
                   <ul className='relative h-full'>
                     {featuredPosts.length > 1 && (
-                      <BlogCard
+                      <PostCard
                         className={clsx(
                           'absolute max-w-[350px] transform-gpu',
                           'top-1/2 translate-y-[-55%] md:translate-y-[-50%] lg:translate-y-[-60%]',
@@ -157,7 +157,7 @@ export default function IndexPage({
                       />
                     )}
                     {featuredPosts.length > 0 && (
-                      <BlogCard
+                      <PostCard
                         className='mx-auto max-w-[350px]'
                         post={featuredPosts[0]}
                       />
@@ -176,12 +176,12 @@ export default function IndexPage({
                 className={clsx('py-20', inView && 'fade-in-start')}
               >
                 <article className='layout' data-fade='0'>
-                  <h2 className='text-2xl md:text-4xl' id='blog'>
+                  <h2 className='text-2xl md:text-4xl' id='posts'>
                     <Accent>Current Events</Accent>
                   </h2>
                   <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
                     {currentEvents.map((post, i) => (
-                      <BlogCard
+                      <PostCard
                         key={post.slug}
                         post={post}
                         className={clsx(i > 2 && 'hidden sm:block')}

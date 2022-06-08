@@ -146,37 +146,6 @@ export default function ContactUsCard({
           </div>
         </form>
       </div>
-
-      <p
-        className={clsx(
-          'mt-3 text-sm',
-          status === 'success'
-            ? 'text-green-500'
-            : status === 'subscribed'
-            ? 'text-yellow-500'
-            : status === 'error'
-            ? 'text-red-500 dark:text-red-400'
-            : 'text-gray-700 dark:text-gray-300'
-        )}
-      >
-        {status === 'success' ? (
-          'Thanks, please confirm subscription on your email (check promotions or spam tab too)'
-        ) : status === 'subscribed' ? (
-          'You have subscribed to the newsletter, stay tuned!'
-        ) : status === 'error' ? (
-          <>
-            {errMsg} Sorry! You can subscribe from the{' '}
-            <CustomLink href='https://www.getrevue.co/profile/clarence'>
-              revue website
-            </CustomLink>{' '}
-            instead.
-          </>
-        ) : status === 'loading' ? (
-          'Loading...'
-        ) : (
-          ''
-        )}
-      </p>
     </div>
   );
 }

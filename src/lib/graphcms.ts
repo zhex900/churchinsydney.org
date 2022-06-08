@@ -2,7 +2,7 @@ import readingTime from 'reading-time';
 
 import { IMAGE_SIZE } from '@/constants';
 
-import { PostType } from '@/types/frontmatters';
+import { PostType } from '@/types/post';
 async function fetchAPI(
   query: string,
   {

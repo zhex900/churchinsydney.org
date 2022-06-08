@@ -3,7 +3,7 @@ import map from 'lodash/map';
 import sortBy from 'lodash/sortBy';
 import toPairs from 'lodash/toPairs';
 
-import { PostType } from '@/types/frontmatters';
+import { PostType } from '@/types/post';
 
 export function sortDateFn<T extends PostType>(contentA: T, contentB: T) {
   return (

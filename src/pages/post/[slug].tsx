@@ -11,9 +11,8 @@ import { getRecommendations, parseMDX } from '@/lib/mdx';
 import useScrollSpy from '@/hooks/useScrollspy';
 
 import Accent from '@/components/Accent';
-import BlogCard from '@/components/cards/BlogCard';
+import PostCard from '@/components/cards/PostCard';
 import MDXComponents from '@/components/content/MDXComponents';
-import ReloadDevtool from '@/components/content/ReloadDevtool';
 import TableOfContents, {
   HeadingScrollSpy,
 } from '@/components/content/TableOfContents';
@@ -23,17 +22,17 @@ import Seo from '@/components/Seo';
 
 import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
 
-import { PostType } from '@/types/frontmatters';
+import { PostType } from '@/types/post';
 
-type SingleBlogPageProps = {
+type SinglePostPageProps = {
   post: PostType;
   recommendations: PostType[];
 };
 
-export default function SingleBlogPage({
+export default function SinglePostPage({
   post,
   recommendations,
-}: SingleBlogPageProps) {
+}: SinglePostPageProps) {
   const Component = React.useMemo(
     () => getMDXComponent(post.content),
     [post.content]
@@ -66,12 +65,10 @@ export default function SingleBlogPage({
       <Seo
         templateTitle={post.title}
         description={post.description}
-        isBlog
         date={new Date(post.lastUpdated ?? post.createdAt).toISOString()}
       />
 
       <main>
-        <ReloadDevtool />
         <section className=''>
           <div className='layout'>
             <div className='pb-4 dark:border-gray-600'>
@@ -133,7 +130,7 @@ export default function SingleBlogPage({
                 </h2>
                 <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
                   {populatedRecommendations.map((post, i) => (
-                    <BlogCard
+                    <PostCard
                       onClick={() => {
                         trackEvent(post.slug, 'recommend');
                       }}

@@ -7,7 +7,7 @@ import { getTags, sortDateFn } from '@/lib/mdx-client';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
-import BlogCard from '@/components/cards/BlogCard';
+import PostCard from '@/components/cards/PostCard';
 import ContentPlaceholder from '@/components/content/ContentPlaceholder';
 import Tag, { SkipNavTag } from '@/components/content/Tag';
 import StyledInput from '@/components/form/StyledInput';
@@ -15,7 +15,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import SortListbox, { SortOption } from '@/components/SortListbox';
 
-import { PostType } from '@/types/frontmatters';
+import { PostType } from '@/types/post';
 
 const sortOptions: Array<SortOption> = [
   {
@@ -175,7 +175,7 @@ export default function Posts({
             >
               {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
-                  <BlogCard
+                  <PostCard
                     key={post.slug}
                     post={post}
                     checkTagged={checkTagged}
