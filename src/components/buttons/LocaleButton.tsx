@@ -1,9 +1,6 @@
 import clsx from 'clsx';
 import setLanguage from 'next-translate/setLanguage';
 import useTranslation from 'next-translate/useTranslation';
-import { useEffect, useState } from 'react';
-
-import useMediaQuery from '@/hooks/useMediaQuery';
 
 import { defaultLocale, locales } from '@/../i18n';
 
@@ -11,14 +8,8 @@ export default function LocaleButton() {
   const { t, lang } = useTranslation();
 
   const nextLang = locales.find((l) => l !== lang) || defaultLocale;
-  const isMobile = useMediaQuery();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
 
   const label = t(`common:locale-${nextLang}`);
-  const text = isMobile ? label.substring(0, 4) : label;
   return (
     <button
       className={clsx(
@@ -30,7 +21,7 @@ export default function LocaleButton() {
       )}
       onClick={async () => await setLanguage(nextLang)}
     >
-      {text}
+      {label}
     </button>
   );
 }

@@ -48,6 +48,9 @@ const runtimeCaching = require('next-pwa/cache');
 module.exports = withPWA(
   nextTranslate({
     reactStrictMode: true,
+    images: {
+      domains: ['media.graphcms.com', 'media.graphassets.com'],
+    },
     pwa: {
       dest: 'public',
       runtimeCaching,

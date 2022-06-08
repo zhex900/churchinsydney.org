@@ -10,17 +10,48 @@ import rehypePrism from 'rehype-prism-plus';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
+import { getPosts } from './graphcms';
+
 import {
   ContentType,
   Frontmatter,
   FrontmatterWithTags,
   PickFrontmatter,
+  PostType,
 } from '@/types/frontmatters';
 
 export async function getFiles(type: ContentType) {
   return readdirSync(join(process.cwd(), 'src', 'contents', type));
 }
 
+export async function parseMDX(source: string) {
+  //source: string, slug: string) {
+  const { code } = await bundleMDX({
+    source,
+    mdxOptions(options) {
+      // this is the recommended way to add custom remark/rehype plugins:
+      // The syntax might look weird, but it protects you in case we add/remove
+      // plugins in the future.
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
+      options.rehypePlugins = [
+        ...(options.rehypePlugins ?? []),
+        rehypeSlug,
+        rehypePrism,
+        [
+          rehypeAutolinkHeadings,
+          {
+            properties: {
+              className: ['hash-anchor'],
+            },
+          },
+        ],
+      ];
+
+      return options;
+    },
+  });
+  return code;
+}
 export async function getFileBySlug(type: ContentType, slug: string) {
   const source = slug
     ? readFileSync(
@@ -31,7 +62,6 @@ export async function getFileBySlug(type: ContentType, slug: string) {
         join(process.cwd(), 'src', 'contents', `${type}.mdx`),
         'utf8'
       );
-
   const { code, frontmatter } = await bundleMDX({
     source,
     mdxOptions(options) {
@@ -56,7 +86,6 @@ export async function getFileBySlug(type: ContentType, slug: string) {
       return options;
     },
   });
-
   return {
     code,
     frontmatter: {
@@ -94,24 +123,19 @@ export async function getAllFilesFrontmatter<T extends ContentType>(type: T) {
 }
 
 export async function getRecommendations(currSlug: string) {
-  const frontmatters = await getAllFilesFrontmatter('blog');
-
+  // const frontmatters = await getAllFilesFrontmatter('blog');
+  const posts = await getPosts();
   // Get current frontmatter
-  const currentFm = frontmatters.find(
-    (fm: { slug: string }) => fm.slug === currSlug
-  );
+  const currentFm = posts.find(({ slug }) => slug === currSlug);
 
   // Remove currentFm and Bahasa Posts, then randomize order
-  const otherFms = frontmatters
-    .filter(
-      (fm: { slug: string }) =>
-        !fm.slug.startsWith('id-') && fm.slug !== currSlug
-    )
+  const otherFms = posts
+    .filter(({ slug }) => slug !== currSlug)
     .sort(() => Math.random() - 0.5);
 
   // Find with similar tags
-  const recommendations = otherFms.filter((op: { tags: string }) =>
-    op.tags.split(',').some((p: any) => currentFm?.tags.split(',').includes(p))
+  const recommendations = otherFms.filter(({ tags }) =>
+    tags.some((t: any) => currentFm?.tags.join(',').includes(t))
   );
 
   // Populate with random recommendations if not enough

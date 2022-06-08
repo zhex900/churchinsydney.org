@@ -1,6 +1,6 @@
 import { InferGetStaticPropsType } from 'next';
 
-import { getAllFilesFrontmatter } from '@/lib/mdx';
+import { getPostsByTags } from '@/lib/graphcms';
 import { getTags, sortByDate } from '@/lib/mdx-client';
 
 import Posts from '@/components/Posts';
@@ -13,10 +13,7 @@ export default function EventsPage({
 }
 
 export async function getStaticProps() {
-  const files = await getAllFilesFrontmatter('blog');
-  const posts = sortByDate(files);
-
-  // Accumulate tags and remove duplicate
+  const posts = sortByDate(await getPostsByTags(['event']));
   const tags = getTags(posts);
 
   return { props: { posts, tags } };

@@ -3,12 +3,11 @@ import * as React from 'react';
 import { HiCalendar, HiEye } from 'react-icons/hi';
 
 import { getFromSessionStorage } from '@/lib/helper';
-import { getTags, sortByDate, sortDateFn } from '@/lib/mdx-client';
+import { getTags, sortDateFn } from '@/lib/mdx-client';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
 import BlogCard from '@/components/content/blog/BlogCard';
-// import SubscribeCard from '@/components/content/blog/SubscribeCard';
 import ContentPlaceholder from '@/components/content/ContentPlaceholder';
 import Tag, { SkipNavTag } from '@/components/content/Tag';
 import StyledInput from '@/components/form/StyledInput';
@@ -16,7 +15,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import SortListbox, { SortOption } from '@/components/SortListbox';
 
-import { BlogFrontmatter, InjectedMeta } from '@/types/frontmatters';
+import { PostType } from '@/types/frontmatters';
 
 const sortOptions: Array<SortOption> = [
   {
@@ -32,7 +31,7 @@ const sortOptions: Array<SortOption> = [
 ];
 
 export type PostsPropsType = {
-  posts: BlogFrontmatter[];
+  posts: PostType[];
   tags: string[];
   title: string;
   filter?: string;
@@ -54,9 +53,9 @@ export default function Posts({
 
   //#region  //*=========== Search ===========
   const [search, setSearch] = React.useState<string>(filter);
-  const [filteredPosts, setFilteredPosts] = React.useState<
-    Array<BlogFrontmatter & InjectedMeta>
-  >(() => [...posts]);
+  const [filteredPosts, setFilteredPosts] = React.useState<Array<PostType>>(
+    () => [...posts]
+  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

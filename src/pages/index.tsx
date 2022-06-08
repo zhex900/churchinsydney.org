@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { IoArrowDownOutline } from 'react-icons/io5';
 import { InView } from 'react-intersection-observer';
 
-import { getAllFilesFrontmatter, getByTags, getFeatured } from '@/lib/mdx';
+import { getPostsByTags } from '@/lib/graphcms';
 import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
@@ -21,8 +21,6 @@ import TC from '@/components/TC';
 import Tooltip from '@/components/tooltip/Tooltip';
 
 export default function IndexPage({
-  // featuredPosts,
-  // featuredProjects,
   currentEvents,
   featuredPosts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -170,32 +168,34 @@ export default function IndexPage({
             </section>
           )}
         </InView>
-        <InView triggerOnce rootMargin='-40% 0px'>
-          {({ ref, inView }) => (
-            <section
-              ref={ref}
-              className={clsx('py-20', inView && 'fade-in-start')}
-            >
-              <article className='layout' data-fade='0'>
-                <h2 className='text-2xl md:text-4xl' id='blog'>
-                  <Accent>Current Events</Accent>
-                </h2>
-                <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
-                  {currentEvents.map((post, i) => (
-                    <BlogCard
-                      key={post.slug}
-                      post={post}
-                      className={clsx(i > 2 && 'hidden sm:block')}
-                    />
-                  ))}
-                </ul>
-                <ButtonLink className='mt-4' href='/events'>
-                  See more events
-                </ButtonLink>
-              </article>
-            </section>
-          )}
-        </InView>
+        {currentEvents.length && (
+          <InView triggerOnce rootMargin='-40% 0px'>
+            {({ ref, inView }) => (
+              <section
+                ref={ref}
+                className={clsx('py-20', inView && 'fade-in-start')}
+              >
+                <article className='layout' data-fade='0'>
+                  <h2 className='text-2xl md:text-4xl' id='blog'>
+                    <Accent>Current Events</Accent>
+                  </h2>
+                  <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
+                    {currentEvents.map((post, i) => (
+                      <BlogCard
+                        key={post.slug}
+                        post={post}
+                        className={clsx(i > 2 && 'hidden sm:block')}
+                      />
+                    ))}
+                  </ul>
+                  <ButtonLink className='mt-4' href='/events'>
+                    See more events
+                  </ButtonLink>
+                </article>
+              </section>
+            )}
+          </InView>
+        )}
       </main>
     </Layout>
   );
@@ -204,12 +204,10 @@ export default function IndexPage({
 export async function getStaticProps() {
   generateRss();
 
-  const blogs = await getAllFilesFrontmatter('blog');
-
   return {
     props: {
-      currentEvents: getByTags(blogs, ['event']),
-      featuredPosts: getByTags(blogs, ['featured']),
+      currentEvents: await getPostsByTags(['event']),
+      featuredPosts: await getPostsByTags(['featured']),
     },
   };
 }

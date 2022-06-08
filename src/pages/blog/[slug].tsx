@@ -6,41 +6,38 @@ import * as React from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
 
 import { trackEvent } from '@/lib/analytics';
-import { getFileBySlug, getFiles, getRecommendations } from '@/lib/mdx';
-// import useContentMeta from '@/hooks/useContentMeta';
-// import useInjectContentMeta from '@/hooks/useInjectContentMeta';
+import { getPostBySlug, getPostsSlugs } from '@/lib/graphcms';
+import { getRecommendations, parseMDX } from '@/lib/mdx';
 import useScrollSpy from '@/hooks/useScrollspy';
 
 import Accent from '@/components/Accent';
 import BlogCard from '@/components/content/blog/BlogCard';
-// import SubscribeCard from '@/components/content/blog/SubscribeCard';
-// import Comment from '@/components/content/Comment';
-// import LikeButton from '@/components/content/LikeButton';
 import MDXComponents from '@/components/content/MDXComponents';
 import ReloadDevtool from '@/components/content/ReloadDevtool';
 import TableOfContents, {
   HeadingScrollSpy,
 } from '@/components/content/TableOfContents';
-// import CloudinaryImg from '@/components/images/CloudinaryImg';
+import Image from '@/components/images/Image';
 import Layout from '@/components/layout/Layout';
-import CustomLink from '@/components/links/CustomLink';
-// import ShareTweetButton from '@/components/links/ShareTweetButton';
 import Seo from '@/components/Seo';
 
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
 
-import { BlogFrontmatter, BlogType } from '@/types/frontmatters';
+import { PostType } from '@/types/frontmatters';
 
 type SingleBlogPageProps = {
-  recommendations: BlogFrontmatter[];
-} & BlogType;
+  post: PostType;
+  recommendations: PostType[];
+};
 
 export default function SingleBlogPage({
-  code,
-  frontmatter,
+  post,
   recommendations,
 }: SingleBlogPageProps) {
-  const Component = React.useMemo(() => getMDXComponent(code), [code]);
+  const Component = React.useMemo(
+    () => getMDXComponent(post.content),
+    [post.content]
+  );
 
   const populatedRecommendations = recommendations;
   const activeSection = useScrollSpy();
@@ -62,17 +59,15 @@ export default function SingleBlogPage({
     });
 
     setToc(headingArr);
-  }, [frontmatter.slug]);
+  }, [post.slug]);
 
   return (
     <Layout>
       <Seo
-        templateTitle={frontmatter.title}
-        description={frontmatter.description}
+        templateTitle={post.title}
+        description={post.description}
         isBlog
-        date={new Date(
-          frontmatter.lastUpdated ?? frontmatter.publishedAt
-        ).toISOString()}
+        date={new Date(post.lastUpdated ?? post.createdAt).toISOString()}
       />
 
       <main>
@@ -80,37 +75,25 @@ export default function SingleBlogPage({
         <section className=''>
           <div className='layout'>
             <div className='pb-4 dark:border-gray-600'>
-              {/* <CloudinaryImg
-                publicId={`theodorusclarence/banner/${frontmatter.banner}`}
-                alt={`Photo from unsplash: ${frontmatter.banner}`}
-                width={1200}
-                height={(1200 * 2) / 5}
-                aspect={{ height: 2, width: 5 }}
-              /> */}
-              <div
-                style={{
-                  height: 400,
-                  backgroundColor: '#fff',
-                }}
-              ></div>
-              <h1 className='mt-4'>{frontmatter.title}</h1>
+              <Image url={post.banner.url} alt={post.slug} {...IMAGE_SIZE} />
+
+              <h1 className='mt-4'>{post.title}</h1>
 
               <p className='mt-2 text-sm text-gray-600 dark:text-gray-300'>
-                Written on{' '}
-                {format(new Date(frontmatter.publishedAt), DATE_FORMAT)}
+                Written on {format(new Date(post.createdAt), DATE_FORMAT)}
               </p>
-              {frontmatter.lastUpdated && (
+              {post.lastUpdated && (
                 <div className='mt-2 flex flex-wrap gap-2 text-sm text-gray-700 dark:text-gray-200'>
                   <p>
                     Last updated{' '}
-                    {format(new Date(frontmatter.lastUpdated), DATE_FORMAT)}.
+                    {format(new Date(post.lastUpdated), DATE_FORMAT)}.
                   </p>
                 </div>
               )}
               <div className='mt-6 flex items-center justify-start gap-2 text-sm font-medium text-gray-600 dark:text-gray-300'>
                 <div className='flex items-center gap-1'>
                   <HiOutlineClock className='inline-block text-base' />
-                  <Accent>{frontmatter.readingTime.text}</Accent>
+                  <Accent>{post.readingTime.text}</Accent>
                 </div>
               </div>
             </div>
@@ -171,12 +154,11 @@ export default function SingleBlogPage({
   );
 }
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getFiles('blog');
-
+  const slugs = await getPostsSlugs();
   return {
-    paths: posts.map((p) => ({
+    paths: slugs.map(({ slug }: { slug: string }) => ({
       params: {
-        slug: p.replace(/\.mdx/, ''),
+        slug,
       },
     })),
     fallback: false,
@@ -184,11 +166,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const post = await getFileBySlug('blog', params?.slug as string);
+  const post = await getPostBySlug(params?.slug as string);
+  const mdx = await parseMDX(post.content);
 
   const recommendations = await getRecommendations(params?.slug as string);
-
   return {
-    props: { ...post, recommendations },
+    props: {
+      post: {
+        ...post,
+        content: mdx,
+      },
+      recommendations,
+    },
   };
 };

@@ -8,9 +8,25 @@ export type BlogFrontmatter = {
   title: string;
   description?: string;
   banner: string;
-  publishedAt: string;
+  createdAt: string;
   lastUpdated?: string;
   tags: string;
+};
+
+export type PostType = {
+  banner: {
+    url: string;
+  };
+  slug: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  content: string;
+  lastUpdated: string;
+  tags: string[];
+  readingTime: ReadTimeResults;
+  views?: number;
+  likes?: number;
 };
 
 export type ContentType = 'blog' | 'library' | 'projects';
@@ -21,7 +37,11 @@ export type PickFrontmatter<T extends ContentType> = T extends 'blog'
   ? LibraryFrontmatter
   : ProjectFrontmatter;
 
-export type InjectedMeta = { views?: number; likes?: number };
+export type InjectedMeta = {
+  views?: number;
+  likes?: number;
+  wordCount: number;
+};
 
 export type BlogType = {
   code: string;

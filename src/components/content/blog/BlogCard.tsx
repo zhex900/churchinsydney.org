@@ -5,13 +5,14 @@ import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi';
 
 import Accent from '@/components/Accent';
 import Tag from '@/components/content/Tag';
-// import CloudinaryImg from '@/components/images/CloudinaryImg';
+import Image from '@/components/images/Image';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
-import { BlogFrontmatter, InjectedMeta } from '@/types/frontmatters';
+import { IMAGE_SIZE } from '@/constants';
 
+import { PostType } from '@/types/frontmatters';
 type BlogCardProps = {
-  post: BlogFrontmatter & InjectedMeta;
+  post: PostType;
   checkTagged?: (tag: string) => boolean;
 } & React.ComponentPropsWithoutRef<'li'>;
 
@@ -38,27 +39,22 @@ export default function BlogCard({
         href={`/blog/${post.slug}`}
       >
         <div className='relative'>
-          {/* <CloudinaryImg
+          <Image
             noStyle
             className='pointer-events-none overflow-hidden rounded-t-md'
-            publicId={`theodorusclarence/banner/${post.banner}`}
-            alt='Photo taken from unsplash'
-            width={1200}
-            height={(1200 * 2) / 5}
-            aspect={{ height: 2, width: 5 }}
+            url={post.banner.url}
+            alt={post.slug}
             preview={false}
-          /> */}
-          <div
-            className='pointer-events-none overflow-hidden rounded-t-md'
-            style={{ height: 200, backgroundColor: '#000' }}
-          ></div>
+            {...IMAGE_SIZE}
+          />
+          <div className='pointer-events-none overflow-hidden rounded-t-md'></div>
           <div
             className={clsx(
               'absolute bottom-0 w-full px-4 py-2',
               'mt-2 flex flex-wrap justify-end gap-y-1 gap-x-2 text-sm text-black dark:text-gray-100'
             )}
           >
-            {post.tags.split(',').map((tag) => (
+            {post.tags.map((tag) => (
               <Tag
                 tabIndex={-1}
                 className='bg-opacity-80 dark:!bg-opacity-60'
@@ -86,7 +82,7 @@ export default function BlogCard({
           <p className='mt-4 mb-2 text-sm text-gray-600 dark:text-gray-300'>
             <span className='font-bold text-gray-800 dark:text-gray-100'>
               {format(
-                new Date(post.lastUpdated ?? post.publishedAt),
+                new Date(post.lastUpdated ?? post.createdAt),
                 'dd MMMM, yyyy'
               )}
             </span>
