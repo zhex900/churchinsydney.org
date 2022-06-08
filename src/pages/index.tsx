@@ -85,8 +85,9 @@ export default function IndexPage({
           </UnstyledLink>
           <HeroImage
             className={clsx(
-              'absolute bottom-20 right-6 md:bottom-0',
-              'translate-y-[-20%] transform-gpu md:translate-y-[-30%]',
+              'rotate-[-10deg]',
+              'absolute bottom-10 right-6 md:bottom-0',
+              'translate-y-[-10%] transform-gpu ',
               'w-[calc(100%-3rem)] md:w-[600px] 2xl:w-[900px]',
               'opacity-35 z-[-1] dark:opacity-40'
             )}

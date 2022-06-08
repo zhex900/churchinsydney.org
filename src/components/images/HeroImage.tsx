@@ -5,7 +5,7 @@ export default function HeroImage(
 ) {
   return (
     <svg
-      viewBox='0 0 598.000000 534.000000'
+      viewBox='0 0 600 550'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       {...props}
