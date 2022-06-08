@@ -89,7 +89,6 @@ export default function SingleBlogPage({
               /> */}
               <div
                 style={{
-                  width: 1200,
                   height: 400,
                   backgroundColor: '#fff',
                 }}

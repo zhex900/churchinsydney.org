@@ -205,12 +205,9 @@ export async function getStaticProps() {
   generateRss();
 
   const blogs = await getAllFilesFrontmatter('blog');
-  // const projects = await getAllFilesFrontmatter('projects');
-  // const library = await getAllFilesFrontmatter('library');
 
   return {
     props: {
-      // featuredPosts, featuredProjects, featuredLibrary,
       currentEvents: getByTags(blogs, ['event']),
       featuredPosts: getByTags(blogs, ['featured']),
     },
