@@ -3,7 +3,7 @@ export async function getRssXml() {
   const url = 'https://churchinsydney.org';
 
   return `
-    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:blogChannel="${blogUrl}">
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:blogChannel="${url}">
       <channel>
         <title>Church in Sydney</title>
         <link>${url}</link>
