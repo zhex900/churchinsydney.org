@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 // import { openGraph } from '@/lib/helper';
 
 const defaultMeta = {
-  title: 'Church in Sydney | Welcome 👋',
-  siteName: 'https://churchinsydney.org/',
-  description: '',
-  url: 'https://churchinsydney.org/',
-  image: '',
+  title: 'Church in Sydney',
+  siteName: 'churchinsydney-org.vercel.app',
+  description: 'Welcome 👋',
+  url: 'https://churchinsydney-org.vercel.app/',
+  image: 'https://churchinsydney-org.vercel.app/favicon/apple-icon-180x180.png',
   type: 'website',
   robots: 'follow, index',
 };
