@@ -6,8 +6,7 @@ import { useRouter } from 'next/router';
 const defaultMeta = {
   title: 'Church in Sydney | Welcome 👋',
   siteName: 'https://churchinsydney.org/',
-  description:
-    'An online portfolio and blog by Theodorus Clarence. Showcase of my projects, and some of my thoughts about website development.',
+  description: '',
   url: 'https://churchinsydney.org/',
   image: '',
   type: 'website',

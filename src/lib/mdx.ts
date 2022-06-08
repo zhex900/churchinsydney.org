@@ -17,7 +17,6 @@ import {
   Frontmatter,
   FrontmatterWithTags,
   PickFrontmatter,
-  PostType,
 } from '@/types/frontmatters';
 
 export async function getFiles(type: ContentType) {
