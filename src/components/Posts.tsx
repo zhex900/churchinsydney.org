@@ -35,12 +35,14 @@ export type PostsPropsType = {
   tags: string[];
   title: string;
   filter?: string;
+  memberPassword: string;
 };
 
 export default function Posts({
   posts,
   tags,
   title,
+  memberPassword,
   filter = '',
 }: PostsPropsType) {
   /** Lazy init from session storage to preserve preference on revisit */
@@ -176,6 +178,7 @@ export default function Posts({
               {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
                   <PostCard
+                    memberPassword={memberPassword}
                     key={post.slug}
                     post={post}
                     checkTagged={checkTagged}

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { IoArrowDownOutline } from 'react-icons/io5';
 import { InView } from 'react-intersection-observer';
 
-import { getPostsByTags } from '@/lib/graphcms';
+import { getPostsByTags, getSetting } from '@/lib/graphcms';
 import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
@@ -20,9 +20,12 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 import Tooltip from '@/components/tooltip/Tooltip';
 
+import { COOKIES } from '@/constants';
+
 export default function IndexPage({
   currentEvents,
   featuredPosts,
+  memberPassword,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const isLoaded = useLoaded();
   const { t } = useTranslation('common');
@@ -153,12 +156,14 @@ export default function IndexPage({
                           'pointer-events-none md:pointer-events-auto'
                         )}
                         post={featuredPosts[1]}
+                        memberPassword={memberPassword}
                       />
                     )}
                     {featuredPosts.length > 0 && (
                       <PostCard
                         className='mx-auto max-w-[350px]'
                         post={featuredPosts[0]}
+                        memberPassword={memberPassword}
                       />
                     )}
                   </ul>
@@ -184,6 +189,7 @@ export default function IndexPage({
                         key={post.slug}
                         post={post}
                         className={clsx(i > 2 && 'hidden sm:block')}
+                        memberPassword={memberPassword}
                       />
                     ))}
                   </ul>
@@ -207,6 +213,8 @@ export async function getStaticProps() {
     props: {
       currentEvents: await getPostsByTags(['event']),
       featuredPosts: await getPostsByTags(['featured']),
+      //@TODO Retrieve the password once and share it across all components
+      memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
     },
   };
 }

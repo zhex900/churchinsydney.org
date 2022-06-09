@@ -150,6 +150,24 @@ query PostBySlug($slug: String!) {
   return { ...data.post, readingTime: readingTime(data.post.content) };
 }
 
+export async function getSetting(key: string) {
+  const data = await fetchAPI(
+    `
+query GetSettingByKey($key: String!) {
+  setting(where: {key: $key}) {
+    value
+  }
+}
+`,
+    {
+      preview: false,
+      variables: {
+        key,
+      },
+    }
+  );
+  return data.setting?.value || '';
+}
 // export async function getAllPostsWithSlug() {
 //   const data = await fetchAPI(`
 //     {

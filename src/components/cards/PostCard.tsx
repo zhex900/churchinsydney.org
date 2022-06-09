@@ -1,19 +1,19 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import * as React from 'react';
 import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi';
 
 import Accent from '@/components/Accent';
 import Tag from '@/components/content/Tag';
-import Image from '@/components/images/Image';
+import PostCardImage from '@/components/images/PostCardImage';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
-import { IMAGE_SIZE } from '@/constants';
+import { DATE_FORMAT } from '@/constants';
 
 import { PostType } from '@/types/post';
 type PostCardProps = {
   post: PostType;
   checkTagged?: (tag: string) => boolean;
+  memberPassword: string;
 } & React.ComponentPropsWithoutRef<'li'>;
 
 export default function PostCard({
@@ -21,6 +21,7 @@ export default function PostCard({
   className,
   checkTagged,
   onClick,
+  memberPassword,
 }: PostCardProps) {
   return (
     <li
@@ -39,15 +40,7 @@ export default function PostCard({
         href={`/post/${post.slug}`}
       >
         <div className='relative'>
-          <Image
-            noStyle
-            className='pointer-events-none overflow-hidden rounded-t-md'
-            url={post.banner.url}
-            alt={post.slug}
-            preview={false}
-            {...IMAGE_SIZE}
-          />
-          <div className='pointer-events-none overflow-hidden rounded-t-md'></div>
+          <PostCardImage post={post} memberPassword={memberPassword} />
           <div
             className={clsx(
               'absolute bottom-0 w-full px-4 py-2',
@@ -83,7 +76,7 @@ export default function PostCard({
             <span className='font-bold text-gray-800 dark:text-gray-100'>
               {format(
                 new Date(post.lastUpdated ?? post.createdAt),
-                'dd MMMM, yyyy'
+                DATE_FORMAT
               )}
             </span>
           </p>

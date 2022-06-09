@@ -6,19 +6,26 @@ import { useCookies } from 'react-cookie';
 import Accent from '@/components/Accent';
 import Button from '@/components/buttons/Button';
 
-import { COOKIES, MEMBERS_PASSWORD } from '@/constants';
+import { COOKIES } from '@/constants';
 
 import Layout from './layout/Layout';
 import Seo from './Seo';
 
 const INITIAL_HELPER_TEXT = "Please enter member's password";
-export default function MembersPassword() {
+
+export default function MembersPassword({
+  redirectTo,
+  memberPassword,
+}: {
+  memberPassword: string;
+  redirectTo: string;
+}) {
   const [helperText, setHelperText] = useState(INITIAL_HELPER_TEXT);
   const [password, setPassword] = useState('');
   const [, setCookie, removeCookie] = useCookies([COOKIES.MEMBERS_PASSWORD]);
   const router = useRouter();
   const onSubmit = () => {
-    if (password !== MEMBERS_PASSWORD) {
+    if (password !== memberPassword) {
       setHelperText('Incorrect password. Please try again.');
       return;
     }
@@ -26,8 +33,7 @@ export default function MembersPassword() {
     setCookie(COOKIES.MEMBERS_PASSWORD, password, {
       path: `/`,
     });
-    // location.reload();
-    router.push('/post/general-announcement');
+    router.push(redirectTo);
   };
 
   return (

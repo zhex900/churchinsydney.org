@@ -6,8 +6,6 @@ export const IMAGE_SIZE = {
   aspect: { height: 2, width: 5 },
 };
 
-export const MEMBERS_PASSWORD = 'aa'; //'Amen';
-
 export const COOKIES = {
   MEMBERS_PASSWORD: 'MEMBERS_PASSWORD',
 };
