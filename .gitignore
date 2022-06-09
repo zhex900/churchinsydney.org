@@ -44,9 +44,10 @@ cypress/screenshots
 # rss
 rss.xml
 
-# scripts
-scripts/out
-public/sitemap-0.xml
-public/sw.js
-public/sw.js.map
-public/workbox-*
+# PWA files
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map

@@ -16,6 +16,17 @@ class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          {/* <script
+            src='https://cdn.onesignal.com/sdks/OneSignalSDK.js'
+            async=''
+          ></script> */}
+
+          <link rel='manifest' href='/favicon/manifest.json' />
+          <link
+            rel='apple-touch-icon'
+            href='/favicon/apple-icon-180x180.png'
+          ></link>
+          <meta name='theme-color' content='#fff' />
           <link
             rel='preload'
             href='/fonts/inter-var-latin.woff2'
