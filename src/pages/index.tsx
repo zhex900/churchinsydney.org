@@ -72,7 +72,7 @@ export default function IndexPage({
                     'opacity-75 transition duration-1000 group-hover:opacity-100 group-hover:duration-200'
                   )}
                 />
-                <ButtonLink href='#intro'>{t('members-login')}</ButtonLink>
+                <ButtonLink href='#intro'>{t('welcome')}</ButtonLink>
               </div>
             </div>
           </article>
