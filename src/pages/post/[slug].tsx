@@ -2,7 +2,8 @@ import clsx from 'clsx';
 import { format } from 'date-fns';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import * as React from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { HiOutlineClock } from 'react-icons/hi';
 
 import { trackEvent } from '@/lib/analytics';
@@ -18,9 +19,15 @@ import TableOfContents, {
 } from '@/components/content/TableOfContents';
 import Image from '@/components/images/Image';
 import Layout from '@/components/layout/Layout';
+import MembersPassword from '@/components/MembersPassword';
 import Seo from '@/components/Seo';
 
-import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
+import {
+  COOKIES,
+  DATE_FORMAT,
+  IMAGE_SIZE,
+  MEMBERS_PASSWORD,
+} from '@/constants';
 
 import { PostType } from '@/types/post';
 
@@ -33,19 +40,20 @@ export default function SinglePostPage({
   post,
   recommendations,
 }: SinglePostPageProps) {
-  const Component = React.useMemo(
+  const [haveAccess, setHaveAccess] = useState<boolean | null>(null);
+  const [toc, setToc] = useState<HeadingScrollSpy>();
+  const Component = useMemo(
     () => getMDXComponent(post.content),
     [post.content]
   );
 
-  const populatedRecommendations = recommendations;
   const activeSection = useScrollSpy();
 
-  const [toc, setToc] = React.useState<HeadingScrollSpy>();
   const minLevel =
     toc?.reduce((min, item) => (item.level < min ? item.level : min), 10) ?? 0;
+  const [cookies] = useCookies([COOKIES.MEMBERS_PASSWORD]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const headings = document.querySelectorAll('.mdx h1, .mdx h2, .mdx h3');
 
     const headingArr: HeadingScrollSpy = [];
@@ -58,8 +66,31 @@ export default function SinglePostPage({
     });
 
     setToc(headingArr);
-  }, [post.slug]);
+    console.log('post.content set toc');
+  }, [post.content]);
 
+  useEffect(() => {
+    const headings = document.querySelectorAll('.mdx h1, .mdx h2, .mdx h3');
+
+    const headingArr: HeadingScrollSpy = [];
+    headings.forEach((heading) => {
+      const id = heading.id;
+      const level = +heading.tagName.replace('H', '');
+      const text = heading.textContent + '';
+
+      headingArr.push({ id, level, text });
+    });
+
+    setToc(headingArr);
+    console.log('loaded set toc');
+  }, []);
+  useEffect(() => {
+    setHaveAccess(cookies?.MEMBERS_PASSWORD === MEMBERS_PASSWORD);
+  }, [cookies?.MEMBERS_PASSWORD]);
+
+  if (!haveAccess && haveAccess !== null && post.tags.includes('members')) {
+    return <MembersPassword />;
+  }
   return (
     <Layout>
       <Seo
@@ -123,13 +154,13 @@ export default function SinglePostPage({
               </aside>
             </section>
 
-            {populatedRecommendations.length > 0 && (
+            {recommendations.length > 0 && (
               <div className='mt-20'>
                 <h2>
                   <Accent>Other posts that you might like</Accent>
                 </h2>
                 <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
-                  {populatedRecommendations.map((post, i) => (
+                  {recommendations.map((post, i) => (
                     <PostCard
                       onClick={() => {
                         trackEvent(post.slug, 'recommend');

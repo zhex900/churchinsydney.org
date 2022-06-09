@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 // import { openGraph } from '@/lib/helper';
 
+//@TODO update domain
 const defaultMeta = {
   title: 'Church in Sydney',
   siteName: 'churchinsydney-org.vercel.app',

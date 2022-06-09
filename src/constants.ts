@@ -5,3 +5,9 @@ export const IMAGE_SIZE = {
   height: (1200 * 2) / 5,
   aspect: { height: 2, width: 5 },
 };
+
+export const MEMBERS_PASSWORD = 'aa'; //'Amen';
+
+export const COOKIES = {
+  MEMBERS_PASSWORD: 'MEMBERS_PASSWORD',
+};
