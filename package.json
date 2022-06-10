@@ -14,7 +14,7 @@
     "format:check": "prettier -c .",
     "release": "standard-version",
     "push-release": "git push --follow-tags origin master",
-    "postbuild": "next-sitemap; echo NEXT_BUILD_ID=$(cat .next/BUILD_ID) > .env.production"
+    "postbuild": "next-sitemap; echo NEXT_BUILD_ID=$(cat .next/BUILD_ID) > .env.production; cat .env.production"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.4",
