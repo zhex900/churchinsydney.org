@@ -19,6 +19,7 @@ import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 import Tooltip from '@/components/tooltip/Tooltip';
+import UpdateAvailable from '@/components/UpdateAvailable';
 
 import { COOKIES } from '@/constants';
 
@@ -36,7 +37,7 @@ export default function IndexPage({
   return (
     <Layout>
       <Seo />
-
+      <UpdateAvailable className='absolute bottom-5 right-5' />
       <main>
         <section
           className={clsx(
