@@ -12,7 +12,7 @@ function withOpacity(variableName) {
 
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './node_modules/flowbite/**/*.js'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -60,7 +60,7 @@ module.exports = {
     },
   },
   plugins: [
-    // require('daisyui'),
+    require('flowbite/plugin'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
   ],

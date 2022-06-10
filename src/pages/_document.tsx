@@ -20,6 +20,7 @@ class MyDocument extends Document {
             src='https://cdn.onesignal.com/sdks/OneSignalSDK.js'
             async
           ></script>
+          {/* <script src='/flowbite.js' async></script> */}
 
           <link
             rel='apple-touch-icon'
