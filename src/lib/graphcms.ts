@@ -85,7 +85,7 @@ export async function getPostsByTags(tags: string[]): Promise<PostType[]> {
   const data = await fetchAPI(
     `
 query PostsByTags($tags: [Tags!]) {
-  posts(where: { tags_contains_all: $tags}) {
+  posts(where: { tags_contains_all: $tags, hidden: false}) {
     ${postFields}
   }
 }
