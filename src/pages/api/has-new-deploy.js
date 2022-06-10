@@ -1,4 +1,4 @@
-import { APIRoute } from 'next-deploy-notifications';
+import { APIRoute } from 'next-deploy-notifications/api';
 
 export default APIRoute.configure({
   version: () =>
