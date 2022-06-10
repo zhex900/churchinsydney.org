@@ -50,6 +50,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
                 href='#'
                 className='inline-flex w-full justify-center rounded-lg bg-blue-600 px-2 py-1.5 text-center text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800'
                 onClick={() => {
+                  location.reload();
                   setIsOpen(false);
                 }}
               >

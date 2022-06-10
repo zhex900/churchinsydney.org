@@ -1,1 +1,5 @@
-export { APIRoute as default } from 'next-deploy-notifications/api';
+import { APIRoute } from 'next-deploy-notifications/api';
+
+export default APIRoute.configure({
+  version: () => process.env.NEXT_BUILD_ID,
+});
