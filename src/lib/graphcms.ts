@@ -3,6 +3,7 @@ import readingTime from 'reading-time';
 import { IMAGE_SIZE } from '@/constants';
 
 import { PostType } from '@/types/post';
+
 async function fetchAPI(
   query: string,
   {
@@ -53,6 +54,9 @@ const postFields = `
     updatedAt
     tags
     description
+    hidden
+    order
+    likes
   `;
 
 export async function getDistrict(districtName: string, preview = false) {
@@ -106,7 +110,7 @@ export async function getPosts(): Promise<PostType[]> {
   const data = await fetchAPI(
     `
 {
-  posts {
+  posts(where: {hidden: false}) {
     ${postFields}
   }
 }
@@ -122,7 +126,7 @@ export async function getPostsSlugs() {
   const data = await fetchAPI(
     `
 {
-  posts {
+  posts(where: {hidden: false}) {
     slug
   }
 }

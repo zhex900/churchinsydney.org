@@ -21,17 +21,17 @@ import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
 
 import { PostType } from '@/types/post';
 
-type SinglePostPageProps = {
+type PostProps = {
   post: PostType;
   recommendations: PostType[];
   memberPassword: string;
 };
 
-export default function SinglePostPage({
+export default function Post({
   post,
   memberPassword,
   recommendations,
-}: SinglePostPageProps) {
+}: PostProps) {
   const [toc, setToc] = useState<HeadingScrollSpy>();
   const Component = useMemo(
     () => getMDXComponent(post.content),

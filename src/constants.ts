@@ -9,3 +9,5 @@ export const IMAGE_SIZE = {
 export const COOKIES = {
   MEMBERS_PASSWORD: 'MEMBERS_PASSWORD',
 };
+
+export const LAST_ORDER_INDEX = 999;

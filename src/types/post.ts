@@ -13,5 +13,7 @@ export type PostType = {
   tags: string[];
   readingTime: ReadTimeResults;
   views?: number;
-  likes?: number;
+  likes?: number | null;
+  order: number | null;
+  hidden: boolean;
 };

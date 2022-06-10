@@ -15,6 +15,8 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import SortListbox, { SortOption } from '@/components/SortListbox';
 
+import { LAST_ORDER_INDEX } from '@/constants';
+
 import { PostType } from '@/types/post';
 
 const sortOptions: Array<SortOption> = [
@@ -53,7 +55,6 @@ export default function Posts({
 
   const populatedPosts = posts;
 
-  //#region  //*=========== Search ===========
   const [search, setSearch] = React.useState<string>(filter);
   const [filteredPosts, setFilteredPosts] = React.useState<Array<PostType>>(
     () => [...posts]
@@ -176,14 +177,20 @@ export default function Posts({
               data-fade='5'
             >
               {filteredPosts.length > 0 ? (
-                filteredPosts.map((post) => (
-                  <PostCard
-                    memberPassword={memberPassword}
-                    key={post.slug}
-                    post={post}
-                    checkTagged={checkTagged}
-                  />
-                ))
+                filteredPosts
+                  .sort(
+                    (a, b) =>
+                      (a?.order ?? LAST_ORDER_INDEX) -
+                      (b?.order ?? LAST_ORDER_INDEX)
+                  )
+                  .map((post) => (
+                    <PostCard
+                      memberPassword={memberPassword}
+                      key={post.slug}
+                      post={post}
+                      checkTagged={checkTagged}
+                    />
+                  ))
               ) : (
                 <ContentPlaceholder />
               )}
