@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { HiCalendar, HiEye } from 'react-icons/hi';
 
-import { getFromSessionStorage } from '@/lib/helper';
 import { getTags, sortDateFn } from '@/lib/mdx-client';
 import useLoaded from '@/hooks/useLoaded';
 
@@ -21,14 +20,19 @@ import { PostType } from '@/types/post';
 
 const sortOptions: Array<SortOption> = [
   {
-    id: 'date',
-    name: 'Sort by date',
+    id: 'rank',
+    name: 'By rank',
+    icon: HiEye,
+  },
+  {
+    id: 'date-desc',
+    name: 'By last update ↓',
     icon: HiCalendar,
   },
   {
-    id: 'views',
-    name: 'Sort by views',
-    icon: HiEye,
+    id: 'date-asc',
+    name: 'By last update ↑',
+    icon: HiCalendar,
   },
 ];
 
@@ -47,25 +51,22 @@ export default function Posts({
   memberPassword,
   filter = '',
 }: PostsPropsType) {
-  /** Lazy init from session storage to preserve preference on revisit */
   const [sortOrder, setSortOrder] = React.useState<SortOption>(
-    () => sortOptions[Number(getFromSessionStorage('announcement-sort')) || 0]
+    () => sortOptions[0]
   );
+  const [mounted, setMounted] = React.useState(false);
   const isLoaded = useLoaded();
 
-  const populatedPosts = posts;
-
   const [search, setSearch] = React.useState<string>(filter);
-  const [filteredPosts, setFilteredPosts] = React.useState<Array<PostType>>(
-    () => [...posts]
-  );
+  const [filteredPosts, setFilteredPosts] =
+    React.useState<Array<PostType>>(posts);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
   React.useEffect(() => {
-    const results = populatedPosts.filter(
+    const results = filteredPosts.filter(
       (post) =>
         post.title.toLowerCase().includes(search.toLowerCase()) ||
         (post?.description &&
@@ -77,24 +78,21 @@ export default function Posts({
           .every((tag) => post.tags.includes(tag))
     );
 
-    // change sort date by asc and dsc
-    if (sortOrder.id === 'date') {
+    if (sortOrder.id === 'rank') {
+      results.sort(sortDateFn).sort((a, b) => {
+        return (a.rank ?? LAST_ORDER_INDEX) - (b.rank ?? LAST_ORDER_INDEX);
+      });
+    } else if (sortOrder.id === 'date-desc') {
       results.sort(sortDateFn);
-      sessionStorage.setItem('announcement-sort', '0');
-    } else if (sortOrder.id === 'views') {
-      // results.sort((a, b) => (b?.views ?? 0) - (a?.views ?? 0));
-      sessionStorage.setItem('announcement-sort', '1');
+    } else {
+      results.sort((a, b) => sortDateFn(b, a));
     }
 
     setFilteredPosts(results);
-  }, [search, sortOrder.id, populatedPosts]);
-
-  const [mounted, setMounted] = React.useState(false);
+  }, [search, sortOrder.id, filteredPosts]);
 
   React.useEffect(() => setMounted(true), []);
   if (!mounted) return null;
-
-  //#endregion  //*======== Search ===========
 
   const toggleTag = (tag: string) => {
     // If tag is already there, then remove
@@ -177,20 +175,14 @@ export default function Posts({
               data-fade='5'
             >
               {filteredPosts.length > 0 ? (
-                filteredPosts
-                  .sort(
-                    (a, b) =>
-                      (a?.order ?? LAST_ORDER_INDEX) -
-                      (b?.order ?? LAST_ORDER_INDEX)
-                  )
-                  .map((post) => (
-                    <PostCard
-                      memberPassword={memberPassword}
-                      key={post.slug}
-                      post={post}
-                      checkTagged={checkTagged}
-                    />
-                  ))
+                filteredPosts.map((post) => (
+                  <PostCard
+                    memberPassword={memberPassword}
+                    key={post.slug}
+                    post={post}
+                    checkTagged={checkTagged}
+                  />
+                ))
               ) : (
                 <ContentPlaceholder />
               )}

@@ -6,7 +6,6 @@ export default function UpdateAvailable({ className }: { className?: string }) {
   const { hasNewDeploy } = useHasNewDeploy();
 
   useEffect(() => {
-    console.log('hasNewDeploy ->', hasNewDeploy);
     if (hasNewDeploy) {
       setIsOpen(true);
     }

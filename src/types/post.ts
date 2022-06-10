@@ -9,11 +9,11 @@ export type PostType = {
   description: string;
   createdAt: string;
   content: string;
-  lastUpdated: string;
+  updatedAt: string;
   tags: string[];
   readingTime: ReadTimeResults;
   views?: number;
   likes?: number | null;
-  order: number | null;
+  rank: number | null;
   hidden: boolean;
 };

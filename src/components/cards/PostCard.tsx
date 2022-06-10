@@ -1,13 +1,11 @@
 import clsx from 'clsx';
-import { format } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi';
 
 import Accent from '@/components/Accent';
 import Tag from '@/components/content/Tag';
 import PostCardImage from '@/components/images/PostCardImage';
 import UnstyledLink from '@/components/links/UnstyledLink';
-
-import { DATE_FORMAT } from '@/constants';
 
 import { PostType } from '@/types/post';
 type PostCardProps = {
@@ -23,6 +21,7 @@ export default function PostCard({
   onClick,
   memberPassword,
 }: PostCardProps) {
+  console.log({ post }, post?.updatedAt);
   return (
     <li
       className={clsx(
@@ -73,11 +72,10 @@ export default function PostCard({
             )}
           </div>
           <p className='mt-4 mb-2 text-sm text-gray-600 dark:text-gray-300'>
-            <span className='font-bold text-gray-800 dark:text-gray-100'>
-              {format(
-                new Date(post.lastUpdated ?? post.createdAt),
-                DATE_FORMAT
-              )}
+            <span className='italic text-gray-800 dark:text-gray-100'>
+              {`Last update: ${formatDistanceToNow(
+                new Date(post.updatedAt)
+              )} ago`}
             </span>
           </p>
           <p className='text-sm text-gray-700 dark:text-gray-300'>

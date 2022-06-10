@@ -1,14 +1,11 @@
-import countBy from 'lodash/countBy';
-import map from 'lodash/map';
-import sortBy from 'lodash/sortBy';
-import toPairs from 'lodash/toPairs';
+import { countBy, map, sortBy, toPairs } from 'lodash';
 
 import { PostType } from '@/types/post';
 
 export function sortDateFn<T extends PostType>(contentA: T, contentB: T) {
   return (
-    new Date(contentB.lastUpdated ?? contentB.createdAt).valueOf() -
-    new Date(contentA.lastUpdated ?? contentA.createdAt).valueOf()
+    new Date(contentB.updatedAt ?? contentB.createdAt).valueOf() -
+    new Date(contentA.updatedAt ?? contentA.createdAt).valueOf()
   );
 }
 

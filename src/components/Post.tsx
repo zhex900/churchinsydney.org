@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow, isSameDay } from 'date-fns';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useEffect, useMemo, useState } from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
@@ -63,7 +63,7 @@ export default function Post({
       <Seo
         templateTitle={post.title}
         description={post.description}
-        date={new Date(post.lastUpdated ?? post.createdAt).toISOString()}
+        date={new Date(post.updatedAt ?? post.createdAt).toISOString()}
       />
 
       <main>
@@ -74,14 +74,18 @@ export default function Post({
 
               <h1 className='mt-4'>{post.title}</h1>
 
-              <p className='mt-2 text-sm text-gray-600 dark:text-gray-300'>
-                Written on {format(new Date(post.createdAt), DATE_FORMAT)}
+              <p className='mt-2 text-sm italic text-gray-600 dark:text-gray-300'>
+                Created on: {format(new Date(post.createdAt), DATE_FORMAT)}
               </p>
-              {post.lastUpdated && (
-                <div className='mt-2 flex flex-wrap gap-2 text-sm text-gray-700 dark:text-gray-200'>
+              {post.updatedAt && (
+                <div className='mt-2 flex flex-wrap gap-2 text-sm italic text-gray-700 dark:text-gray-200'>
                   <p>
-                    Last updated{' '}
-                    {format(new Date(post.lastUpdated), DATE_FORMAT)}.
+                    Last updated:{' '}
+                    {!isSameDay(
+                      new Date(post.createdAt),
+                      new Date(post.updatedAt)
+                    ) && `${format(new Date(post.updatedAt), DATE_FORMAT)}, `}
+                    {`${formatDistanceToNow(new Date(post.updatedAt))} ago`}
                   </p>
                 </div>
               )}

@@ -55,7 +55,7 @@ const postFields = `
     tags
     description
     hidden
-    order
+    rank
     likes
   `;
 

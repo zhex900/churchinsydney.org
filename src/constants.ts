@@ -1,4 +1,4 @@
-export const DATE_FORMAT = 'dd MMMM, yyyy';
+export const DATE_FORMAT = 'dd MMMM yyyy';
 
 export const IMAGE_SIZE = {
   width: 1200,
