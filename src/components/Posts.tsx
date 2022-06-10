@@ -66,7 +66,7 @@ export default function Posts({
   };
 
   React.useEffect(() => {
-    const results = filteredPosts.filter(
+    const results = posts.filter(
       (post) =>
         post.title.toLowerCase().includes(search.toLowerCase()) ||
         (post?.description &&
@@ -89,7 +89,7 @@ export default function Posts({
     }
 
     setFilteredPosts(results);
-  }, [search, sortOrder.id, filteredPosts]);
+  }, [search, sortOrder.id, posts]);
 
   React.useEffect(() => setMounted(true), []);
   if (!mounted) return null;

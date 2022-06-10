@@ -21,7 +21,6 @@ export default function PostCard({
   onClick,
   memberPassword,
 }: PostCardProps) {
-  console.log({ post }, post?.updatedAt);
   return (
     <li
       className={clsx(
