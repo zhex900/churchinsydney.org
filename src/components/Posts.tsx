@@ -22,7 +22,7 @@ import SortListbox, { SortOption } from '@/components/SortListbox';
 
 import { LAST_ORDER_INDEX } from '@/constants';
 
-import { PostType } from '@/types/post';
+import { PostType } from '@/types/types';
 
 const sortOptions: Array<SortOption> = [
   {

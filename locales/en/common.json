@@ -1,5 +1,5 @@
 {
-  "hero-banner": "<0>God desires</0> all men to be saved and come to the full knowledge of the <1>truth</1>.<2></2><3>1 Tim. 2:4</3>",
+  "home-page-verse": "<0>God desires</0> all men to be saved and come to the full knowledge of the <1>truth</1>.<2></2><3>1 Tim. 2:4</3>",
   "all-rights-reserved": "All Rights Reserved",
   "church-in-sydney": "Church in Sydney",
   "contact-us": "Contact Us",
@@ -13,6 +13,5 @@
   "sign-in": "Sign in",
   "members-login": "Members Login",
   "page-not-found": "Page Not Found",
-  "back-to-home": "Back to Home",
-  "welcome": "Welcome! 👋"
+  "back-to-home": "Back to Home"
 }

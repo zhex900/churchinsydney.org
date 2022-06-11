@@ -20,7 +20,7 @@ import Seo from '@/components/Seo';
 
 import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
 
-import { PostType } from '@/types/post';
+import { PostType } from '@/types/types';
 
 type PostProps = {
   post: PostType;

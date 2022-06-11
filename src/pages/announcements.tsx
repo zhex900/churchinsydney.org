@@ -24,6 +24,7 @@ export async function getStaticProps() {
       posts,
       tags,
       memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
+      // translations: await getTranslationsByKeyStartsWith('home', [locale]),
     },
   };
 }

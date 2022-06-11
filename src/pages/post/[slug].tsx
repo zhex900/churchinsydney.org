@@ -1,3 +1,4 @@
+import { flatten } from 'lodash';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -11,7 +12,7 @@ import Post from '@/components/Post';
 
 import { COOKIES } from '@/constants';
 
-import { PostType } from '@/types/post';
+import { PostType } from '@/types/types';
 
 type SinglePostPageProps = {
   post: PostType;
@@ -52,20 +53,33 @@ export default function SinglePostPage({
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const slugs = await getPostsSlugs();
+
   return {
-    paths: slugs.map(({ slug }: { slug: string }) => ({
-      params: {
-        slug,
-      },
-    })),
+    paths: flatten(
+      slugs.map(({ slug }: { slug: string }) =>
+        locales?.map((locale) => ({
+          params: {
+            slug,
+          },
+          locale,
+        }))
+      )
+    ),
     fallback: false,
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const post = await getPostBySlug(params?.slug as string);
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  locale,
+  defaultLocale,
+}) => {
+  const post = await getPostBySlug(params?.slug as string, [
+    locale || '',
+    defaultLocale || '',
+  ]);
   const mdx = await parseMDX(post.content);
 
   const recommendations = await getRecommendations(params?.slug as string);

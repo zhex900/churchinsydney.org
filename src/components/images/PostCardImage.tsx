@@ -8,7 +8,7 @@ import Image from '@/components/images/Image';
 
 import { COOKIES, IMAGE_SIZE } from '@/constants';
 
-import { PostType } from '@/types/post';
+import { PostType } from '@/types/types';
 
 function TopCornerIcon({ Icon }: { Icon: IconType }) {
   return (

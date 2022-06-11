@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import readingTime from 'reading-time';
 
 import { IMAGE_SIZE } from '@/constants';
 
-import { PostType } from '@/types/post';
+import { PostType, Translation, Translations } from '@/types/types';
 
+function safeLocales(locales: string[]) {
+  return locales.map((l) => l.replace(/-/g, '_'));
+}
 async function fetchAPI(
   query: string,
   {
@@ -84,6 +88,67 @@ export async function getDistrict(districtName: string, preview = false) {
   );
   return data.district;
 }
+export async function getTranslationsByKeyStartsWith(
+  keyStartsWith: string,
+  locales: string[]
+): Promise<Translations> {
+  const data = await fetchAPI(
+    `
+query getTranslations($keyStartsWith: String!, $locales: [Locale!]!) {
+  translations(where: { key_starts_with: $keyStartsWith}, locales: $locales) {
+		key
+    locale
+    text
+  }
+}
+  `,
+    {
+      preview: false,
+      variables: {
+        keyStartsWith,
+        locales: safeLocales(locales),
+      },
+    }
+  );
+  return data.translations?.reduce(
+    (result: Translation[], item: Translation) => ({
+      ...result,
+      [item.key]: item,
+    }),
+    {}
+  );
+}
+
+export async function getTranslations(
+  keys: string[],
+  locales: string[]
+): Promise<Translations> {
+  const data = await fetchAPI(
+    `
+query getTranslations($keys: [String!], $locales: [Locale!]!) {
+  translations(where: { key_in: $keys}, locales: $locales) {
+		key
+    locale
+    text
+  }
+}
+  `,
+    {
+      preview: false,
+      variables: {
+        keys,
+        locales: safeLocales(locales),
+      },
+    }
+  );
+  return data.translations?.reduce(
+    (result: Translation[], item: Translation) => ({
+      ...result,
+      [item.key]: item,
+    }),
+    {}
+  );
+}
 
 export async function getPostsByTags(tags: string[]): Promise<PostType[]> {
   const data = await fetchAPI(
@@ -139,11 +204,14 @@ export async function getPostsSlugs() {
   return data.posts;
 }
 
-export async function getPostBySlug(slug: string): Promise<PostType> {
+export async function getPostBySlug(
+  slug: string,
+  locales: string[]
+): Promise<PostType> {
   const data = await fetchAPI(
     `
-query PostBySlug($slug: String!) {
-  post(where: {slug: $slug}) {
+query PostBySlug($slug: String!, $locales: [Locale!]!) {
+  post(where: {slug: $slug}, locales: $locales) {
     ${postFields}
   }
 }
@@ -152,13 +220,15 @@ query PostBySlug($slug: String!) {
       preview: false,
       variables: {
         slug,
+        locales: safeLocales([...locales, 'en']),
       },
     }
   );
+  console.log(JSON.stringify(data, null, 2));
   return { ...data.post, readingTime: readingTime(data.post.content) };
 }
 
-export async function getSetting(key: string) {
+export async function getSetting(key: string): Promise<string> {
   const data = await fetchAPI(
     `
 query GetSettingByKey($key: String!) {

@@ -2,7 +2,7 @@ import { format, getDate, isSameMonth, isSameYear } from 'date-fns';
 
 import { DATE_FORMAT } from '@/constants';
 
-import { EvenDate } from '@/types/post';
+import { EvenDate } from '@/types/types';
 
 export function formatEventDate(eventDate: EvenDate) {
   const startDate = new Date(eventDate.startDate);

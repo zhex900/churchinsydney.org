@@ -9,7 +9,7 @@ import Tag from '@/components/content/Tag';
 import PostCardImage from '@/components/images/PostCardImage';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
-import { PostType } from '@/types/post';
+import { PostType } from '@/types/types';
 type PostCardProps = {
   post: PostType;
   checkTagged?: (tag: string) => boolean;

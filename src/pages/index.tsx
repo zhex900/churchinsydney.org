@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-key */
 import clsx from 'clsx';
-import { InferGetStaticPropsType } from 'next';
 import Trans from 'next-translate/Trans';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState } from 'react';
 import { IoArrowDownOutline } from 'react-icons/io5';
 import { InView } from 'react-intersection-observer';
 
-import { getPostsByTags, getSetting } from '@/lib/graphcms';
+import {
+  getPostsByTags,
+  getSetting,
+  getTranslationsByKeyStartsWith,
+} from '@/lib/graphcms';
 import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
@@ -18,15 +20,22 @@ import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
-import Tooltip from '@/components/tooltip/Tooltip';
 
 import { COOKIES } from '@/constants';
+
+import { PostType, Translations } from '@/types/types';
 
 export default function IndexPage({
   currentEvents,
   featuredPosts,
   memberPassword,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+  translations,
+}: {
+  currentEvents: PostType[];
+  featuredPosts: PostType[];
+  memberPassword: string;
+  translations: Translations;
+}) {
   const isLoaded = useLoaded();
   const { t } = useTranslation('common');
   const [mounted, setMounted] = useState(false);
@@ -49,12 +58,15 @@ export default function IndexPage({
               data-fade='2'
             >
               <Trans
-                i18nKey='common:hero-banner'
+                i18nKey='common:home-page-verse'
                 components={[
-                  <Accent />,
-                  <Accent />,
-                  <br />,
-                  <span className='mt-1 max-w-4xl leading-relaxed text-gray-700 dark:text-gray-200 md:mt-1 md:text-lg 2xl:text-xl' />,
+                  <Accent key='1' />,
+                  <Accent key='1' />,
+                  <br key='1' />,
+                  <span
+                    key='1'
+                    className='mt-1 max-w-4xl leading-relaxed text-gray-700 dark:text-gray-200 md:mt-1 md:text-lg 2xl:text-xl'
+                  />,
                 ]}
               />
             </h1>
@@ -71,7 +83,9 @@ export default function IndexPage({
                     'opacity-75 transition duration-1000 group-hover:opacity-100 group-hover:duration-200'
                   )}
                 />
-                <ButtonLink href='#intro'>{t('welcome')}</ButtonLink>
+                <ButtonLink href='#intro'>
+                  {translations['home-welcome'].text}
+                </ButtonLink>
               </div>
             </div>
           </article>
@@ -111,35 +125,13 @@ export default function IndexPage({
                 <div className='mt-8 h-full w-full md:mt-0'>
                   <h2 className='text-4xl md:text-6xl'>
                     <Accent className='inline decoration-clone leading-snug dark:leading-none'>
-                      Wonderful Church Life!
+                      {translations['home-introduction-title'].text}
                     </Accent>
                   </h2>
                   <div className='mt-4 text-base text-gray-600 dark:text-gray-300 md:text-lg'>
-                    God's heart and will in His New Testament{' '}
-                    <Tooltip
-                      withUnderline
-                      content={
-                        <>
-                          The Greek word means <strong>household law</strong>,{' '}
-                          implying distribution (the base of this word is the
-                          same origin as the for pasture in John 10:9, implying
-                          a distribution of the pasture to the flock). It
-                          denotes a household management.
-                        </>
-                      }
-                    >
-                      economy
-                    </Tooltip>
-                    , God's good pleasure, the counsel of His will, and His
-                    purpose are to have a{' '}
-                    <strong className='text-gray-700 dark:text-gray-200'>
-                      Body{' '}
-                    </strong>{' '}
-                    for the enlargement and expression of Christ, the embodiment
-                    of the processed Triune God. (Eph. 1:9-11; 3:9-11)
-                    <br />
+                    {translations['home-quote'].text}
                     <span className='italic'>
-                      The Practical and Organic Building Up of the Church
+                      {translations['home-quote-reference'].text}
                     </span>
                   </div>
                 </div>
@@ -180,7 +172,7 @@ export default function IndexPage({
               >
                 <article className='layout' data-fade='0'>
                   <h2 className='text-2xl md:text-4xl' id='posts'>
-                    <Accent>Current Events</Accent>
+                    <Accent>{translations['home-current-events'].text}</Accent>
                   </h2>
                   <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
                     {currentEvents.map((post, i) => (
@@ -193,7 +185,7 @@ export default function IndexPage({
                     ))}
                   </ul>
                   <ButtonLink className='mt-4' href='/events'>
-                    See more events
+                    {translations['home-see-more-events'].text}
                   </ButtonLink>
                 </article>
               </section>
@@ -205,15 +197,24 @@ export default function IndexPage({
   );
 }
 
-export async function getStaticProps() {
+export async function getStaticProps({
+  locale,
+  defaultLocale,
+}: {
+  locale: string;
+  defaultLocale: string;
+}) {
   generateRss();
-
   return {
     props: {
       currentEvents: await getPostsByTags(['event']),
       featuredPosts: await getPostsByTags(['featured']),
       //@TODO Retrieve the password once and share it across all components
       memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
+      translations: await getTranslationsByKeyStartsWith('home', [
+        locale,
+        defaultLocale,
+      ]),
     },
   };
 }

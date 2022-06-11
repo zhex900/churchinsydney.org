@@ -1,6 +1,6 @@
 import { countBy, map, sortBy, toPairs } from 'lodash';
 
-import { PostType } from '@/types/post';
+import { PostType } from '@/types/types';
 
 export function sortDateFn<T extends PostType>(contentA: T, contentB: T) {
   return (

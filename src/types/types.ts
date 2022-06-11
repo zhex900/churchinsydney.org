@@ -23,3 +23,13 @@ export type PostType = {
   hidden: boolean;
   eventDate?: EvenDate;
 };
+
+export type Translation = {
+  key: string;
+  locale: 'en' | 'zh-CN';
+  text: string;
+};
+
+export type Translations = {
+  [key: string]: Translation;
+};
