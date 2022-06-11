@@ -1,6 +1,12 @@
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import * as React from 'react';
-import { HiCalendar, HiEye } from 'react-icons/hi';
+import {
+  HiCalendar,
+  HiEye,
+  HiOutlineChevronDoubleDown,
+  HiOutlineChevronDoubleUp,
+} from 'react-icons/hi';
 
 import { getTags, sortDateFn } from '@/lib/mdx-client';
 import useLoaded from '@/hooks/useLoaded';
@@ -25,14 +31,19 @@ const sortOptions: Array<SortOption> = [
     icon: HiEye,
   },
   {
+    id: 'start-date',
+    name: 'By start date',
+    icon: HiCalendar,
+  },
+  {
     id: 'date-desc',
     name: 'By last update ↓',
-    icon: HiCalendar,
+    icon: HiOutlineChevronDoubleDown,
   },
   {
     id: 'date-asc',
     name: 'By last update ↑',
-    icon: HiCalendar,
+    icon: HiOutlineChevronDoubleUp,
   },
 ];
 
@@ -51,9 +62,15 @@ export default function Posts({
   memberPassword,
   filter = '',
 }: PostsPropsType) {
+  const { route } = useRouter();
   const [sortOrder, setSortOrder] = React.useState<SortOption>(
     () => sortOptions[0]
   );
+  React.useEffect(() => {
+    if (route.includes('event')) {
+      setSortOrder(sortOptions[1]);
+    }
+  }, [route]);
   const [mounted, setMounted] = React.useState(false);
   const isLoaded = useLoaded();
 
@@ -78,7 +95,24 @@ export default function Posts({
           .every((tag) => post.tags.includes(tag))
     );
 
-    if (sortOrder.id === 'rank') {
+    if (sortOrder.id === 'start-date') {
+      results.sort((a, b) => {
+        if (!a?.eventDate && !b?.eventDate) {
+          return 0;
+          // sort b before a
+        } else if (!a?.eventDate && b?.eventDate) {
+          return 1;
+        } // sort a before b
+        else if (!b?.eventDate && a?.eventDate) {
+          return -1;
+        }
+
+        return (
+          new Date(a?.eventDate?.startDate ?? 0).valueOf() -
+          new Date(b?.eventDate?.startDate ?? 0).valueOf()
+        );
+      });
+    } else if (sortOrder.id === 'rank') {
       results.sort(sortDateFn).sort((a, b) => {
         return (a.rank ?? LAST_ORDER_INDEX) - (b.rank ?? LAST_ORDER_INDEX);
       });

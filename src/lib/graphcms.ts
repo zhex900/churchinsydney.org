@@ -57,6 +57,10 @@ const postFields = `
     hidden
     rank
     likes
+    eventDate {
+      startDate
+      endDate
+    }
   `;
 
 export async function getDistrict(districtName: string, preview = false) {

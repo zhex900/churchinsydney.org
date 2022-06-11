@@ -1,5 +1,10 @@
 import { ReadTimeResults } from 'reading-time';
 
+export type EvenDate = {
+  startDate: string;
+  endDate: string;
+};
+
 export type PostType = {
   banner: {
     url: string;
@@ -16,4 +21,5 @@ export type PostType = {
   likes?: number | null;
   rank: number | null;
   hidden: boolean;
+  eventDate?: EvenDate;
 };

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
 
 import { trackEvent } from '@/lib/analytics';
+import { formatEventDate } from '@/lib/utils';
 import useScrollSpy from '@/hooks/useScrollspy';
 
 import Accent from '@/components/Accent';
@@ -58,6 +59,8 @@ export default function Post({
     setToc(headingArr);
   }, [post.content]);
 
+  const eventDate = post?.eventDate ? formatEventDate(post?.eventDate) : null;
+
   return (
     <Layout>
       <Seo
@@ -74,11 +77,13 @@ export default function Post({
 
               <h1 className='mt-4'>{post.title}</h1>
 
-              <p className='mt-2 text-sm italic text-gray-600 dark:text-gray-300'>
-                Created on: {format(new Date(post.createdAt), DATE_FORMAT)}
-              </p>
+              {eventDate && (
+                <p className='mt-2 text-2xl italic text-gray-600 dark:text-gray-300'>
+                  {eventDate}
+                </p>
+              )}
               {post.updatedAt && (
-                <div className='mt-2 flex flex-wrap gap-2 text-sm italic text-gray-700 dark:text-gray-200'>
+                <div className='mt-4 flex flex-wrap gap-2 text-sm italic text-gray-700 dark:text-gray-200'>
                   <p>
                     Last updated:{' '}
                     {!isSameDay(
@@ -89,7 +94,7 @@ export default function Post({
                   </p>
                 </div>
               )}
-              <div className='mt-6 flex items-center justify-start gap-2 text-sm font-medium text-gray-600 dark:text-gray-300'>
+              <div className='mt-4 flex items-center justify-start gap-2 text-sm font-medium text-gray-600 dark:text-gray-300'>
                 <div className='flex items-center gap-1'>
                   <HiOutlineClock className='inline-block text-base' />
                   <Accent>{post.readingTime.text}</Accent>
