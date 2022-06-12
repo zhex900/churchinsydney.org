@@ -150,6 +150,13 @@ query getTranslations($keys: [String!], $locales: [Locale!]!) {
   );
 }
 
+function addReadingTimeToPosts(posts: PostType[]) {
+  return posts.map((p: PostType) => ({
+    ...p,
+    readingTime: readingTime(p.content),
+  }));
+}
+
 export async function getPostsByTags(tags: string[]): Promise<PostType[]> {
   const data = await fetchAPI(
     `
@@ -169,26 +176,26 @@ query PostsByTags($tags: [Tags!]) {
   if (!data.posts || !data.posts.length) {
     return [];
   }
-  return data.posts.map((p: PostType) => ({
-    ...p,
-    readingTime: readingTime(p.content),
-  }));
+  return addReadingTimeToPosts(data.posts);
 }
 
-export async function getPosts(): Promise<PostType[]> {
+export async function getPosts(locales: string[]): Promise<PostType[]> {
   const data = await fetchAPI(
     `
-{
-  posts(where: {hidden: false}) {
+query getPosts($locales: [Locale!]!) {
+  posts(where: {hidden: false}, locales: $locales) {
     ${postFields}
   }
 }
-  `
+  `,
+    {
+      preview: false,
+      variables: {
+        locales: safeLocales(locales),
+      },
+    }
   );
-  return data.posts.map((p: PostType) => ({
-    ...p,
-    readingTime: readingTime(p.content),
-  }));
+  return addReadingTimeToPosts(data.posts);
 }
 
 export async function getPostsSlugs() {
@@ -224,7 +231,6 @@ query PostBySlug($slug: String!, $locales: [Locale!]!) {
       },
     }
   );
-  console.log(JSON.stringify(data, null, 2));
   return { ...data.post, readingTime: readingTime(data.post.content) };
 }
 

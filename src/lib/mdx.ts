@@ -35,8 +35,8 @@ export async function parseMDX(source: string) {
   return code;
 }
 
-export async function getRecommendations(currSlug: string) {
-  const posts = await getPosts();
+export async function getRecommendations(currSlug: string, locales: string[]) {
+  const posts = await getPosts(locales);
 
   const currentPost = posts.find(({ slug }) => slug === currSlug);
 

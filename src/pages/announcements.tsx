@@ -1,4 +1,4 @@
-import { InferGetStaticPropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { getPosts, getSetting } from '@/lib/graphcms';
 import { getTags, sortByDate } from '@/lib/mdx-client';
@@ -15,8 +15,14 @@ export default function AnnouncementsPage({
   return Posts({ posts, tags, memberPassword, title: 'Announcements' });
 }
 
-export async function getStaticProps() {
-  const posts = sortByDate(await getPosts());
+export async function getStaticProps({
+  locale,
+  defaultLocale,
+}: {
+  locale: string;
+  defaultLocale: string;
+}) {
+  const posts = sortByDate(await getPosts([locale, defaultLocale]));
   const tags = getTags(posts);
 
   return {

@@ -76,13 +76,14 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   defaultLocale,
 }) => {
-  const post = await getPostBySlug(params?.slug as string, [
-    locale || '',
-    defaultLocale || '',
-  ]);
+  const locales = [locale || '', defaultLocale || ''];
+  const post = await getPostBySlug(params?.slug as string, locales);
   const mdx = await parseMDX(post.content);
 
-  const recommendations = await getRecommendations(params?.slug as string);
+  const recommendations = await getRecommendations(
+    params?.slug as string,
+    locales
+  );
   return {
     props: {
       post: {
