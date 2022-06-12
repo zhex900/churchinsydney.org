@@ -15,7 +15,7 @@ export default function NotFoundPage({
 }) {
   return (
     <>
-      <Seo templateTitle={translations['404-page-not-found'].text} />
+      <Seo templateTitle={translations['page-not-found'].text} />
 
       <main>
         <section className='bg-dark'>
@@ -24,9 +24,9 @@ export default function NotFoundPage({
               size={60}
               className='drop-shadow-glow animate-flicker text-yellow-300'
             />
-            <h1 className='mt-8'>{translations['404-page-not-found'].text}</h1>
+            <h1 className='mt-8'>{translations['page-not-found'].text}</h1>
             <CustomLink className='mt-4' href='/'>
-              {translations['404-page-back-to-home'].text}
+              {translations['page-not-found-back-to-home'].text}
             </CustomLink>
           </div>
         </section>
@@ -44,10 +44,10 @@ export async function getStaticProps({
 }) {
   return {
     props: {
-      translations: await getTranslationsByKeyStartsWith(['404-page'], [
-        locale,
-        defaultLocale,
-      ]),
+      translations: await getTranslationsByKeyStartsWith(
+        ['page'],
+        [locale, defaultLocale]
+      ),
     },
   };
 }

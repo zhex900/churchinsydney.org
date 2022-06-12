@@ -104,7 +104,10 @@ export const getStaticProps: GetStaticProps = async ({
       },
       recommendations,
       memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
-      translations: await getTranslationsByKeyStartsWith(['post'], locales),
+      translations: await getTranslationsByKeyStartsWith(
+        ['post', 'common'],
+        locales
+      ),
     },
   };
 };

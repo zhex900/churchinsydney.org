@@ -105,7 +105,7 @@ export async function getTranslationsByKeyStartsWith(
   `,
     ''
   );
-
+  // console.log(query);
   const data = (await fetchAPI(
     `
 query getTranslations($locales: [Locale!]!) {
