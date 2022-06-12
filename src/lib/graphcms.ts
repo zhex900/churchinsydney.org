@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { flatten } from 'lodash';
 import readingTime from 'reading-time';
 
 import { IMAGE_SIZE } from '@/constants';
@@ -89,17 +90,26 @@ export async function getDistrict(districtName: string, preview = false) {
   return data.district;
 }
 export async function getTranslationsByKeyStartsWith(
-  keyStartsWith: string,
+  keyStartsWith: string[],
   locales: string[]
 ): Promise<Translations> {
-  const data = await fetchAPI(
+  const query = keyStartsWith.reduce(
+    (result, key) => `
+    ${result}
+
+    ${key}: translations(where: { key_starts_with: "${key}"}, locales: $locales) {
+            key
+            locale
+            text
+    }
+  `,
+    ''
+  );
+
+  const data = (await fetchAPI(
     `
-query getTranslations($keyStartsWith: String!, $locales: [Locale!]!) {
-  translations(where: { key_starts_with: $keyStartsWith}, locales: $locales) {
-		key
-    locale
-    text
-  }
+query getTranslations($locales: [Locale!]!) {
+  ${query}
 }
   `,
     {
@@ -109,9 +119,10 @@ query getTranslations($keyStartsWith: String!, $locales: [Locale!]!) {
         locales: safeLocales(locales),
       },
     }
-  );
-  return data.translations?.reduce(
-    (result: Translation[], item: Translation) => ({
+  )) as { [key: string]: Translation[] };
+  // console.log(JSON.stringify(data, null, 2));
+  return flatten(Object.values(data))?.reduce(
+    (result, item) => ({
       ...result,
       [item.key]: item,
     }),

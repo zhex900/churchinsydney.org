@@ -1,10 +1,9 @@
 import clsx from 'clsx';
 import { format, formatDistanceToNow, isSameDay } from 'date-fns';
 import { getMDXComponent } from 'mdx-bundler/client';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
 
-import { trackEvent } from '@/lib/analytics';
 import { formatEventDate } from '@/lib/utils';
 import useScrollSpy from '@/hooks/useScrollspy';
 
@@ -19,6 +18,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
+import { TranslationContext } from '@/context/TranslationContext';
 
 import { PostType } from '@/types/types';
 
@@ -33,7 +33,8 @@ export default function Post({
   memberPassword,
   recommendations,
 }: PostProps) {
-  const [toc, setToc] = useState<HeadingScrollSpy>();
+  const t = useContext(TranslationContext);
+  const [toc, setToc] = useState<HeadingScrollSpy>([]);
   const Component = useMemo(
     () => getMDXComponent(post.content),
     [post.content]
@@ -85,12 +86,14 @@ export default function Post({
               {post.updatedAt && (
                 <div className='mt-4 flex flex-wrap gap-2 text-sm italic text-gray-700 dark:text-gray-200'>
                   <p>
-                    Last updated:{' '}
+                    {t['post-last-updated'].text}:{' '}
                     {!isSameDay(
                       new Date(post.createdAt),
                       new Date(post.updatedAt)
                     ) && `${format(new Date(post.updatedAt), DATE_FORMAT)}, `}
-                    {`${formatDistanceToNow(new Date(post.updatedAt))} ago`}
+                    {`${formatDistanceToNow(new Date(post.updatedAt))} ${
+                      t['post-ago'].text
+                    }`}
                   </p>
                 </div>
               )}
@@ -118,14 +121,13 @@ export default function Post({
 
               <aside className='py-4'>
                 <div className='sticky top-36'>
-                  <TableOfContents
-                    toc={toc}
-                    minLevel={minLevel}
-                    activeSection={activeSection}
-                  />
-                  {/* <div className='flex items-center justify-center py-8'>
-                    <LikeButton slug={contentSlug} />
-                  </div> */}
+                  {toc.length > 0 && (
+                    <TableOfContents
+                      toc={toc}
+                      minLevel={minLevel}
+                      activeSection={activeSection}
+                    />
+                  )}
                 </div>
               </aside>
             </section>
@@ -133,14 +135,11 @@ export default function Post({
             {recommendations.length > 0 && (
               <div className='mt-20'>
                 <h2>
-                  <Accent>Other posts that you might like</Accent>
+                  <Accent>{t['post-you-might-also-like'].text}</Accent>
                 </h2>
                 <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
                   {recommendations.map((post, i) => (
                     <PostCard
-                      onClick={() => {
-                        trackEvent(post.slug, 'recommend');
-                      }}
                       memberPassword={memberPassword}
                       className={clsx({ 'hidden xl:block': i === 2 })}
                       key={post.slug}

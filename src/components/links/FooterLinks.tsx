@@ -1,15 +1,15 @@
-import useTranslation from 'next-translate/useTranslation';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { trackEvent } from '@/lib/analytics';
 import useMediaQuery from '@/hooks/useMediaQuery';
 
 import { headerLinks } from '@/components/layout/Header';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Tooltip from '@/components/tooltip/Tooltip';
 
+import { TranslationContext } from '@/context/TranslationContext';
+
 export default function FooterLinks() {
-  const { t } = useTranslation('common');
+  const t = useContext(TranslationContext);
   const isMobile = useMediaQuery();
   const [mounted, setMounted] = useState(false);
 
@@ -22,7 +22,7 @@ export default function FooterLinks() {
       .filter(({ mobile }) => !mobile)
       .map(({ href }) => ({
         href,
-        text: t(href.replace(/\//, '')),
+        text: t[`common-${href.replace(/\//, '')}`].text,
         tooltip: '',
       }))
       .concat(footerLinks);
@@ -34,9 +34,6 @@ export default function FooterLinks() {
           <UnstyledLink
             className='animated-underline rounded-sm text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-primary-300 dark:text-gray-200'
             href={href}
-            onClick={() => {
-              trackEvent(`Footer Link: ${text}`, 'link');
-            }}
           >
             {text}
           </UnstyledLink>

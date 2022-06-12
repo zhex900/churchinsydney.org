@@ -1,11 +1,16 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
+import { getTranslationsByKeyStartsWith } from '@/lib/graphcms';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
+
+import { TranslationContext } from '@/context/TranslationContext';
+
+import { Translations } from '@/types/types';
 
 const statementOfFaith = [
   {
@@ -42,42 +47,65 @@ const statementOfFaith = [
   },
 ];
 
-export default function OurBeliefsPage() {
+export default function OurBeliefsPage({
+  translations,
+}: {
+  translations: Translations;
+}) {
   const isLoaded = useLoaded();
 
   return (
-    <Layout>
-      <Seo templateTitle='Our Beliefs' description='' />
+    <TranslationContext.Provider value={translations}>
+      <Layout>
+        <Seo templateTitle='Our Beliefs' description='' />
 
-      <main>
-        <section className={clsx(isLoaded && 'fade-in-start')}>
-          <div className='layout min-h-main py-20'>
-            <h2 data-fade='0'>Our Beliefs</h2>
-            <h1 className='mt-1' data-fade='1'>
-              <Accent>
-                We hold the faith which is common to all the believers
-              </Accent>
-            </h1>
-            <p className='mt-1 italic' data-fade='1'>
-              <Accent> (Titus 1:4, Jude 3)</Accent>
-            </p>
-            <div className='mt-4' data-fade='2'>
-              <article className=''>
-                <ul className='list-disc'>
-                  {statementOfFaith.map(({ text, ref }, i) => (
-                    <li className='mt-5' key={ref}>
-                      <p data-fade={i} className=''>
-                        {text} <br />
-                        <span className='italic'>{ref}</span>
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </article>
+        <main>
+          <section className={clsx(isLoaded && 'fade-in-start')}>
+            <div className='layout min-h-main py-20'>
+              <h2 data-fade='0'>Our Beliefs</h2>
+              <h1 className='mt-1' data-fade='1'>
+                <Accent>
+                  We hold the faith which is common to all the believers
+                </Accent>
+              </h1>
+              <p className='mt-1 italic' data-fade='1'>
+                <Accent> (Titus 1:4, Jude 3)</Accent>
+              </p>
+              <div className='mt-4' data-fade='2'>
+                <article className=''>
+                  <ul className='list-disc'>
+                    {statementOfFaith.map(({ text, ref }, i) => (
+                      <li className='mt-5' key={ref}>
+                        <p data-fade={i} className=''>
+                          {text} <br />
+                          <span className='italic'>{ref}</span>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
             </div>
-          </div>
-        </section>
-      </main>
-    </Layout>
+          </section>
+        </main>
+      </Layout>
+    </TranslationContext.Provider>
   );
+}
+
+export async function getStaticProps({
+  locale,
+  defaultLocale,
+}: {
+  locale: string;
+  defaultLocale: string;
+}) {
+  return {
+    props: {
+      translations: await getTranslationsByKeyStartsWith(
+        ['common'],
+        [locale, defaultLocale]
+      ),
+    },
+  };
 }

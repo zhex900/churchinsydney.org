@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import useTranslation from 'next-translate/useTranslation';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import useMediaQuery from '@/hooks/useMediaQuery';
 
 import UnstyledLink from '@/components/links/UnstyledLink';
+
+import { TranslationContext } from '@/context/TranslationContext';
 
 import LocaleButton from '../buttons/LocaleButton';
 import ThemeButton from '../buttons/ThemeButton';
@@ -16,7 +17,7 @@ type HeaderProps = {
 };
 
 export default function Header({ large = false }: HeaderProps) {
-  const { t } = useTranslation('common');
+  const t = useContext(TranslationContext);
 
   const router = useRouter();
   const arrOfRoute = router.route.split('/');
@@ -78,7 +79,7 @@ export default function Header({ large = false }: HeaderProps) {
                             '!bg-primary-300/50 dark:bg-gradient-to-tr dark:from-primary-300 dark:to-primary-400 dark:bg-clip-text dark:text-transparent'
                         )}
                       >
-                        {t(href.replace(/\//, ''))}
+                        {t[`common-${href.replace(/\//, '')}`].text}
                       </span>
                     </UnstyledLink>
                   </li>

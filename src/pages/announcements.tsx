@@ -1,18 +1,35 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 
-import { getPosts, getSetting } from '@/lib/graphcms';
+import {
+  getPosts,
+  getSetting,
+  getTranslationsByKeyStartsWith,
+} from '@/lib/graphcms';
 import { getTags, sortByDate } from '@/lib/mdx-client';
 
 import Posts from '@/components/Posts';
 
 import { COOKIES } from '@/constants';
+import { TranslationContext } from '@/context/TranslationContext';
 
 export default function AnnouncementsPage({
   posts,
   tags,
   memberPassword,
+  translations,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  return Posts({ posts, tags, memberPassword, title: 'Announcements' });
+  return (
+    <TranslationContext.Provider value={translations}>
+      <Posts
+        {...{
+          posts,
+          tags,
+          memberPassword,
+          title: 'Announcements',
+        }}
+      />
+    </TranslationContext.Provider>
+  );
 }
 
 export async function getStaticProps({
@@ -30,7 +47,10 @@ export async function getStaticProps({
       posts,
       tags,
       memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
-      // translations: await getTranslationsByKeyStartsWith('home', [locale]),
+      translations: await getTranslationsByKeyStartsWith(
+        ['common', 'post'],
+        [locale, defaultLocale]
+      ),
     },
   };
 }

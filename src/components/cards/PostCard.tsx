@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { formatDistanceToNow } from 'date-fns';
+import { useContext } from 'react';
 import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi';
 
 import { formatEventDate } from '@/lib/utils';
@@ -8,6 +9,8 @@ import Accent from '@/components/Accent';
 import Tag from '@/components/content/Tag';
 import PostCardImage from '@/components/images/PostCardImage';
 import UnstyledLink from '@/components/links/UnstyledLink';
+
+import { TranslationContext } from '@/context/TranslationContext';
 
 import { PostType } from '@/types/types';
 type PostCardProps = {
@@ -25,6 +28,7 @@ export default function PostCard({
 }: PostCardProps) {
   const eventDate = post?.eventDate ? formatEventDate(post?.eventDate) : null;
 
+  const t = useContext(TranslationContext);
   return (
     <li
       className={clsx(
@@ -81,9 +85,9 @@ export default function PostCard({
           </p>
           <p className='mt-4 mb-2 text-xs text-gray-700 dark:text-gray-300'>
             <span className='italic text-gray-800 dark:text-gray-100'>
-              {`Last update: ${formatDistanceToNow(
+              {`${t['post-last-updated'].text}: ${formatDistanceToNow(
                 new Date(post.updatedAt)
-              )} ago`}
+              )} ${t['post-ago'].text}`}
             </span>
           </p>
         </div>

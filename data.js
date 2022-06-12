@@ -4,4 +4,5 @@ export const data = {
     phone: '+61 02 9341 2426',
     email: 'office@churchinsydney.org',
   },
+  domain: 'churchinsydney-org.vercel.app',
 };

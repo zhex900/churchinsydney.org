@@ -1,15 +1,14 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-// import { openGraph } from '@/lib/helper';
+import { data } from '@/../data';
 
-//@TODO update domain
 const defaultMeta = {
   title: 'Church in Sydney',
-  siteName: 'churchinsydney-org.vercel.app',
+  siteName: data.domain,
   description: 'Welcome 👋',
-  url: 'https://churchinsydney-org.vercel.app/',
-  image: 'https://churchinsydney-org.vercel.app/favicon/apple-icon-180x180.png',
+  url: `https://${data.domain}/`,
+  image: `https://${data.domain}/favicon/apple-icon-180x180.png`,
   type: 'website',
   robots: 'follow, index',
 };
@@ -30,16 +29,6 @@ export default function Seo(props: SeoProps) {
   meta['title'] = props.templateTitle
     ? `${props.templateTitle} | ${meta.siteName}`
     : meta.title;
-
-  // Use siteName if there is templateTitle
-  // but show full title if there is none
-  // meta.image = openGraph({
-  //   description: meta.description,
-  //   siteName: props.templateTitle ? meta.siteName : meta.title,
-  //   templateTitle: props.templateTitle,
-  //   banner: props.banner,
-  //   isBlog: props.isBlog,
-  // });
 
   return (
     <Head>

@@ -1,5 +1,4 @@
-import useTranslation from 'next-translate/useTranslation';
-import * as React from 'react';
+import { useContext, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { FiMail, FiMapPin, FiPhoneCall } from 'react-icons/fi';
 
@@ -8,22 +7,25 @@ import FooterLinks from '@/components/links/FooterLinks';
 import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
 import { data } from '@/../data';
+import { TranslationContext } from '@/context/TranslationContext';
+
+import { Translations } from '@/types/types';
 
 export default function Footer() {
-  const { t } = useTranslation('common');
+  const t = useContext(TranslationContext);
   return (
     <footer className='w-full pb-2'>
       <main className='layout flex flex-col items-center border-t border-gray-600 pt-6 dark:border-gray-300'>
         <FooterLinks />
         <p className='mt-12 font-medium text-gray-600 dark:text-gray-300'>
-          {t('contact-us')}
+          {t['common-contact-us'].text}
         </p>
-        <ContactUsLinks {...data.church} />
+        <ContactUsLinks {...data.church} t={t} />
 
         <p className='mt-8 text-sm text-gray-600 dark:text-gray-300'>
-          {new Date().getFullYear()} © {t('church-in-sydney')}
+          {new Date().getFullYear()} © {t['common-church-in-sydney'].text}
           {' • '}
-          {t('all-rights-reserved')}
+          {t['common-all-rights-reserved'].text}
         </p>
       </main>
     </footer>
@@ -34,12 +36,13 @@ type ContactUsProps = {
   email: string;
   address: string;
   phone: string;
+  t: Translations;
 };
 
-function ContactUsLinks({ email, address, phone }: ContactUsProps) {
-  const copyStatusText = 'Click to copy ';
-
-  const [copyStatus, setCopyStatus] = React.useState(copyStatusText);
+function ContactUsLinks({ email, address, phone, t }: ContactUsProps) {
+  const [copyStatus, setCopyStatus] = useState(
+    `${t['common-click-to-copy'].text} `
+  );
 
   const contactUs = [
     {
@@ -80,8 +83,11 @@ function ContactUsLinks({ email, address, phone }: ContactUsProps) {
           <CopyToClipboard
             text={contact.value as string}
             onCopy={() => {
-              setCopyStatus('Copied to clipboard 🥳 ');
-              setTimeout(() => setCopyStatus(copyStatusText), 1500);
+              setCopyStatus(t['common-copied-to-clipboard'].text);
+              setTimeout(
+                () => setCopyStatus(t['common-click-to-copy'].text),
+                1500
+              );
             }}
           >
             <button className='rounded-sm align-middle focus:outline-none focus-visible:ring focus-visible:ring-primary-300'>

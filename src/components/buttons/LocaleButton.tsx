@@ -1,15 +1,18 @@
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import setLanguage from 'next-translate/setLanguage';
-import useTranslation from 'next-translate/useTranslation';
+import { useContext } from 'react';
 
 import { defaultLocale, locales } from '@/../i18n';
+import { TranslationContext } from '@/context/TranslationContext';
 
 export default function LocaleButton() {
-  const { t, lang } = useTranslation();
+  const t = useContext(TranslationContext);
+  const { locale } = useRouter();
 
-  const nextLang = locales.find((l) => l !== lang) || defaultLocale;
+  const nextLang = locales.find((l) => l !== locale) || defaultLocale;
 
-  const label = t(`common:locale-${nextLang}`);
+  const label = t[`common-locale-${nextLang.toLocaleLowerCase()}`].text;
   return (
     <button
       className={clsx(
