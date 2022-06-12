@@ -6,7 +6,7 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 
 import UnstyledLink from '@/components/links/UnstyledLink';
 
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import LocaleButton from '../buttons/LocaleButton';
 import ThemeButton from '../buttons/ThemeButton';
@@ -17,7 +17,7 @@ type HeaderProps = {
 };
 
 export default function Header({ large = false }: HeaderProps) {
-  const t = useContext(TranslationContext);
+  const { translations: t } = useContext(AppContext);
 
   const router = useRouter();
   const arrOfRoute = router.route.split('/');

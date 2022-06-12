@@ -10,13 +10,12 @@ import Tag from '@/components/content/Tag';
 import PostCardImage from '@/components/images/PostCardImage';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { PostType } from '@/types/types';
 type PostCardProps = {
   post: PostType;
   checkTagged?: (tag: string) => boolean;
-  memberPassword: string;
 } & React.ComponentPropsWithoutRef<'li'>;
 
 export default function PostCard({
@@ -24,11 +23,10 @@ export default function PostCard({
   className,
   checkTagged,
   onClick,
-  memberPassword,
 }: PostCardProps) {
   const eventDate = post?.eventDate ? formatEventDate(post?.eventDate) : null;
 
-  const t = useContext(TranslationContext);
+  const { translations: t } = useContext(AppContext);
   return (
     <li
       className={clsx(
@@ -46,7 +44,7 @@ export default function PostCard({
         href={`/post/${post.slug}`}
       >
         <div className='relative'>
-          <PostCardImage post={post} memberPassword={memberPassword} />
+          <PostCardImage post={post} />
           <div
             className={clsx(
               'absolute bottom-0 w-full px-4 py-2',

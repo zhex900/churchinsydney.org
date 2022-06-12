@@ -8,7 +8,7 @@ import Accent from '@/components/Accent';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { Translations } from '@/types/types';
 
@@ -55,7 +55,7 @@ export default function OurBeliefsPage({
   const isLoaded = useLoaded();
 
   return (
-    <TranslationContext.Provider value={translations}>
+    <AppContext.Provider value={{ translations }}>
       <Layout>
         <Seo templateTitle='Our Beliefs' description='' />
 
@@ -89,7 +89,7 @@ export default function OurBeliefsPage({
           </section>
         </main>
       </Layout>
-    </TranslationContext.Provider>
+    </AppContext.Provider>
   );
 }
 

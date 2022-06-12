@@ -33,3 +33,11 @@ export type Translation = {
 export type Translations = {
   [key: string]: Translation;
 };
+
+export type Links = string[];
+
+export type AppContextType = {
+  translations: Translations;
+  links?: Links;
+  memberPassword?: string;
+};

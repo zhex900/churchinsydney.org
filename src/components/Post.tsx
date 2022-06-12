@@ -18,22 +18,17 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { PostType } from '@/types/types';
 
 type PostProps = {
   post: PostType;
   recommendations: PostType[];
-  memberPassword: string;
 };
 
-export default function Post({
-  post,
-  memberPassword,
-  recommendations,
-}: PostProps) {
-  const t = useContext(TranslationContext);
+export default function Post({ post, recommendations }: PostProps) {
+  const { translations: t } = useContext(AppContext);
   const [toc, setToc] = useState<HeadingScrollSpy>([]);
   const Component = useMemo(
     () => getMDXComponent(post.content),
@@ -140,7 +135,6 @@ export default function Post({
                 <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
                   {recommendations.map((post, i) => (
                     <PostCard
-                      memberPassword={memberPassword}
                       className={clsx({ 'hidden xl:block': i === 2 })}
                       key={post.slug}
                       post={post}

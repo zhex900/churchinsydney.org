@@ -13,7 +13,7 @@ import OurLifeCard from '@/components/cards/OurLifeCard';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { Translations } from '@/types/types';
 const ourLife = [
@@ -64,7 +64,7 @@ export default function OurLifePage({
   const isLoaded = useLoaded();
 
   return (
-    <TranslationContext.Provider value={translations}>
+    <AppContext.Provider value={{ translations }}>
       <Layout>
         <Seo templateTitle='Our Life' description='' />
 
@@ -106,7 +106,7 @@ export default function OurLifePage({
           </section>
         </main>
       </Layout>
-    </TranslationContext.Provider>
+    </AppContext.Provider>
   );
 }
 

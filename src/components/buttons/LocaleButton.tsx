@@ -4,10 +4,10 @@ import setLanguage from 'next-translate/setLanguage';
 import { useContext } from 'react';
 
 import { defaultLocale, locales } from '@/../i18n';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 export default function LocaleButton() {
-  const t = useContext(TranslationContext);
+  const { translations: t } = useContext(AppContext);
   const { locale } = useRouter();
 
   const nextLang = locales.find((l) => l !== locale) || defaultLocale;

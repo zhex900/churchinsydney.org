@@ -20,7 +20,7 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 
 import { COOKIES } from '@/constants';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { PostType, Translations } from '@/types/types';
 
@@ -37,7 +37,7 @@ export default function IndexPage({
 }) {
   const isLoaded = useLoaded();
   return (
-    <TranslationContext.Provider value={translations}>
+    <AppContext.Provider value={{ translations, memberPassword }}>
       <Layout>
         <Seo />
         <main>
@@ -142,14 +142,12 @@ export default function IndexPage({
                             'pointer-events-none md:pointer-events-auto'
                           )}
                           post={featuredPosts[1]}
-                          memberPassword={memberPassword}
                         />
                       )}
                       {featuredPosts.length > 0 && (
                         <PostCard
                           className='mx-auto max-w-[350px]'
                           post={featuredPosts[0]}
-                          memberPassword={memberPassword}
                         />
                       )}
                     </ul>
@@ -177,7 +175,6 @@ export default function IndexPage({
                           key={post.slug}
                           post={post}
                           className={clsx(i > 2 && 'hidden sm:block')}
-                          memberPassword={memberPassword}
                         />
                       ))}
                     </ul>
@@ -191,7 +188,7 @@ export default function IndexPage({
           )}
         </main>
       </Layout>
-    </TranslationContext.Provider>
+    </AppContext.Provider>
   );
 }
 

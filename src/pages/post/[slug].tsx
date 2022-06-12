@@ -16,7 +16,7 @@ import MembersPassword from '@/components/MembersPassword';
 import Post from '@/components/Post';
 
 import { COOKIES } from '@/constants';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { PostType, Translations } from '@/types/types';
 
@@ -46,22 +46,15 @@ export default function SinglePostPage({
 
   if (!haveAccess && haveAccess !== null) {
     return (
-      <TranslationContext.Provider value={translations}>
-        <MembersPassword
-          memberPassword={memberPassword}
-          redirectTo={router.asPath}
-        />
-      </TranslationContext.Provider>
+      <AppContext.Provider value={{ translations, memberPassword }}>
+        <MembersPassword redirectTo={router.asPath} />
+      </AppContext.Provider>
     );
   }
   return (
-    <TranslationContext.Provider value={translations}>
-      <Post
-        post={post}
-        memberPassword={memberPassword}
-        recommendations={recommendations}
-      />
-    </TranslationContext.Provider>
+    <AppContext.Provider value={{ translations, memberPassword }}>
+      <Post post={post} recommendations={recommendations} />
+    </AppContext.Provider>
   );
 }
 

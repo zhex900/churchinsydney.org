@@ -7,12 +7,12 @@ import FooterLinks from '@/components/links/FooterLinks';
 import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
 import { data } from '@/../data';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { Translations } from '@/types/types';
 
 export default function Footer() {
-  const t = useContext(TranslationContext);
+  const { translations: t } = useContext(AppContext);
   return (
     <footer className='w-full pb-2'>
       <main className='layout flex flex-col items-center border-t border-gray-600 pt-6 dark:border-gray-300'>

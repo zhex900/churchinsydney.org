@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { IconType } from 'react-icons/lib';
@@ -7,6 +7,7 @@ import { IconType } from 'react-icons/lib';
 import Image from '@/components/images/Image';
 
 import { COOKIES, IMAGE_SIZE } from '@/constants';
+import { AppContext } from '@/context/AppContext';
 
 import { PostType } from '@/types/types';
 
@@ -42,15 +43,10 @@ function CardLock({
   return <div />;
 }
 
-export default function PostCardImage({
-  post,
-  memberPassword,
-}: {
-  memberPassword: string;
-  post: PostType;
-}) {
+export default function PostCardImage({ post }: { post: PostType }) {
   const [haveAccess, setHaveAccess] = useState(false);
   const [cookies] = useCookies([COOKIES.MEMBERS_PASSWORD]);
+  const { memberPassword } = useContext(AppContext);
 
   useEffect(() => {
     setHaveAccess(

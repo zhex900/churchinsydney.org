@@ -6,10 +6,10 @@ import { headerLinks } from '@/components/layout/Header';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Tooltip from '@/components/tooltip/Tooltip';
 
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 export default function FooterLinks() {
-  const t = useContext(TranslationContext);
+  const { translations: t } = useContext(AppContext);
   const isMobile = useMediaQuery();
   const [mounted, setMounted] = useState(false);
 

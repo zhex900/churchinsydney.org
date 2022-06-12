@@ -7,19 +7,17 @@ import Accent from '@/components/Accent';
 import Button from '@/components/buttons/Button';
 
 import { COOKIES } from '@/constants';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import Layout from './layout/Layout';
 import Seo from './Seo';
 
 export default function MembersPassword({
   redirectTo,
-  memberPassword,
 }: {
-  memberPassword: string;
   redirectTo: string;
 }) {
-  const translations = useContext(TranslationContext);
+  const { translations, memberPassword } = useContext(AppContext);
   const [helperText, setHelperText] = useState(
     translations['post-member-login-helper-text'].text
   );

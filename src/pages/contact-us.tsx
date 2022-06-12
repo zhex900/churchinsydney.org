@@ -5,7 +5,7 @@ import ContactUsCard from '@/components/cards/ContactUsCard';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 import { Translations } from '@/types/types';
 
@@ -15,7 +15,7 @@ export default function ContactUsPage({
   translations: Translations;
 }) {
   return (
-    <TranslationContext.Provider value={translations}>
+    <AppContext.Provider value={{ translations }}>
       <Layout>
         <Seo
           templateTitle='Subscribe'
@@ -36,7 +36,7 @@ export default function ContactUsPage({
           </section>
         </main>
       </Layout>
-    </TranslationContext.Provider>
+    </AppContext.Provider>
   );
 }
 

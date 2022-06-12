@@ -10,7 +10,7 @@ import { getTags, sortByDate } from '@/lib/mdx-client';
 import Posts from '@/components/Posts';
 
 import { COOKIES } from '@/constants';
-import { TranslationContext } from '@/context/TranslationContext';
+import { AppContext } from '@/context/AppContext';
 
 export default function EventsPage({
   posts,
@@ -19,17 +19,16 @@ export default function EventsPage({
   translations,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <TranslationContext.Provider value={translations}>
+    <AppContext.Provider value={{ translations, memberPassword }}>
       <Posts
         {...{
           posts,
           tags,
-          memberPassword,
           title: 'Events',
           filter: 'event',
         }}
       />
-    </TranslationContext.Provider>
+    </AppContext.Provider>
   );
 }
 
