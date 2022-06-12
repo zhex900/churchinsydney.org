@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import { getTranslationsByKeyStartsWith } from '@/lib/graphcms';
 
 import Accent from '@/components/Accent';
