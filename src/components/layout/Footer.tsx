@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { FiMail, FiMapPin, FiPhoneCall } from 'react-icons/fi';
 
@@ -8,48 +9,46 @@ import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
 import { AppContext } from '@/context/AppContext';
 
-export default function Footer() {
-  const { translations: t } = useContext(AppContext);
-  return (
-    <footer className='w-full pb-2'>
-      <main className='layout flex flex-col items-center border-t border-gray-600 pt-6 dark:border-gray-300'>
-        <FooterLinks />
-        <p className='mt-12 font-medium text-gray-600 dark:text-gray-300'>
-          {t['common-contact-us'].text}
-        </p>
-        <ContactUsLinks />
+import { Translations } from '@/types/types';
 
-        <p className='mt-8 text-sm text-gray-600 dark:text-gray-300'>
-          {new Date().getFullYear()} © {t['common-church-in-sydney'].text}
-          {' • '}
-          {t['common-all-rights-reserved'].text}
-        </p>
-      </main>
-    </footer>
-  );
-}
+type ContactUsProps = {
+  email: string;
+  address: string;
+  phone: string;
+  translations: Translations;
+};
 
-function ContactUsLinks() {
-  const { settings, translations: t } = useContext(AppContext);
-
+function ContactUsLinks({
+  email,
+  address,
+  phone,
+  translations: t,
+}: ContactUsProps) {
   const [copyStatus, setCopyStatus] = useState(
     `${t['common-click-to-copy'].text} `
   );
+  const [copiedToClipBoard, setCopiedToClipBoard] = useState(
+    `${t['common-copied-to-clipboard'].text} `
+  );
+  useEffect(() => {
+    setCopyStatus(t['common-click-to-copy'].text);
+    setCopiedToClipBoard(t['common-copied-to-clipboard'].text);
+  }, [t]);
 
   const contactUs = [
     {
-      value: settings.phone,
+      value: phone,
       icon: FiPhoneCall,
       id: 'phone',
     },
     {
-      value: settings.email,
+      value: email,
       icon: FiMail,
       id: 'email',
     },
 
     {
-      value: settings.address,
+      value: address,
       icon: FiMapPin,
       id: 'address',
     },
@@ -75,11 +74,8 @@ function ContactUsLinks() {
           <CopyToClipboard
             text={contact.value as string}
             onCopy={() => {
-              setCopyStatus(t['common-copied-to-clipboard'].text);
-              setTimeout(
-                () => setCopyStatus(t['common-click-to-copy'].text),
-                1500
-              );
+              setCopyStatus(copiedToClipBoard);
+              setTimeout(() => setCopyStatus(copyStatus), 1500);
             }}
           >
             <button className='rounded-sm align-middle focus:outline-none focus-visible:ring focus-visible:ring-primary-300'>
@@ -89,5 +85,31 @@ function ContactUsLinks() {
         </BaseTooltip>
       ))}
     </div>
+  );
+}
+
+export default function Footer() {
+  const { translations: t, settings } = useContext(AppContext);
+  return (
+    <footer className='w-full pb-2'>
+      <main className='layout flex flex-col items-center border-t border-gray-600 pt-6 dark:border-gray-300'>
+        <FooterLinks />
+        <p className='mt-12 font-medium text-gray-600 dark:text-gray-300'>
+          {t['common-contact-us'].text}
+        </p>
+        <ContactUsLinks
+          email={settings.email}
+          address={settings.address}
+          phone={settings.phone}
+          translations={t}
+        />
+
+        <p className='mt-8 text-sm text-gray-600 dark:text-gray-300'>
+          {new Date().getFullYear()} © {t['common-church-in-sydney'].text}
+          {' • '}
+          {t['common-all-rights-reserved'].text}
+        </p>
+      </main>
+    </footer>
   );
 }
