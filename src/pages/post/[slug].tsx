@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 import {
   getPostBySlug,
   getPostsSlugs,
-  getSetting,
+  getSettings,
   getTranslationsByKeyStartsWith,
 } from '@/lib/graphcms';
 import { getRecommendations, parseMDX } from '@/lib/mdx';
@@ -18,25 +18,25 @@ import Post from '@/components/Post';
 import { COOKIES } from '@/constants';
 import { AppContext } from '@/context/AppContext';
 
-import { PostType, Translations } from '@/types/types';
+import { PostType, Settings, Translations } from '@/types/types';
 
 type SinglePostPageProps = {
   post: PostType;
   recommendations: PostType[];
-  memberPassword: string;
   translations: Translations;
+  settings: Settings;
 };
 
 export default function SinglePostPage({
   post,
   recommendations,
-  memberPassword,
   translations,
+  settings,
 }: SinglePostPageProps) {
   const router = useRouter();
   const [haveAccess, setHaveAccess] = useState<boolean | null>(null);
   const [cookies] = useCookies([COOKIES.MEMBERS_PASSWORD]);
-
+  const memberPassword = settings[COOKIES.MEMBERS_PASSWORD];
   useEffect(() => {
     setHaveAccess(
       cookies?.MEMBERS_PASSWORD === memberPassword ||
@@ -46,13 +46,25 @@ export default function SinglePostPage({
 
   if (!haveAccess && haveAccess !== null) {
     return (
-      <AppContext.Provider value={{ translations, memberPassword }}>
+      <AppContext.Provider
+        value={{
+          translations,
+          memberPassword,
+          settings,
+        }}
+      >
         <MembersPassword redirectTo={router.asPath} />
       </AppContext.Provider>
     );
   }
   return (
-    <AppContext.Provider value={{ translations, memberPassword }}>
+    <AppContext.Provider
+      value={{
+        translations,
+        memberPassword,
+        settings,
+      }}
+    >
       <Post post={post} recommendations={recommendations} />
     </AppContext.Provider>
   );
@@ -96,7 +108,7 @@ export const getStaticProps: GetStaticProps = async ({
         content: mdx,
       },
       recommendations,
-      memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
+      settings: await getSettings(),
       translations: await getTranslationsByKeyStartsWith(
         ['post', 'common'],
         locales

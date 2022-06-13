@@ -1,8 +1,9 @@
 import { InferGetStaticPropsType } from 'next';
 
 import {
+  getLinks,
   getPostsByTags,
-  getSetting,
+  getSettings,
   getTranslationsByKeyStartsWith,
 } from '@/lib/graphcms';
 import { getTags, sortByDate } from '@/lib/mdx-client';
@@ -15,11 +16,19 @@ import { AppContext } from '@/context/AppContext';
 export default function EventsPage({
   posts,
   tags,
-  memberPassword,
   translations,
+  links,
+  settings,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <AppContext.Provider value={{ translations, memberPassword }}>
+    <AppContext.Provider
+      value={{
+        translations,
+        memberPassword: settings[COOKIES.MEMBERS_PASSWORD],
+        settings,
+        links,
+      }}
+    >
       <Posts
         {...{
           posts,
@@ -46,11 +55,12 @@ export async function getStaticProps({
     props: {
       posts,
       tags,
-      memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
+      settings: await getSettings(),
       translations: await getTranslationsByKeyStartsWith(
         ['common', 'post'],
         [locale, defaultLocale]
       ),
+      links: await getLinks([locale, defaultLocale]),
     },
   };
 }

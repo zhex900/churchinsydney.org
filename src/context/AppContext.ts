@@ -6,4 +6,5 @@ export const AppContext = createContext<AppContextType>({
   links: [],
   translations: {},
   memberPassword: '',
+  settings: {},
 });

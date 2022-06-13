@@ -4,7 +4,13 @@ import readingTime from 'reading-time';
 
 import { IMAGE_SIZE } from '@/constants';
 
-import { PostType, Translation, Translations } from '@/types/types';
+import {
+  PostType,
+  Setting,
+  Settings,
+  Translation,
+  Translations,
+} from '@/types/types';
 
 function safeLocales(locales: string[]) {
   return locales.map((l) => l.replace(/-/g, '_'));
@@ -130,6 +136,73 @@ query getTranslations($locales: [Locale!]!) {
   );
 }
 
+export async function getOurBeliefs(locales: string[]) {
+  const data = await fetchAPI(
+    `
+query getOurBeliefs($locales: [Locale!]!) {
+  ourBeliefs(locales: $locales) {
+    text
+    ref
+    isHeader
+  }
+}
+  `,
+    {
+      preview: false,
+      variables: {
+        locales: safeLocales(locales),
+      },
+    }
+  );
+
+  return data.ourBeliefs;
+}
+
+export async function getOurLives(locales: string[]) {
+  const data = await fetchAPI(
+    `
+query getOurLives($locales: [Locale!]!) {
+  ourLives(locales: $locales) {
+    icon
+    title
+    description
+    isHeader
+  }
+}
+  `,
+    {
+      preview: false,
+      variables: {
+        locales: safeLocales(locales),
+      },
+    }
+  );
+
+  return data.ourLives;
+}
+
+export async function getLinks(locales: string[]) {
+  const data = await fetchAPI(
+    `
+query getLinks($locales: [Locale!]!) {
+  links(locales: $locales) {
+    text
+    tooltip
+    href
+  }
+}
+  `,
+    {
+      preview: false,
+      variables: {
+        locales: safeLocales(locales),
+      },
+    }
+  );
+
+  return data.links;
+}
+
 export async function getTranslations(
   keys: string[],
   locales: string[]
@@ -243,6 +316,27 @@ query PostBySlug($slug: String!, $locales: [Locale!]!) {
     }
   );
   return { ...data.post, readingTime: readingTime(data.post.content) };
+}
+
+export async function getSettings() {
+  const data = await fetchAPI(
+    `
+{
+  settings {
+    key
+    value
+  }
+}
+`
+  );
+
+  return data.settings?.reduce(
+    (result: Settings, item: Setting) => ({
+      ...result,
+      [item.key]: item.value,
+    }),
+    {}
+  );
 }
 
 export async function getSetting(key: string): Promise<string> {

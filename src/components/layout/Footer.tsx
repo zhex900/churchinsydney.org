@@ -6,10 +6,7 @@ import Accent from '@/components/Accent';
 import FooterLinks from '@/components/links/FooterLinks';
 import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
-import { data } from '@/../data';
 import { AppContext } from '@/context/AppContext';
-
-import { Translations } from '@/types/types';
 
 export default function Footer() {
   const { translations: t } = useContext(AppContext);
@@ -20,7 +17,7 @@ export default function Footer() {
         <p className='mt-12 font-medium text-gray-600 dark:text-gray-300'>
           {t['common-contact-us'].text}
         </p>
-        <ContactUsLinks {...data.church} t={t} />
+        <ContactUsLinks />
 
         <p className='mt-8 text-sm text-gray-600 dark:text-gray-300'>
           {new Date().getFullYear()} © {t['common-church-in-sydney'].text}
@@ -32,32 +29,27 @@ export default function Footer() {
   );
 }
 
-type ContactUsProps = {
-  email: string;
-  address: string;
-  phone: string;
-  t: Translations;
-};
+function ContactUsLinks() {
+  const { settings, translations: t } = useContext(AppContext);
 
-function ContactUsLinks({ email, address, phone, t }: ContactUsProps) {
   const [copyStatus, setCopyStatus] = useState(
     `${t['common-click-to-copy'].text} `
   );
 
   const contactUs = [
     {
-      value: phone,
+      value: settings.phone,
       icon: FiPhoneCall,
       id: 'phone',
     },
     {
-      value: email,
+      value: settings.email,
       icon: FiMail,
       id: 'email',
     },
 
     {
-      value: address,
+      value: settings.address,
       icon: FiMapPin,
       id: 'address',
     },

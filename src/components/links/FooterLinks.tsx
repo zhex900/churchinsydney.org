@@ -9,7 +9,7 @@ import Tooltip from '@/components/tooltip/Tooltip';
 import { AppContext } from '@/context/AppContext';
 
 export default function FooterLinks() {
-  const { translations: t } = useContext(AppContext);
+  const { translations: t, links: footerLinks } = useContext(AppContext);
   const isMobile = useMediaQuery();
   const [mounted, setMounted] = useState(false);
 
@@ -23,13 +23,12 @@ export default function FooterLinks() {
       .map(({ href }) => ({
         href,
         text: t[`common-${href.replace(/\//, '')}`].text,
-        tooltip: '',
       }))
-      .concat(footerLinks);
+      .concat(footerLinks || []);
   }
   return (
     <div className='flex flex-wrap justify-center gap-y-4 gap-x-8'>
-      {links.map(({ href, text, tooltip }) => (
+      {links?.map(({ href, text, tooltip }) => (
         <Tooltip interactive={false} key={href} content={tooltip}>
           <UnstyledLink
             className='animated-underline rounded-sm text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-primary-300 dark:text-gray-200'
@@ -43,25 +42,25 @@ export default function FooterLinks() {
   );
 }
 
-const footerLinks = [
-  {
-    href: 'https://streampublications.com.au/',
-    text: 'Bookshop',
-    tooltip: 'Purchase ministry books and HWMR',
-  },
-  {
-    href: 'https://www.biblesforaustralia.org.au/',
-    text: 'Bible for Austrlia',
-    tooltip: '',
-  },
-  {
-    href: 'https://www.ministrybooks.org/',
-    text: 'Online ministry',
-    tooltip: '',
-  },
-  {
-    href: 'https://songbase.life/',
-    text: 'Hymns and Songs',
-    tooltip: '',
-  },
-];
+// const footerLinks = [
+//   {
+//     href: 'https://streampublications.com.au/',
+//     text: 'Bookshop',
+//     tooltip: 'Purchase ministry books and HWMR',
+//   },
+//   {
+//     href: 'https://www.biblesforaustralia.org.au/',
+//     text: 'Bible for Austrlia',
+//     tooltip: '',
+//   },
+//   {
+//     href: 'https://www.ministrybooks.org/',
+//     text: 'Online ministry',
+//     tooltip: '',
+//   },
+//   {
+//     href: 'https://songbase.life/',
+//     text: 'Hymns and Songs',
+//     tooltip: '',
+//   },
+// ];

@@ -4,8 +4,9 @@ import { IoArrowDownOutline } from 'react-icons/io5';
 import { InView } from 'react-intersection-observer';
 
 import {
+  getLinks,
   getPostsByTags,
-  getSetting,
+  getSettings,
   getTranslationsByKeyStartsWith,
 } from '@/lib/graphcms';
 import { generateRss } from '@/lib/rss';
@@ -22,22 +23,31 @@ import Seo from '@/components/Seo';
 import { COOKIES } from '@/constants';
 import { AppContext } from '@/context/AppContext';
 
-import { PostType, Translations } from '@/types/types';
+import { Links, PostType, Settings, Translations } from '@/types/types';
 
 export default function IndexPage({
   currentEvents,
   featuredPosts,
-  memberPassword,
   translations,
+  links,
+  settings,
 }: {
   currentEvents: PostType[];
   featuredPosts: PostType[];
-  memberPassword: string;
   translations: Translations;
+  links: Links;
+  settings: Settings;
 }) {
   const isLoaded = useLoaded();
   return (
-    <AppContext.Provider value={{ translations, memberPassword }}>
+    <AppContext.Provider
+      value={{
+        translations,
+        memberPassword: settings[COOKIES.MEMBERS_PASSWORD],
+        links,
+        settings,
+      }}
+    >
       <Layout>
         <Seo />
         <main>
@@ -204,12 +214,12 @@ export async function getStaticProps({
     props: {
       currentEvents: await getPostsByTags(['event']),
       featuredPosts: await getPostsByTags(['featured']),
-      //@TODO Retrieve the password once and share it across all components
-      memberPassword: await getSetting(COOKIES.MEMBERS_PASSWORD),
+      settings: await getSettings(),
       translations: await getTranslationsByKeyStartsWith(
         ['home', 'common', 'post'],
         [locale, defaultLocale]
       ),
+      links: await getLinks([locale, defaultLocale]),
     },
   };
 }

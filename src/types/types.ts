@@ -34,10 +34,38 @@ export type Translations = {
   [key: string]: Translation;
 };
 
-export type Links = string[];
+export type Link = {
+  text: string;
+  tooltip?: string;
+  href: string;
+};
+
+export type ourBelief = {
+  text: string;
+  ref: string;
+  isHeader: boolean;
+};
+
+export type ourLife = {
+  icon: string | null;
+  title: string;
+  description: string;
+  isHeader: boolean;
+};
+
+export type Links = Link[];
 
 export type AppContextType = {
   translations: Translations;
   links?: Links;
   memberPassword?: string;
+  settings: Settings;
+};
+
+export type Settings = {
+  [key: string]: string;
+};
+export type Setting = {
+  key: string;
+  value: string;
 };

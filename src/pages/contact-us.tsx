@@ -1,4 +1,8 @@
-import { getTranslationsByKeyStartsWith } from '@/lib/graphcms';
+import {
+  getLinks,
+  getSettings,
+  getTranslationsByKeyStartsWith,
+} from '@/lib/graphcms';
 
 import Accent from '@/components/Accent';
 import ContactUsCard from '@/components/cards/ContactUsCard';
@@ -7,15 +11,19 @@ import Seo from '@/components/Seo';
 
 import { AppContext } from '@/context/AppContext';
 
-import { Translations } from '@/types/types';
+import { Links, Settings, Translations } from '@/types/types';
 
 export default function ContactUsPage({
   translations,
+  links,
+  settings,
 }: {
   translations: Translations;
+  links: Links;
+  settings: Settings;
 }) {
   return (
-    <AppContext.Provider value={{ translations }}>
+    <AppContext.Provider value={{ translations, settings, links }}>
       <Layout>
         <Seo
           templateTitle='Subscribe'
@@ -53,6 +61,8 @@ export async function getStaticProps({
         ['common'],
         [locale, defaultLocale]
       ),
+      links: await getLinks([locale, defaultLocale]),
+      settings: await getSettings(),
     },
   };
 }
