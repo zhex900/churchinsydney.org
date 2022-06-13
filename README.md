@@ -3,6 +3,15 @@
   <p>💠 Build with Next.js, TypeScript, Tailwind CSS and MDX Bundler.</p>
 </div>
 
+## Tech stack
+
+* Nextjs
+* TS
+* Tailwind CSS
+* MDX Bundler
+* graphCMS
+* Netlify
+
 ## Development
 
 First, run the development server:
