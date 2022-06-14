@@ -1,5 +1,3 @@
-import { InferGetStaticPropsType } from 'next';
-
 import {
   getLinks,
   getPosts,
@@ -8,18 +6,26 @@ import {
 } from '@/lib/graphcms';
 import { getTags, sortByDate } from '@/lib/mdx-client';
 
-import Posts from '@/components/Posts';
+import Posts, { PostsPropsType } from '@/components/Posts';
 
 import { COOKIES } from '@/constants';
 import { AppContext } from '@/context/AppContext';
 
+import { Links, Settings, Translations } from '@/types/types';
+
 export default function AnnouncementsPage({
   posts,
   tags,
-  settings,
   translations,
   links,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+  settings,
+}: {
+  posts: PostsPropsType['posts'];
+  tags: PostsPropsType['tags'];
+  translations: Translations;
+  links: Links;
+  settings: Settings;
+}) {
   return (
     <AppContext.Provider
       value={{
@@ -33,7 +39,7 @@ export default function AnnouncementsPage({
         {...{
           posts,
           tags,
-          title: 'Announcements',
+          title: translations['common-announcements'].text,
         }}
       />
     </AppContext.Provider>

@@ -11,3 +11,5 @@ export const COOKIES = {
 };
 
 export const LAST_ORDER_INDEX = 999;
+
+export const DEFAULT_DOMAIN = 'churchinsydney.org';

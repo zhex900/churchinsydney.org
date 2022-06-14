@@ -6,16 +6,20 @@ import { useForm } from 'react-hook-form';
 import Accent from '@/components/Accent';
 import Button from '@/components/buttons/Button';
 
+import { AppContext } from '@/context/AppContext';
+
 type ContactUsCardProps = {
   className?: string;
   title?: string;
   description: string;
 };
+
 export default function ContactUsCard({
   className,
   title,
   description,
 }: ContactUsCardProps) {
+  const { translations: t } = React.useContext(AppContext);
   const { register, handleSubmit, reset } = useForm<{ email: string }>();
   const [status, setStatus] = React.useState('idle');
 
@@ -46,14 +50,13 @@ export default function ContactUsCard({
         }
       });
   };
-  //#endregion  //*======== Form and Status ===========
 
   return (
     <div
       className={clsx('rounded border p-10 dark:border-gray-600', className)}
     >
       <h3 className='mt-2'>
-        <Accent>{title ?? 'We love to hear from you!'}</Accent> {'👋 '}
+        <Accent>{title ?? t['contact-us-title'].text}</Accent> {'👋 '}
       </h3>
       <div className='mt-2 flex flex-col gap-10 md:flex-row'>
         <div className='basis-1/2'>
@@ -76,7 +79,7 @@ export default function ContactUsCard({
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
               type='text'
-              placeholder='👤 Name'
+              placeholder={t['contact-us-name'].text}
               required
             />
             <input
@@ -89,7 +92,7 @@ export default function ContactUsCard({
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
               type='text'
-              placeholder='📞 Phone'
+              placeholder={t['contact-us-phone'].text}
               required
             />
             <input
@@ -102,7 +105,7 @@ export default function ContactUsCard({
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
               type='email'
-              placeholder='✉️ Email'
+              placeholder={t['contact-us-email'].text}
               required
             />
             <textarea
@@ -115,7 +118,7 @@ export default function ContactUsCard({
                 'text-sm md:text-base',
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
-              placeholder='👋 Leave us a message.'
+              placeholder={t['contact-us-leave-us-a-message'].text}
               required
             />
 
@@ -134,7 +137,7 @@ export default function ContactUsCard({
                   isLoading={status === 'loading'}
                   className=''
                 >
-                  Submit
+                  {t['common-submit'].text}
                 </Button>
               </div>
             </div>

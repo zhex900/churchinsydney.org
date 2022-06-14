@@ -1,14 +1,16 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 
-import { data } from '@/../data';
+import { DEFAULT_DOMAIN } from '@/constants';
+import { AppContext } from '@/context/AppContext';
 
 const defaultMeta = {
   title: 'Church in Sydney',
-  siteName: data.domain,
+  siteName: DEFAULT_DOMAIN,
   description: 'Welcome 👋',
-  url: `https://${data.domain}/`,
-  image: `https://${data.domain}/favicon/apple-icon-180x180.png`,
+  url: `https://${DEFAULT_DOMAIN}/`,
+  image: `https://${DEFAULT_DOMAIN}/favicon/apple-icon-180x180.png`,
   type: 'website',
   robots: 'follow, index',
 };
@@ -21,6 +23,12 @@ type SeoProps = {
 } & Partial<typeof defaultMeta>;
 
 export default function Seo(props: SeoProps) {
+  const { settings } = useContext(AppContext);
+  if (settings.domain) {
+    defaultMeta.siteName = settings.domain;
+    defaultMeta.url = `https://${settings.domain}/`;
+    defaultMeta.image = `https://${settings.domain}/favicon/apple-icon-180x180.png`;
+  }
   const router = useRouter();
   const meta = {
     ...defaultMeta,

@@ -21,31 +21,9 @@ import Seo from '@/components/Seo';
 import SortListbox, { SortOption } from '@/components/SortListbox';
 
 import { LAST_ORDER_INDEX } from '@/constants';
+import { AppContext } from '@/context/AppContext';
 
 import { PostType } from '@/types/types';
-
-const sortOptions: Array<SortOption> = [
-  {
-    id: 'rank',
-    name: 'By rank',
-    icon: HiEye,
-  },
-  {
-    id: 'start-date',
-    name: 'By start date',
-    icon: HiCalendar,
-  },
-  {
-    id: 'date-desc',
-    name: 'By last update ↓',
-    icon: HiOutlineChevronDoubleDown,
-  },
-  {
-    id: 'date-asc',
-    name: 'By last update ↑',
-    icon: HiOutlineChevronDoubleUp,
-  },
-];
 
 export type PostsPropsType = {
   posts: PostType[];
@@ -60,15 +38,45 @@ export default function Posts({
   title,
   filter = '',
 }: PostsPropsType) {
+  const { translations: t } = React.useContext(AppContext);
+  const sortOptions = React.useMemo(() => {
+    // if (!components || components.length === 0) return text;
+
+    return [
+      {
+        id: 'rank',
+        name: t['common-by-rank'].text,
+        icon: HiEye,
+      },
+      {
+        id: 'start-date',
+        name: t['common-by-start-date'].text,
+        icon: HiCalendar,
+      },
+      {
+        id: 'date-desc',
+        name: `${t['common-by-last-update'].text} ↓`,
+        icon: HiOutlineChevronDoubleDown,
+      },
+      {
+        id: 'date-asc',
+        name: `${t['common-by-last-update'].text} ↑`,
+        icon: HiOutlineChevronDoubleUp,
+      },
+    ];
+  }, [t]) as Array<SortOption>;
+
   const { route } = useRouter();
   const [sortOrder, setSortOrder] = React.useState<SortOption>(
     () => sortOptions[0]
   );
+
   React.useEffect(() => {
     if (route.includes('event')) {
       setSortOrder(sortOptions[1]);
     }
-  }, [route]);
+  }, [route, sortOptions]);
+
   const [mounted, setMounted] = React.useState(false);
   const isLoaded = useLoaded();
 
@@ -123,6 +131,12 @@ export default function Posts({
     setFilteredPosts(results);
   }, [search, sortOrder.id, posts]);
 
+  React.useEffect(() => {
+    setSortOrder(
+      sortOptions.find(({ id }) => id === sortOrder.id) || sortOrder
+    );
+  }, [sortOptions, sortOrder, t]);
+
   React.useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
@@ -176,7 +190,9 @@ export default function Posts({
                   className='mt-2 flex flex-wrap items-baseline justify-start gap-2 text-sm text-gray-600 dark:text-gray-300'
                   data-fade='2'
                 >
-                  <span className='font-medium'>Choose topic:</span>
+                  <span className='font-medium'>
+                    {t['post-choose-topic'].text}:
+                  </span>
                   <SkipNavTag>
                     {tags.map((tag) => (
                       <Tag

@@ -10,14 +10,11 @@ import '@/styles/dracula.css';
 
 import useOneSignal from '@/lib/useOneSignal';
 
-import UpdateAvailable from '@/components/UpdateAvailable';
-
 function MyApp({ Component, pageProps }: AppProps) {
   useOneSignal();
   return (
     <ThemeProvider attribute='class' defaultTheme='dark' enableSystem={false}>
       <CookiesProvider>
-        <UpdateAvailable className='absolute bottom-5 right-5' />
         <Component {...pageProps} />
       </CookiesProvider>
     </ThemeProvider>

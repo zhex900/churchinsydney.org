@@ -1,5 +1,3 @@
-import { InferGetStaticPropsType } from 'next';
-
 import {
   getLinks,
   getPostsByTags,
@@ -8,10 +6,12 @@ import {
 } from '@/lib/graphcms';
 import { getTags, sortByDate } from '@/lib/mdx-client';
 
-import Posts from '@/components/Posts';
+import Posts, { PostsPropsType } from '@/components/Posts';
 
 import { COOKIES } from '@/constants';
 import { AppContext } from '@/context/AppContext';
+
+import { Links, Settings, Translations } from '@/types/types';
 
 export default function EventsPage({
   posts,
@@ -19,7 +19,13 @@ export default function EventsPage({
   translations,
   links,
   settings,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: {
+  posts: PostsPropsType['posts'];
+  tags: PostsPropsType['tags'];
+  translations: Translations;
+  links: Links;
+  settings: Settings;
+}) {
   return (
     <AppContext.Provider
       value={{
@@ -33,7 +39,7 @@ export default function EventsPage({
         {...{
           posts,
           tags,
-          title: 'Events',
+          title: translations['common-events'].text,
           filter: 'event',
         }}
       />
@@ -56,10 +62,10 @@ export async function getStaticProps({
       posts,
       tags,
       settings: await getSettings(),
-      translations: await getTranslationsByKeyStartsWith(
+      translations: (await getTranslationsByKeyStartsWith(
         ['common', 'post'],
         [locale, defaultLocale]
-      ),
+      )) as Translations,
       links: await getLinks([locale, defaultLocale]),
     },
   };

@@ -6,9 +6,12 @@ import { AppContext } from '@/context/AppContext';
 
 export default function LocaleButton() {
   const { translations: t } = useContext(AppContext);
-  const { locale, push, pathname, locales, defaultLocale } = useRouter();
+  const router = useRouter();
 
-  const nextLang = locales?.find((l) => l !== locale) || defaultLocale || 'en';
+  const nextLang =
+    router.locales?.find((l) => l !== router.locale) ||
+    router.defaultLocale ||
+    'en';
 
   const label = t[`common-locale-${nextLang.toLocaleLowerCase()}`].text;
   return (
@@ -21,7 +24,7 @@ export default function LocaleButton() {
         'focus-visible:border-primary-300 focus-visible:text-primary-300 dark:focus-visible:border-primary-300 dark:focus-visible:text-primary-300'
       )}
       onClick={() => {
-        push(pathname, pathname, { locale: nextLang });
+        router.push(router.asPath, router.asPath, { locale: nextLang });
       }}
     >
       {label}

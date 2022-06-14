@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import TOCLink from '@/components/links/TOCLink';
 
+import { AppContext } from '@/context/AppContext';
+
 export type HeadingScrollSpy = Array<{
   id: string;
   level: number;
@@ -19,7 +21,7 @@ export default function TableOfContents({
   activeSection,
   minLevel,
 }: TableOfContentsProps) {
-  //#region  //*=========== Scroll into view ===========
+  const { translations: t } = React.useContext(AppContext);
   const lastPosition = React.useRef<number>(0);
 
   React.useEffect(() => {
@@ -52,7 +54,6 @@ export default function TableOfContents({
       }
     }
   }, [activeSection]);
-  //#endregion  //*======== Scroll into view ===========
 
   return (
     <div
@@ -60,7 +61,7 @@ export default function TableOfContents({
       className='hidden max-h-[calc(100vh-9rem-113px)] overflow-auto pb-4 lg:block'
     >
       <h3 className='text-gray-900 dark:text-gray-100 md:text-xl'>
-        Table of Contents
+        {t['post-table-of-contents'].text}
       </h3>
       <div className='mt-4 flex flex-col space-y-2 text-sm'>
         {toc

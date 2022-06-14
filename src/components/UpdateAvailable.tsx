@@ -1,7 +1,10 @@
 import { useHasNewDeploy } from 'next-deploy-notifications';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+
+import { AppContext } from '@/context/AppContext';
 
 export default function UpdateAvailable({ className }: { className?: string }) {
+  const { translations: t } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
   const { hasNewDeploy } = useHasNewDeploy();
 
@@ -39,10 +42,10 @@ export default function UpdateAvailable({ className }: { className?: string }) {
         </div>
         <div className='ml-3 text-sm font-normal'>
           <span className='mb-1 text-sm font-semibold text-gray-900 dark:text-white'>
-            Update available
+            {t['common-update-available'].text}
           </span>
           <div className='mb-2 text-sm font-normal'>
-            A new version is available. Please refresh the page to update.
+            {t['common-update-available-description'].text}
           </div>
           <div className='grid grid-cols-2 gap-2'>
             <div>
@@ -54,7 +57,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
                   setIsOpen(false);
                 }}
               >
-                Update
+                {t['common-update'].text}
               </a>
             </div>
             <div>
@@ -65,7 +68,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
                   setIsOpen(false);
                 }}
               >
-                Not now
+                {t['common-update-not-now'].text}
               </a>
             </div>
           </div>
@@ -79,7 +82,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
             setIsOpen(false);
           }}
         >
-          <span className='sr-only'>Close</span>
+          <span className='sr-only'> {t['common-close'].text}</span>
           <svg
             className='h-5 w-5'
             fill='currentColor'
