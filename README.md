@@ -5,12 +5,12 @@
 
 ## Tech stack
 
-* Nextjs
-* TS
-* Tailwind CSS
-* MDX Bundler
-* graphCMS
-* Netlify
+- Nextjs
+- Typescript
+- Tailwind CSS
+- MDX Bundler
+- graphCMS
+- Netlify
 
 ## Development
 
