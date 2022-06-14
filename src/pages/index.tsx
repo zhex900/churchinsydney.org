@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import Trans from 'next-translate/Trans';
 import { IoArrowDownOutline } from 'react-icons/io5';
 import { InView } from 'react-intersection-observer';
 
@@ -19,6 +18,7 @@ import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
+import Trans from '@/components/translation/Trans';
 
 import { COOKIES } from '@/constants';
 import { AppContext } from '@/context/AppContext';
@@ -63,7 +63,7 @@ export default function IndexPage({
                 data-fade='2'
               >
                 <Trans
-                  i18nKey='common:home-page-verse'
+                  text={translations['home-verse'].text}
                   components={[
                     <Accent key='1' />,
                     <Accent key='1' />,

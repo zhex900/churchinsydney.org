@@ -1,16 +1,14 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import setLanguage from 'next-translate/setLanguage';
 import { useContext } from 'react';
 
-import { defaultLocale, locales } from '@/../i18n';
 import { AppContext } from '@/context/AppContext';
 
 export default function LocaleButton() {
   const { translations: t } = useContext(AppContext);
-  const { locale } = useRouter();
+  const { locale, push, pathname, locales, defaultLocale } = useRouter();
 
-  const nextLang = locales.find((l) => l !== locale) || defaultLocale;
+  const nextLang = locales?.find((l) => l !== locale) || defaultLocale || 'en';
 
   const label = t[`common-locale-${nextLang.toLocaleLowerCase()}`].text;
   return (
@@ -22,7 +20,9 @@ export default function LocaleButton() {
         'hover:border-primary-300 hover:text-primary-300 dark:hover:border-primary-300 dark:hover:text-primary-300',
         'focus-visible:border-primary-300 focus-visible:text-primary-300 dark:focus-visible:border-primary-300 dark:focus-visible:text-primary-300'
       )}
-      onClick={async () => await setLanguage(nextLang)}
+      onClick={() => {
+        push(pathname, pathname, { locale: nextLang });
+      }}
     >
       {label}
     </button>
