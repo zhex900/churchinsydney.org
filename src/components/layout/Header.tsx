@@ -11,6 +11,7 @@ import { AppContext } from '@/context/AppContext';
 import LocaleButton from '../buttons/LocaleButton';
 import ThemeButton from '../buttons/ThemeButton';
 import Logo from '../images/Logo';
+import PreviewTopBar from '../PreviewTopBar';
 
 type HeaderProps = {
   large?: boolean;
@@ -48,6 +49,7 @@ export default function Header({ large = false }: HeaderProps) {
       )}
     >
       <div className='bg-white transition-colors dark:bg-dark dark:text-white'>
+        <PreviewTopBar />
         <nav
           className={clsx(
             'layout flex items-center justify-between py-4',

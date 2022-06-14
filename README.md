@@ -3,8 +3,6 @@
   <p>💠 Build with Next.js, TypeScript, Tailwind CSS and MDX Bundler.</p>
 </div>
 
-Cloned from [blog](https://github.com/theodorusclarence)
-
 ## Development
 
 First, run the development server:

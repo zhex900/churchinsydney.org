@@ -60,6 +60,7 @@ export type AppContextType = {
   links?: Links;
   memberPassword?: string;
   settings: Settings;
+  preview?: boolean;
 };
 
 export type Settings = {

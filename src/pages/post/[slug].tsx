@@ -21,6 +21,7 @@ import { AppContext } from '@/context/AppContext';
 import { PostType, Settings, Translations } from '@/types/types';
 
 type SinglePostPageProps = {
+  preview: boolean;
   post: PostType;
   recommendations: PostType[];
   translations: Translations;
@@ -28,6 +29,7 @@ type SinglePostPageProps = {
 };
 
 export default function SinglePostPage({
+  preview,
   post,
   recommendations,
   translations,
@@ -63,6 +65,7 @@ export default function SinglePostPage({
         translations,
         memberPassword,
         settings,
+        preview,
       }}
     >
       <Post post={post} recommendations={recommendations} />
@@ -90,11 +93,12 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
 export const getStaticProps: GetStaticProps = async ({
   params,
+  preview = false,
   locale,
   defaultLocale,
 }) => {
   const locales = [locale || '', defaultLocale || ''];
-  const post = await getPostBySlug(params?.slug as string, locales);
+  const post = await getPostBySlug(params?.slug as string, locales, preview);
   const mdx = await parseMDX(post.content);
 
   const recommendations = await getRecommendations(
@@ -103,6 +107,7 @@ export const getStaticProps: GetStaticProps = async ({
   );
   return {
     props: {
+      preview,
       post: {
         ...post,
         content: mdx,

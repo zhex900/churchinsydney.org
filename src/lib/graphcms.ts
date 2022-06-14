@@ -46,9 +46,9 @@ async function fetchAPI(
   const json = await res.json();
 
   if (json.errors) {
-    console.error(json.errors);
-    // throw new Error('Failed to fetch API');
-    return [];
+    console.error({ preview }, JSON.stringify(json.errors, null, 2));
+    throw new Error('Failed to fetch API');
+    // return [];
   }
 
   return json.data;
@@ -295,21 +295,44 @@ export async function getPostsSlugs() {
   return data.posts;
 }
 
+export async function getPreviewPostBySlug(slug: string): Promise<PostType> {
+  const data = await fetchAPI(
+    `
+query PostBySlug($slug: String!, $stage: Stage!) {
+  post(where: {slug: $slug}, stage: $stage) {
+    slug
+  }
+}
+`,
+    {
+      preview: true,
+      variables: {
+        stage: 'DRAFT',
+        slug,
+      },
+    }
+  );
+
+  return data.post;
+}
+
 export async function getPostBySlug(
   slug: string,
-  locales: string[]
+  locales: string[],
+  preview: boolean
 ): Promise<PostType> {
   const data = await fetchAPI(
     `
-query PostBySlug($slug: String!, $locales: [Locale!]!) {
-  post(where: {slug: $slug}, locales: $locales) {
+query PostBySlug($slug: String!, $locales: [Locale!]!, $stage: Stage!) {
+  post(where: {slug: $slug}, locales: $locales, stage: $stage) {
     ${postFields}
   }
 }
 `,
     {
-      preview: false,
+      preview,
       variables: {
+        stage: preview ? 'DRAFT' : 'PUBLISHED',
         slug,
         locales: safeLocales([...locales, 'en']),
       },
