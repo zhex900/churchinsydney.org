@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import * as React from 'react';
 
 import { AppContext } from '@/context/AppContext';
@@ -12,12 +13,12 @@ export default function PreviewTopBar() {
         <div className='py-2 text-center text-sm'>
           <>
             {`${t['common-preview-mode'].text}. `}
-            <a
+            <Link
               href='/api/exit-preview'
               className='hover:text-cyan font-bold underline transition-colors duration-200'
             >
               {`${t['common-exit'].text}`}
-            </a>
+            </Link>
           </>
         </div>
       </div>
