@@ -1,18 +1,18 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import {
-  getLinks,
-  getOurBeliefs,
-  getSettings,
-  getTranslationsByKeyStartsWith,
-} from '@/lib/graphcms';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
+import {
+  getLinks,
+  getOurBeliefs,
+  getSettings,
+  getTranslationsByNamespace,
+} from '@/cms';
 import { AppContext } from '@/context/AppContext';
 
 import { Links, ourBelief, Settings, Translations } from '@/types/types';
@@ -41,7 +41,7 @@ export default function OurBeliefsPage({
         <main>
           <section className={clsx(isLoaded && 'fade-in-start')}>
             <div className='layout min-h-main py-20'>
-              <h2 data-fade='0'>{translations['common-our-beliefs'].text}</h2>
+              <h2 data-fade='0'>{translations['common-our-belief']}</h2>
               <h1 className='mt-1' data-fade='1'>
                 <Accent>{header.text}</Accent>
               </h1>
@@ -70,19 +70,12 @@ export default function OurBeliefsPage({
   );
 }
 
-export async function getStaticProps({
-  locale,
-  defaultLocale,
-}: {
-  locale: string;
-  defaultLocale: string;
-}) {
-  const locales = [locale, defaultLocale];
+export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      translations: await getTranslationsByKeyStartsWith(['common'], locales),
-      links: await getLinks(locales),
-      ourBeliefs: await getOurBeliefs(locales),
+      translations: await getTranslationsByNamespace(['common'], locale),
+      links: await getLinks(locale),
+      ourBeliefs: await getOurBeliefs(locale),
       settings: await getSettings(),
     },
   };

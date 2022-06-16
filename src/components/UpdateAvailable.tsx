@@ -42,10 +42,10 @@ export default function UpdateAvailable({ className }: { className?: string }) {
         </div>
         <div className='ml-3 text-sm font-normal'>
           <span className='mb-1 text-sm font-semibold text-gray-900 dark:text-white'>
-            {t['common-update-available'].text}
+            {t['common-update-available']}
           </span>
           <div className='mb-2 text-sm font-normal'>
-            {t['common-update-available-description'].text}
+            {t['common-update-available-description']}
           </div>
           <div className='grid grid-cols-2 gap-2'>
             <div>
@@ -57,7 +57,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
                   setIsOpen(false);
                 }}
               >
-                {t['common-update'].text}
+                {t['common-update']}
               </a>
             </div>
             <div>
@@ -68,7 +68,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
                   setIsOpen(false);
                 }}
               >
-                {t['common-update-not-now'].text}
+                {t['common-update-not-now']}
               </a>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function UpdateAvailable({ className }: { className?: string }) {
             setIsOpen(false);
           }}
         >
-          <span className='sr-only'> {t['common-close'].text}</span>
+          <span className='sr-only'> {t['common-close']}</span>
           <svg
             className='h-5 w-5'
             fill='currentColor'

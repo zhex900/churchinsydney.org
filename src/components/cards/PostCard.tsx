@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { formatDistanceToNow } from 'date-fns';
 import { useContext } from 'react';
-import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi';
 
 import { formatEventDate } from '@/lib/utils';
 
@@ -64,18 +63,6 @@ export default function PostCard({
         </div>
         <div className='p-4'>
           <h4 className='text-gray-800 dark:text-gray-100'>{post.title}</h4>
-          <div className='mt-2 flex items-center justify-start gap-2 text-sm font-medium text-gray-600 dark:text-gray-300'>
-            <div className='flex items-center gap-1'>
-              <HiOutlineClock className='inline-block text-base' />
-              <Accent>{post.readingTime.text}</Accent>
-            </div>
-            {post?.views && (
-              <div className='flex items-center gap-1'>
-                <HiOutlineEye className='inline-block text-base' />
-                <Accent>{post?.views?.toLocaleString() ?? '–––'} views</Accent>
-              </div>
-            )}
-          </div>
           <p className='mt-4 text-base text-gray-600 dark:text-gray-300'>
             <span className='italic text-gray-800 dark:text-gray-100'>
               {eventDate ? eventDate : post.description}
@@ -83,9 +70,9 @@ export default function PostCard({
           </p>
           <p className='mt-4 mb-2 text-xs text-gray-700 dark:text-gray-300'>
             <span className='italic text-gray-800 dark:text-gray-100'>
-              {`${t['post-last-updated'].text}: ${formatDistanceToNow(
-                new Date(post.updatedAt)
-              )} ${t['post-ago'].text}`}
+              {`${t['post-last-updated']}: ${formatDistanceToNow(
+                new Date(post.savedOn)
+              )} ${t['post-ago']}`}
             </span>
           </p>
         </div>

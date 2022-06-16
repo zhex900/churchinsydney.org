@@ -5,6 +5,5 @@ import { AppContextType } from '@/types/types';
 export const AppContext = createContext<AppContextType>({
   links: [],
   translations: {},
-  memberPassword: '',
   settings: {},
 });

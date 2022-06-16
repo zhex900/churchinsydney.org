@@ -1,23 +1,17 @@
-import { ReadTimeResults } from 'reading-time';
-
 export type EvenDate = {
   startDate: string;
   endDate: string;
 };
 
 export type PostType = {
-  banner: {
-    url: string;
-  };
+  banner: string;
   slug: string;
   title: string;
   description: string;
-  createdAt: string;
-  content: string;
-  updatedAt: string;
+  content: OutputBlockData[];
+  savedOn: string;
+  createdOn: string;
   tags: string[];
-  readingTime: ReadTimeResults;
-  views?: number;
   likes?: number | null;
   rank: number | null;
   hidden: boolean;
@@ -31,12 +25,12 @@ export type Translation = {
 };
 
 export type Translations = {
-  [key: string]: Translation;
+  [key: string]: string;
 };
 
 export type Link = {
   text: string;
-  tooltip?: string;
+  tooltip: string | null;
   href: string;
 };
 
@@ -70,3 +64,17 @@ export type Setting = {
   key: string;
   value: string;
 };
+
+import { OutputBlockData as BaseOutputBlockData } from '@editorjs/editorjs';
+export interface OutputBlockData extends BaseOutputBlockData {
+  data: {
+    className?: string;
+    textAlign?: string;
+    text: string;
+    caption?: string;
+    file?: string;
+    level: number;
+    items: string[];
+    style: string;
+  };
+}

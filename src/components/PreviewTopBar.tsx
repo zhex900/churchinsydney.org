@@ -12,12 +12,12 @@ export default function PreviewTopBar() {
       <div className='container mx-auto px-5'>
         <div className='py-2 text-center text-sm'>
           <>
-            {`${t['common-preview-mode'].text}. `}
+            {`${t['common-preview-mode']}. `}
             <Link
               href='/api/exit-preview'
               className='hover:text-cyan font-bold underline transition-colors duration-200'
             >
-              {`${t['common-exit'].text}`}
+              {`${t['common-exit']}`}
             </Link>
           </>
         </div>

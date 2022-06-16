@@ -61,14 +61,14 @@ export default function TableOfContents({
       className='hidden max-h-[calc(100vh-9rem-113px)] overflow-auto pb-4 lg:block'
     >
       <h3 className='text-gray-900 dark:text-gray-100 md:text-xl'>
-        {t['post-table-of-contents'].text}
+        {t['post-table-of-contents']}
       </h3>
       <div className='mt-4 flex flex-col space-y-2 text-sm'>
         {toc
           ? toc.map(({ id, level, text }) => (
               <TOCLink
                 id={id}
-                key={id}
+                key={level}
                 activeSection={activeSection}
                 level={level}
                 minLevel={minLevel}

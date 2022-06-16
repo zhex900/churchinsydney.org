@@ -5,9 +5,8 @@ const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
 
 module.exports = withPWA({
-  // reactStrictMode: true,
   images: {
-    domains: ['media.graphcms.com', 'media.graphassets.com'],
+    domains: ['media.churchinsydney.org'],
   },
   pwa: {
     dest: 'public',

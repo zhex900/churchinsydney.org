@@ -13,7 +13,7 @@ export default function LocaleButton() {
     router.defaultLocale ||
     'en';
 
-  const label = t[`common-locale-${nextLang.toLocaleLowerCase()}`].text;
+  const label = t[`common-locale-${nextLang.toLocaleLowerCase()}`];
   return (
     <button
       className={clsx(

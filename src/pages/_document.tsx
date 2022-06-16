@@ -16,10 +16,6 @@ class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
-          <script
-            src='https://cdn.onesignal.com/sdks/OneSignalSDK.js'
-            async
-          ></script>
           <link
             rel='apple-touch-icon'
             href='/favicon/apple-icon-180x180.png'

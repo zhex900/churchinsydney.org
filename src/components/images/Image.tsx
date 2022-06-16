@@ -18,7 +18,6 @@ type ImageType = {
     width: number;
     height: number;
   };
-  mdx?: boolean;
 } & React.ComponentPropsWithoutRef<'figure'>;
 
 export default function Image({
@@ -30,7 +29,6 @@ export default function Image({
   className,
   preview = true,
   noStyle = false,
-  mdx = false,
   style,
   aspect,
   ...rest
@@ -43,10 +41,10 @@ export default function Image({
     <figure
       className={clsx(className, {
         'overflow-hidden rounded shadow-sm dark:shadow-none': !noStyle,
-        'mx-auto w-full': mdx && width <= 800,
+        // 'mx-auto w-full': mdx && width <= 800,
       })}
       style={{
-        ...(mdx && width <= 800 ? { maxWidth: width } : {}),
+        // ...(mdx && width <= 800 ? { maxWidth: width } : {}),
         ...style,
       }}
       {...rest}
@@ -67,7 +65,7 @@ export default function Image({
           <NextImage
             width={width}
             height={height}
-            src={url}
+            src={`${url}?width=${width}`}
             alt={alt}
             title={title || alt}
           />

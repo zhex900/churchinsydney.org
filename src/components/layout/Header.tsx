@@ -81,7 +81,7 @@ export default function Header({ large = false }: HeaderProps) {
                             '!bg-primary-300/50 dark:bg-gradient-to-tr dark:from-primary-300 dark:to-primary-400 dark:bg-clip-text dark:text-transparent'
                         )}
                       >
-                        {t[`common-${href.replace(/\//, '')}`].text}
+                        {t[`common-${href.replace(/\//, '')}`]}
                       </span>
                     </UnstyledLink>
                   </li>
@@ -99,7 +99,7 @@ export default function Header({ large = false }: HeaderProps) {
 }
 
 export const headerLinks = [
-  { href: '/our-beliefs', mobile: false },
+  { href: '/our-belief', mobile: false },
   { href: '/our-life', mobile: false },
   { href: '/announcements', mobile: true },
   { href: '/events', mobile: true },

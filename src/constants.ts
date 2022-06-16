@@ -13,3 +13,10 @@ export const COOKIES = {
 export const LAST_ORDER_INDEX = 999;
 
 export const DEFAULT_DOMAIN = 'churchinsydney.org';
+
+export const LOCALES_WEBINY = {
+  'zh-CN': 'zh-Hans-CN',
+  en: 'en-AU',
+};
+
+export const GRAPHQL_QUERY_LIMIT = 1000;

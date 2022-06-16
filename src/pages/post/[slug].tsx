@@ -1,21 +1,15 @@
 import { flatten } from 'lodash';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 
-import {
-  getPostBySlug,
-  getPostsSlugs,
-  getSettings,
-  getTranslationsByKeyStartsWith,
-} from '@/lib/graphcms';
-import { getRecommendations, parseMDX } from '@/lib/mdx';
+import getRecommendations from '@/lib/getRecommendations';
+import useProtectPage from '@/hooks/useProtectPage';
 
 import MembersPassword from '@/components/MembersPassword';
 import Post from '@/components/Post';
 
-import { COOKIES } from '@/constants';
+import { getPostBySlug, getTranslationsByNamespace } from '@/cms';
+import { getPostsSlugs, getSettings } from '@/cms';
 import { AppContext } from '@/context/AppContext';
 
 import { PostType, Settings, Translations } from '@/types/types';
@@ -36,22 +30,12 @@ export default function SinglePostPage({
   settings,
 }: SinglePostPageProps) {
   const router = useRouter();
-  const [haveAccess, setHaveAccess] = useState<boolean | null>(null);
-  const [cookies] = useCookies([COOKIES.MEMBERS_PASSWORD]);
-  const memberPassword = settings[COOKIES.MEMBERS_PASSWORD];
-  useEffect(() => {
-    setHaveAccess(
-      cookies?.MEMBERS_PASSWORD === memberPassword ||
-        !post.tags.includes('members')
-    );
-  }, [cookies?.MEMBERS_PASSWORD, memberPassword, post.tags]);
-
+  const { haveAccess } = useProtectPage(post.tags, settings);
   if (!haveAccess && haveAccess !== null) {
     return (
       <AppContext.Provider
         value={{
           translations,
-          memberPassword,
           settings,
         }}
       >
@@ -63,7 +47,6 @@ export default function SinglePostPage({
     <AppContext.Provider
       value={{
         translations,
-        memberPassword,
         settings,
         preview,
       }}
@@ -95,28 +78,25 @@ export const getStaticProps: GetStaticProps = async ({
   params,
   preview = false,
   locale,
-  defaultLocale,
 }) => {
-  const locales = [locale || '', defaultLocale || ''];
-  const post = await getPostBySlug(params?.slug as string, locales, preview);
-  const mdx = await parseMDX(post.content);
-
-  const recommendations = await getRecommendations(
+  const post = await getPostBySlug(
     params?.slug as string,
-    locales
+    locale || 'en',
+    preview
   );
+
   return {
     props: {
       preview,
-      post: {
-        ...post,
-        content: mdx,
-      },
-      recommendations,
+      post,
+      recommendations: await getRecommendations(
+        params?.slug as string,
+        locale || 'en'
+      ),
       settings: await getSettings(),
-      translations: await getTranslationsByKeyStartsWith(
+      translations: await getTranslationsByNamespace(
         ['post', 'common'],
-        locales
+        locale || 'en'
       ),
     },
   };

@@ -56,7 +56,7 @@ export default function ContactUsCard({
       className={clsx('rounded border p-10 dark:border-gray-600', className)}
     >
       <h3 className='mt-2'>
-        <Accent>{title ?? t['contact-us-title'].text}</Accent> {'👋 '}
+        <Accent>{title ?? t['contact-us-title']}</Accent> {'👋 '}
       </h3>
       <div className='mt-2 flex flex-col gap-10 md:flex-row'>
         <div className='basis-1/2'>
@@ -79,7 +79,7 @@ export default function ContactUsCard({
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
               type='text'
-              placeholder={t['contact-us-name'].text}
+              placeholder={t['contact-us-name']}
               required
             />
             <input
@@ -92,7 +92,7 @@ export default function ContactUsCard({
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
               type='text'
-              placeholder={t['contact-us-phone'].text}
+              placeholder={t['contact-us-phone']}
               required
             />
             <input
@@ -105,7 +105,7 @@ export default function ContactUsCard({
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
               type='email'
-              placeholder={t['contact-us-email'].text}
+              placeholder={t['contact-us-email']}
               required
             />
             <textarea
@@ -118,7 +118,7 @@ export default function ContactUsCard({
                 'text-sm md:text-base',
                 'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
               )}
-              placeholder={t['contact-us-leave-us-a-message'].text}
+              placeholder={t['contact-us-leave-us-a-message']}
               required
             />
 
@@ -137,7 +137,7 @@ export default function ContactUsCard({
                   isLoading={status === 'loading'}
                   className=''
                 >
-                  {t['common-submit'].text}
+                  {t['common-submit']}
                 </Button>
               </div>
             </div>

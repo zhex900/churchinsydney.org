@@ -42,7 +42,7 @@ export function SkipNavTag({
         )}
         {...rest}
       >
-        {t['common-skip-tag'].text}
+        {t['common-skip-tag']}
       </a>
       {children}
       <div id='skip-tags' className='hidden' />

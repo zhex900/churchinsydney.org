@@ -17,18 +17,18 @@ export default function MembersPassword({
 }: {
   redirectTo: string;
 }) {
-  const { translations, memberPassword } = useContext(AppContext);
+  const { translations, settings } = useContext(AppContext);
   const [helperText, setHelperText] = useState(
-    translations['post-member-login-helper-text'].text
+    translations['post-member-login-helper-text']
   );
   const [password, setPassword] = useState('');
   const [, setCookie, removeCookie] = useCookies([COOKIES.MEMBERS_PASSWORD]);
   const router = useRouter();
+  const memberPassword = settings[COOKIES.MEMBERS_PASSWORD];
   const onSubmit = () => {
     if (password !== memberPassword) {
       setHelperText(
         translations['post-member-login-incorrect-password-please-try-again']
-          .text
       );
       return;
     }
@@ -47,7 +47,7 @@ export default function MembersPassword({
         <section className=''>
           <div className='layout flex flex-col items-center py-20 text-center'>
             <h1>
-              <Accent>{translations['post-members-login'].text}</Accent>
+              <Accent>{translations['post-members-login']}</Accent>
             </h1>
             <div
               className={clsx(
@@ -69,9 +69,7 @@ export default function MembersPassword({
                       'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
                     )}
                     type='password'
-                    placeholder={
-                      translations['post-member-login-password'].text
-                    }
+                    placeholder={translations['post-member-login-password']}
                     required
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -85,7 +83,7 @@ export default function MembersPassword({
                         )}
                       />
                       <Button onClick={onSubmit}>
-                        {translations['post-member-login-submit'].text}
+                        {translations['post-member-login-submit']}
                       </Button>
                     </div>
                   </div>

@@ -1,14 +1,13 @@
+import { getTags, sortByDate } from '@/lib/utils';
+
+import Posts, { PostsPropsType } from '@/components/Posts';
+
 import {
   getLinks,
   getPostsByTags,
   getSettings,
-  getTranslationsByKeyStartsWith,
-} from '@/lib/graphcms';
-import { getTags, sortByDate } from '@/lib/mdx-client';
-
-import Posts, { PostsPropsType } from '@/components/Posts';
-
-import { COOKIES } from '@/constants';
+  getTranslationsByNamespace,
+} from '@/cms';
 import { AppContext } from '@/context/AppContext';
 
 import { Links, Settings, Translations } from '@/types/types';
@@ -30,7 +29,6 @@ export default function EventsPage({
     <AppContext.Provider
       value={{
         translations,
-        memberPassword: settings[COOKIES.MEMBERS_PASSWORD],
         settings,
         links,
       }}
@@ -39,7 +37,7 @@ export default function EventsPage({
         {...{
           posts,
           tags,
-          title: translations['common-events'].text,
+          title: translations['common-events'],
           filter: 'event',
         }}
       />
@@ -49,12 +47,11 @@ export default function EventsPage({
 
 export async function getStaticProps({
   locale,
-  defaultLocale,
 }: {
   locale: string;
   defaultLocale: string;
 }) {
-  const posts = sortByDate(await getPostsByTags(['event']));
+  const posts = sortByDate(await getPostsByTags(['event'], locale));
   const tags = getTags(posts);
 
   return {
@@ -62,11 +59,11 @@ export async function getStaticProps({
       posts,
       tags,
       settings: await getSettings(),
-      translations: (await getTranslationsByKeyStartsWith(
+      translations: (await getTranslationsByNamespace(
         ['common', 'post'],
-        [locale, defaultLocale]
+        locale
       )) as Translations,
-      links: await getLinks([locale, defaultLocale]),
+      links: await getLinks(locale),
     },
   };
 }

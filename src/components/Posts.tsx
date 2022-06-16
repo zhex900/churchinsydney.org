@@ -8,7 +8,7 @@ import {
   HiOutlineChevronDoubleUp,
 } from 'react-icons/hi';
 
-import { getTags, sortDateFn } from '@/lib/mdx-client';
+import { getTags, sortDateFn } from '@/lib/utils';
 import useLoaded from '@/hooks/useLoaded';
 
 import Accent from '@/components/Accent';
@@ -45,22 +45,22 @@ export default function Posts({
     return [
       {
         id: 'rank',
-        name: t['common-by-rank'].text,
+        name: t['common-by-rank'],
         icon: HiEye,
       },
       {
         id: 'start-date',
-        name: t['common-by-start-date'].text,
+        name: t['common-by-start-date'],
         icon: HiCalendar,
       },
       {
         id: 'date-desc',
-        name: `${t['common-by-last-update'].text} ↓`,
+        name: `${t['common-by-last-update']} ↓`,
         icon: HiOutlineChevronDoubleDown,
       },
       {
         id: 'date-asc',
-        name: `${t['common-by-last-update'].text} ↑`,
+        name: `${t['common-by-last-update']} ↑`,
         icon: HiOutlineChevronDoubleUp,
       },
     ];
@@ -190,9 +190,7 @@ export default function Posts({
                   className='mt-2 flex flex-wrap items-baseline justify-start gap-2 text-sm text-gray-600 dark:text-gray-300'
                   data-fade='2'
                 >
-                  <span className='font-medium'>
-                    {t['post-choose-topic'].text}:
-                  </span>
+                  <span className='font-medium'>{t['post-choose-topic']}:</span>
                   <SkipNavTag>
                     {tags.map((tag) => (
                       <Tag

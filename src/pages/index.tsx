@@ -2,12 +2,6 @@ import clsx from 'clsx';
 import { IoArrowDownOutline } from 'react-icons/io5';
 import { InView } from 'react-intersection-observer';
 
-import {
-  getLinks,
-  getPostsByTags,
-  getSettings,
-  getTranslationsByKeyStartsWith,
-} from '@/lib/graphcms';
 import { generateRss } from '@/lib/rss';
 import useLoaded from '@/hooks/useLoaded';
 
@@ -20,7 +14,12 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 import Trans from '@/components/translation/Trans';
 
-import { COOKIES } from '@/constants';
+import {
+  getLinks,
+  getPostsByTags,
+  getSettings,
+  getTranslationsByNamespace,
+} from '@/cms';
 import { AppContext } from '@/context/AppContext';
 
 import { Links, PostType, Settings, Translations } from '@/types/types';
@@ -39,11 +38,11 @@ export default function IndexPage({
   settings: Settings;
 }) {
   const isLoaded = useLoaded();
+
   return (
     <AppContext.Provider
       value={{
         translations,
-        memberPassword: settings[COOKIES.MEMBERS_PASSWORD],
         links,
         settings,
       }}
@@ -63,7 +62,7 @@ export default function IndexPage({
                 data-fade='2'
               >
                 <Trans
-                  text={translations['home-verse'].text}
+                  text={translations['home-verse']}
                   components={[
                     <Accent key='1' />,
                     <Accent key='1' />,
@@ -89,7 +88,7 @@ export default function IndexPage({
                     )}
                   />
                   <ButtonLink href='#intro'>
-                    {translations['home-welcome'].text}
+                    {translations['home-welcome']}
                   </ButtonLink>
                 </div>
               </div>
@@ -112,7 +111,6 @@ export default function IndexPage({
               )}
             />
           </section>
-
           <InView triggerOnce rootMargin='-40% 0px'>
             {({ ref, inView }) => (
               <section
@@ -130,13 +128,13 @@ export default function IndexPage({
                   <div className='mt-8 h-full w-full md:mt-0'>
                     <h2 className='text-4xl md:text-6xl'>
                       <Accent className='inline decoration-clone leading-snug dark:leading-none'>
-                        {translations['home-introduction-title'].text}
+                        {translations['home-introduction-title']}
                       </Accent>
                     </h2>
                     <div className='mt-4 text-base text-gray-600 dark:text-gray-300 md:text-lg'>
-                      {translations['home-quote'].text}
+                      {translations['home-quote']}
                       <span className='italic'>
-                        {translations['home-quote-reference'].text}
+                        {translations['home-quote-reference']}
                       </span>
                     </div>
                   </div>
@@ -175,9 +173,7 @@ export default function IndexPage({
                 >
                   <article className='layout' data-fade='0'>
                     <h2 className='text-2xl md:text-4xl' id='posts'>
-                      <Accent>
-                        {translations['home-current-events'].text}
-                      </Accent>
+                      <Accent>{translations['home-current-events']}</Accent>
                     </h2>
                     <ul className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
                       {currentEvents.map((post, i) => (
@@ -189,7 +185,7 @@ export default function IndexPage({
                       ))}
                     </ul>
                     <ButtonLink className='mt-4' href='/events'>
-                      {translations['home-see-more-events'].text}
+                      {translations['home-see-more-events']}
                     </ButtonLink>
                   </article>
                 </section>
@@ -204,22 +200,22 @@ export default function IndexPage({
 
 export async function getStaticProps({
   locale,
-  defaultLocale,
 }: {
   locale: string;
   defaultLocale: string;
 }) {
   generateRss();
+
   return {
     props: {
-      currentEvents: await getPostsByTags(['event']),
-      featuredPosts: await getPostsByTags(['featured']),
+      currentEvents: await getPostsByTags(['event'], locale),
+      featuredPosts: await getPostsByTags(['featured'], locale),
       settings: await getSettings(),
-      translations: await getTranslationsByKeyStartsWith(
+      translations: await getTranslationsByNamespace(
         ['home', 'common', 'post'],
-        [locale, defaultLocale]
+        locale
       ),
-      links: await getLinks([locale, defaultLocale]),
+      links: await getLinks(locale),
     },
   };
 }

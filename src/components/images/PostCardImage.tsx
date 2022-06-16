@@ -1,12 +1,13 @@
 import clsx from 'clsx';
-import { useContext, useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import { useContext } from 'react';
 import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { IconType } from 'react-icons/lib';
 
+import useProtectPage from '@/hooks/useProtectPage';
+
 import Image from '@/components/images/Image';
 
-import { COOKIES, IMAGE_SIZE } from '@/constants';
+import { IMAGE_SIZE } from '@/constants';
 import { AppContext } from '@/context/AppContext';
 
 import { PostType } from '@/types/types';
@@ -28,15 +29,15 @@ function TopCornerIcon({ Icon }: { Icon: IconType }) {
 }
 
 function CardLock({
-  tags,
   haveAccess,
+  isProtected,
 }: {
-  tags: string[];
   haveAccess: boolean;
+  isProtected: boolean;
 }) {
   if (!haveAccess) return <TopCornerIcon Icon={AiFillLock} />;
 
-  if (tags.includes('members')) {
+  if (isProtected) {
     return <TopCornerIcon Icon={AiFillUnlock} />;
   }
 
@@ -44,17 +45,8 @@ function CardLock({
 }
 
 export default function PostCardImage({ post }: { post: PostType }) {
-  const [haveAccess, setHaveAccess] = useState(false);
-  const [cookies] = useCookies([COOKIES.MEMBERS_PASSWORD]);
-  const { memberPassword } = useContext(AppContext);
-
-  useEffect(() => {
-    setHaveAccess(
-      cookies?.MEMBERS_PASSWORD === memberPassword ||
-        !post.tags.includes('members')
-    );
-  }, [cookies?.MEMBERS_PASSWORD, memberPassword, post.tags]);
-
+  const { settings } = useContext(AppContext);
+  const { haveAccess, isProtected } = useProtectPage(post.tags, settings);
   return (
     <>
       <Image
@@ -62,13 +54,13 @@ export default function PostCardImage({ post }: { post: PostType }) {
         className={clsx('pointer-events-none overflow-hidden rounded-t-md ', {
           'blur-sm': !haveAccess,
         })}
-        url={post.banner.url}
+        url={post.banner}
         alt={post.slug}
         preview={false}
         {...IMAGE_SIZE}
       />
       <div className='pointer-events-none overflow-hidden rounded-t-md'></div>
-      <CardLock tags={post.tags} haveAccess={haveAccess} />
+      <CardLock haveAccess={haveAccess} isProtected={isProtected} />
     </>
   );
 }

@@ -1,25 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { getPreviewPostBySlug } from '../../lib/graphcms';
+import { getPreviewPostBySlug } from '@/cms';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Check the secret and next parameters
-  // This secret should only be known to this API route and the CMS
-  if (
-    req.query.secret !== process.env.GRAPHCMS_PREVIEW_SECRET ||
-    !req.query.slug
-  ) {
-    return res.status(401).json({ message: 'Invalid token' });
-  }
-
   // Fetch the headless CMS to check if the provided `slug` exists
-  const post = await getPreviewPostBySlug(req.query.slug.toString());
+  const slug = await getPreviewPostBySlug(req.query.slug.toString());
 
   // If the slug doesn't exist prevent preview mode from being enabled
-  if (!post) {
+  if (!slug) {
     return res.status(401).json({ message: 'Invalid slug' });
   }
 
@@ -28,6 +19,6 @@ export default async function handler(
 
   // Redirect to the path from the fetched post
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
-  res.writeHead(307, { Location: `/post/${post.slug}` });
+  res.writeHead(307, { Location: `/post/${slug}` });
   res.end();
 }

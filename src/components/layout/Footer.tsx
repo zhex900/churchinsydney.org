@@ -24,15 +24,13 @@ function ContactUsLinks({
   phone,
   translations: t,
 }: ContactUsProps) {
-  const [copyStatus, setCopyStatus] = useState(
-    `${t['common-click-to-copy'].text} `
-  );
+  const [copyStatus, setCopyStatus] = useState(`${t['common-click-to-copy']} `);
   const [copiedToClipBoard, setCopiedToClipBoard] = useState(
-    `${t['common-copied-to-clipboard'].text} `
+    `${t['common-copied-to-clipboard']} `
   );
   useEffect(() => {
-    setCopyStatus(t['common-click-to-copy'].text);
-    setCopiedToClipBoard(t['common-copied-to-clipboard'].text);
+    setCopyStatus(t['common-click-to-copy']);
+    setCopiedToClipBoard(t['common-copied-to-clipboard']);
   }, [t]);
 
   const contactUs = [
@@ -95,7 +93,7 @@ export default function Footer() {
       <main className='layout flex flex-col items-center border-t border-gray-600 pt-6 dark:border-gray-300'>
         <FooterLinks />
         <p className='mt-12 font-medium text-gray-600 dark:text-gray-300'>
-          {t['common-contact-us'].text}
+          {t['common-contact-us']}
         </p>
         <ContactUsLinks
           email={settings.email}
@@ -105,9 +103,9 @@ export default function Footer() {
         />
 
         <p className='mt-8 text-sm text-gray-600 dark:text-gray-300'>
-          {new Date().getFullYear()} © {t['common-church-in-sydney'].text}
+          {new Date().getFullYear()} © {t['common-church-in-sydney']}
           {' • '}
-          {t['common-all-rights-reserved'].text}
+          {t['common-all-rights-reserved']}
         </p>
       </main>
     </footer>

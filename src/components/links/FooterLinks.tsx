@@ -18,13 +18,16 @@ export default function FooterLinks() {
 
   let links = footerLinks;
   if (isMobile) {
-    links = headerLinks
-      .filter(({ mobile }) => !mobile)
-      .map(({ href }) => ({
-        href,
-        text: t[`common-${href.replace(/\//, '')}`].text,
-      }))
-      .concat(footerLinks || []);
+    links = [
+      ...headerLinks
+        .filter(({ mobile }) => !mobile)
+        .map(({ href }) => ({
+          href,
+          text: t[`common-${href.replace(/\//, '')}`],
+          tooltip: null,
+        })),
+      ...(footerLinks || []),
+    ];
   }
   return (
     <div className='flex flex-wrap justify-center gap-y-4 gap-x-8'>
@@ -41,26 +44,3 @@ export default function FooterLinks() {
     </div>
   );
 }
-
-// const footerLinks = [
-//   {
-//     href: 'https://streampublications.com.au/',
-//     text: 'Bookshop',
-//     tooltip: 'Purchase ministry books and HWMR',
-//   },
-//   {
-//     href: 'https://www.biblesforaustralia.org.au/',
-//     text: 'Bible for Austrlia',
-//     tooltip: '',
-//   },
-//   {
-//     href: 'https://www.ministrybooks.org/',
-//     text: 'Online ministry',
-//     tooltip: '',
-//   },
-//   {
-//     href: 'https://songbase.life/',
-//     text: 'Hymns and Songs',
-//     tooltip: '',
-//   },
-// ];

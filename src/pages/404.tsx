@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 
-import { getTranslationsByKeyStartsWith } from '@/lib/graphcms';
-
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
+
+import { getTranslationsByNamespace } from '@/cms';
 
 import { Translations } from '@/types/types';
 
@@ -15,7 +15,7 @@ export default function NotFoundPage({
 }) {
   return (
     <>
-      <Seo templateTitle={translations['page-not-found'].text} />
+      <Seo templateTitle={translations['page-not-found-page-not-found']} />
 
       <main>
         <section className='bg-dark'>
@@ -24,9 +24,11 @@ export default function NotFoundPage({
               size={60}
               className='drop-shadow-glow animate-flicker text-yellow-300'
             />
-            <h1 className='mt-8'>{translations['page-not-found'].text}</h1>
+            <h1 className='mt-8'>
+              {translations['page-not-found-page-not-found']}
+            </h1>
             <CustomLink className='mt-4' href='/'>
-              {translations['page-not-found-back-to-home'].text}
+              {translations['page-not-found-back-to-home']}
             </CustomLink>
           </div>
         </section>
@@ -35,18 +37,12 @@ export default function NotFoundPage({
   );
 }
 
-export async function getStaticProps({
-  locale,
-  defaultLocale,
-}: {
-  locale: string;
-  defaultLocale: string;
-}) {
+export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      translations: await getTranslationsByKeyStartsWith(
-        ['page'],
-        [locale, defaultLocale]
+      translations: await getTranslationsByNamespace(
+        ['page-not-found'],
+        locale
       ),
     },
   };
