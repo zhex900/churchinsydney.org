@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// import { flatten } from 'lodash';
-// import readingTime from 'reading-time';
-
+export * from './emailTemplate';
 export * from './links';
 export * from './ourBeliefs';
 export * from './ourLives';

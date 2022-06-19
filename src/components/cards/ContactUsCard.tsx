@@ -1,12 +1,14 @@
-import axios, { AxiosError } from 'axios';
 import clsx from 'clsx';
-import * as React from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Accent from '@/components/Accent';
 import Button from '@/components/buttons/Button';
+import ButtonStatus from '@/components/buttons/ButtonStatus';
 
 import { AppContext } from '@/context/AppContext';
+
+import { ContactUsFormData, statusType } from '@/types/types';
 
 type ContactUsCardProps = {
   className?: string;
@@ -19,35 +21,27 @@ export default function ContactUsCard({
   title,
   description,
 }: ContactUsCardProps) {
-  const { translations: t } = React.useContext(AppContext);
-  const { register, handleSubmit, reset } = useForm<{ email: string }>();
-  const [status, setStatus] = React.useState('idle');
+  const { translations: t } = useContext(AppContext);
+  const { register, handleSubmit, reset } = useForm<ContactUsFormData>();
+  const [status, setStatus] = useState<statusType>('idle');
 
-  const onSubmit = async (data: { email: string }) => {
+  const onSubmit = async (data: ContactUsFormData) => {
     setStatus('loading');
-
-    axios
-      .post<{ message: string }>('/api/newsletter/add', {
-        email: data.email,
-      })
-      .then(() => {
-        reset();
-        // if (subscriber?.count) mutate({ count: subscriber.count + 1 });
-        setStatus('success');
-      })
-      .catch((error: Error | AxiosError) => {
-        if (axios.isAxiosError(error)) {
-          // if (error?.response?.data?.message?.includes('subscribed')) {
-          //   setStatus('subscribed');
-          // } else {
-          //   setStatus('error');
-          //   setErrMsg(
-          //     error.response?.data.message ?? 'Something is wrong with the API.'
-          //   );
-          // }
-        } else {
-          setStatus('error');
+    fetch('/api/contact-us', {
+      method: 'post',
+      body: JSON.stringify(data),
+    })
+      .then(function (response) {
+        if (response.ok) {
+          reset();
+          setStatus('success');
+          return;
         }
+
+        setStatus('error');
+      })
+      .catch(function () {
+        setStatus('error');
       });
   };
 
@@ -70,7 +64,7 @@ export default function ContactUsCard({
         >
           <div className='space-y-5'>
             <input
-              {...register('email')}
+              {...register('name')}
               className={clsx(
                 'mt-2',
                 'w-full rounded-md dark:bg-dark',
@@ -83,7 +77,7 @@ export default function ContactUsCard({
               required
             />
             <input
-              {...register('email')}
+              {...register('phone')}
               className={clsx(
                 'mt-2',
                 'w-full rounded-md dark:bg-dark',
@@ -109,7 +103,7 @@ export default function ContactUsCard({
               required
             />
             <textarea
-              {...register('email')}
+              {...register('message')}
               className={clsx(
                 'mt-2',
                 'h-40',
@@ -126,8 +120,6 @@ export default function ContactUsCard({
               <div className='group relative right-2'>
                 <div
                   className={clsx(
-                    'absolute -inset-0.5 animate-tilt rounded blur',
-                    'bg-gradient-to-r from-primary-300 to-primary-400',
                     'dark:from-primary-200 dark:via-primary-300',
                     'opacity-75 transition duration-1000 group-hover:opacity-100 group-hover:duration-200'
                   )}
@@ -135,9 +127,10 @@ export default function ContactUsCard({
                 <Button
                   type='submit'
                   isLoading={status === 'loading'}
-                  className=''
+                  className='inline-flex items-center px-5 py-2.5 text-center text-sm'
+                  disabled={status !== 'idle'}
                 >
-                  {t['common-submit']}
+                  <ButtonStatus setStatus={setStatus} status={status} />
                 </Button>
               </div>
             </div>

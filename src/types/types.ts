@@ -1,6 +1,17 @@
+export type statusType = 'idle' | 'loading' | 'success' | 'error';
+
+export type setStatusType = (status: statusType) => void;
+
 export type EvenDate = {
   startDate: string;
   endDate: string;
+};
+
+export type ContactUsFormData = {
+  name: string;
+  email: string;
+  message: string;
+  phone: string;
 };
 
 export type PostType = {
