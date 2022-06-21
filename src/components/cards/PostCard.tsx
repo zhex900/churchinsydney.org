@@ -29,7 +29,7 @@ export default function PostCard({
   return (
     <li
       className={clsx(
-        'w-full rounded-md border border-gray-300 bg-white dark:border-gray-600 dark:bg-dark',
+        'w-full rounded-md bg-white  dark:bg-dark',
         'scale-100 hover:scale-[1.02] active:scale-[0.97] motion-safe:transform-gpu',
         'transition duration-100',
         'motion-reduce:hover:scale-100',

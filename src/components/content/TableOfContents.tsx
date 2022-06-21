@@ -68,7 +68,7 @@ export default function TableOfContents({
           ? toc.map(({ id, level, text }) => (
               <TOCLink
                 id={id}
-                key={level}
+                key={`${level}-${text.substring(10).replace(/\W/g, '')}`}
                 activeSection={activeSection}
                 level={level}
                 minLevel={minLevel}

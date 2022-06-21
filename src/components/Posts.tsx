@@ -114,8 +114,8 @@ export default function Posts({
         }
 
         return (
-          new Date(a?.eventDate?.startDate ?? 0).valueOf() -
-          new Date(b?.eventDate?.startDate ?? 0).valueOf()
+          new Date(a?.eventDate?.start ?? 0).valueOf() -
+          new Date(b?.eventDate?.start ?? 0).valueOf()
         );
       });
     } else if (sortOrder.id === 'rank') {

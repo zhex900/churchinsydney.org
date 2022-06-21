@@ -46,11 +46,9 @@ export default function ContactUsCard({
   };
 
   return (
-    <div
-      className={clsx('rounded border p-10 dark:border-gray-600', className)}
-    >
+    <div className={clsx('rounded p-10', className)}>
       <h3 className='mt-2'>
-        <Accent>{title ?? t['contact-us-title']}</Accent> {'👋 '}
+        <Accent>{title ?? t['contact-us-title']}</Accent>
       </h3>
       <div className='mt-2 flex flex-col gap-10 md:flex-row'>
         <div className='basis-1/2'>

@@ -18,6 +18,7 @@ export async function getOurLives(locale: string) {
         ${localeField(locale)}
       }
       isHeader
+      icon
     }
   }
 }

@@ -4,6 +4,7 @@ import { CookiesProvider } from 'react-cookie';
 
 import 'react-tippy/dist/tippy.css';
 import '@/styles/globals.css';
+import '@/styles/richText.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

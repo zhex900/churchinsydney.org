@@ -23,7 +23,14 @@ class MyDocument extends Document {
           <meta name='theme-color' content='#fff' />
           <link
             rel='preload'
-            href='/fonts/inter-var-latin.woff2'
+            href='/fonts/SortsMillGoudy-Regular.woff2'
+            as='font'
+            type='font/woff2'
+            crossOrigin='anonymous'
+          />
+          <link
+            rel='preload'
+            href='/fonts/Karla-Regular.woff2'
             as='font'
             type='font/woff2'
             crossOrigin='anonymous'

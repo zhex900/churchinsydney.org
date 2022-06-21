@@ -3,8 +3,8 @@ export type statusType = 'idle' | 'loading' | 'success' | 'error';
 export type setStatusType = (status: statusType) => void;
 
 export type EvenDate = {
-  startDate: string;
-  endDate: string;
+  start: string;
+  end: string;
 };
 
 export type ContactUsFormData = {

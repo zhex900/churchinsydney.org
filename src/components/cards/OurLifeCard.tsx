@@ -19,7 +19,7 @@ export default function OurLifeCard({
   return (
     <li
       className={clsx(
-        'ring-vis-0 h-full rounded-md border bg-white dark:border-gray-600 dark:bg-dark',
+        'ring-vis-0 h-full rounded-md',
         'scale-100 hover:scale-[1.04] active:scale-[0.97] motion-safe:transform-gpu',
         'transition duration-100',
         'motion-reduce:hover:scale-100',
@@ -30,14 +30,12 @@ export default function OurLifeCard({
     >
       <div className='block h-full rounded-md focus:outline-none focus-visible:ring focus-visible:ring-primary-300'>
         <div className='p-4'>
-          <div className='mt-1 flex items-center justify-start gap-3 text-sm font-medium text-gray-600 dark:text-gray-300'>
-            <div className='flex items-center gap-1'>
-              <snippet.icon className='h-7 w-7 align-middle text-gray-600 hover:text-primary-300 dark:text-gray-300 dark:hover:text-primary-300' />
-            </div>
-            <h4 className='text-gray-800 dark:text-gray-100'>
-              {snippet.title}
-            </h4>
+          <div>
+            <snippet.icon size={'50px'} className='icon align-middle' />
           </div>
+          <h3 className='mt-5 text-gray-800 dark:text-gray-100'>
+            {snippet.title}
+          </h3>
 
           <p className='mt-4 text-justify text-sm text-gray-600 dark:text-gray-300'>
             {snippet.description}

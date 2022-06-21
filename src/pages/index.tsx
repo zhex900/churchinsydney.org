@@ -81,8 +81,6 @@ export default function IndexPage({
                 <div className='group relative'>
                   <div
                     className={clsx(
-                      'absolute -inset-0.5 animate-tilt rounded blur',
-                      'bg-gradient-to-r from-primary-300 to-primary-400',
                       'dark:from-primary-200 dark:via-primary-300',
                       'opacity-75 transition duration-1000 group-hover:opacity-100 group-hover:duration-200'
                     )}
@@ -103,13 +101,15 @@ export default function IndexPage({
             >
               <IoArrowDownOutline className='h-8 w-8 animate-bounce md:h-10 md:w-10' />
             </UnstyledLink>
-            <HeroImage
-              className={clsx(
-                'absolute right-0 bottom-5 md:bottom-0',
-                'w-[calc(100%-3rem)] md:w-[600px] 2xl:w-[900px]',
-                'opacity-35 z-[-1] dark:opacity-40'
-              )}
-            />
+            {settings.showHeroImage === 'true' && (
+              <HeroImage
+                className={clsx(
+                  'absolute right-0 bottom-5 md:bottom-0',
+                  'w-[calc(100%-3rem)] md:w-[600px] 2xl:w-[900px]',
+                  'opacity-35 z-[-1] dark:opacity-40'
+                )}
+              />
+            )}
           </section>
           <InView triggerOnce rootMargin='-40% 0px'>
             {({ ref, inView }) => (
@@ -164,7 +164,7 @@ export default function IndexPage({
               </section>
             )}
           </InView>
-          {currentEvents.length && (
+          {currentEvents.length > 0 && (
             <InView triggerOnce rootMargin='-40% 0px'>
               {({ ref, inView }) => (
                 <section

@@ -22,7 +22,7 @@ function postFields(locale: string) {
       banner
       slug
       content {
-        ${localeField(locale)}
+        ${localeField(locale, true)}
       }
       savedOn
       createdOn

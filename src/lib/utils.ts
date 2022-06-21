@@ -40,17 +40,14 @@ export function getTags<T extends Array<PostType>>(contents: T) {
 }
 
 export function formatEventDate(eventDate: EvenDate) {
-  const startDate = new Date(eventDate.startDate);
-  const endDate = new Date(eventDate.endDate);
+  const start = new Date(eventDate.start);
+  const end = new Date(eventDate.end);
 
-  if (isSameMonth(startDate, endDate) && isSameYear(startDate, endDate)) {
-    return `${getDate(startDate)}-${getDate(endDate)}, ${format(
-      startDate,
-      'MMMM yyyy'
-    )}`;
-  } else if (isSameYear(startDate, endDate)) {
-    return `${format(startDate, 'dd MMMM')} - ${format(endDate, DATE_FORMAT)}`;
+  if (isSameMonth(start, end) && isSameYear(start, end)) {
+    return `${getDate(start)}-${getDate(end)}, ${format(start, 'MMMM yyyy')}`;
+  } else if (isSameYear(start, end)) {
+    return `${format(start, 'dd MMMM')} - ${format(end, DATE_FORMAT)}`;
   }
 
-  return `${format(startDate, DATE_FORMAT)} - ${format(endDate, DATE_FORMAT)}`;
+  return `${format(start, DATE_FORMAT)} - ${format(end, DATE_FORMAT)}`;
 }

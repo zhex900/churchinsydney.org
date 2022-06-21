@@ -33,10 +33,14 @@ export default function OurBeliefsPage({
     text: '',
     ref: '',
   };
+
   return (
     <AppContext.Provider value={{ translations, links, settings }}>
       <Layout>
-        <Seo templateTitle='Our Beliefs' description='' />
+        <Seo
+          templateTitle={translations['common-our-belief']}
+          description={translations['common-our-belief']}
+        />
 
         <main>
           <section className={clsx(isLoaded && 'fade-in-start')}>
@@ -50,10 +54,13 @@ export default function OurBeliefsPage({
               </p>
               <div className='mt-4' data-fade='2'>
                 <article className=''>
-                  <ul className='list-disc'>
+                  <ul
+                    className='mt-12 grid gap-4 sm:grid-cols-1 xl:grid-cols-2'
+                    data-fade='5'
+                  >
                     {ourBeliefs.map(({ text, ref }, i) => (
                       <li className='mt-5' key={ref}>
-                        <p data-fade={i} className=''>
+                        <p data-fade={i}>
                           {text} <br />
                           <span className='italic'>{ref}</span>
                         </p>

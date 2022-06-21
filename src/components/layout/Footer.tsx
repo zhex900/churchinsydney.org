@@ -62,7 +62,7 @@ function ContactUsLinks({
           interactive
           html={
             <div className='inline-block rounded-md border bg-white p-2 text-gray-600 shadow-md dark:border-gray-600 dark:bg-dark dark:text-gray-200'>
-              {copyStatus}
+              {`${copyStatus} `}
               <Accent className='inline-block font-medium'>
                 {contact.value}
               </Accent>

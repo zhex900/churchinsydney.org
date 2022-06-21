@@ -17,7 +17,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Inter', ...fontFamily.sans],
+        primary: ['SortsMillGoudy', ...fontFamily.sans],
+        secondary: ['Karla', 'SortsMillGoudy', ...fontFamily.sans],
+      },
+      fontSize: {
+        sm: ['0.875rem', '2rem'],
+        base: ['1rem', '2rem'],
+        lg: ['1.125rem', '2rem'],
+        xl: ['1.25rem', '2rem'],
+        '5xl': ['3rem', '4rem'],
       },
       colors: {
         primary: {
@@ -56,6 +64,10 @@ module.exports = {
       animation: {
         flicker: 'flicker 3s linear infinite',
         tilt: 'tilt 10s infinite linear',
+      },
+      lineHeight: {
+        h: '4rem',
+        p: '2rem',
       },
     },
   },

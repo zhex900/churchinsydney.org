@@ -10,10 +10,14 @@
 - Nextjs
 - Typescript
 - Tailwind CSS
-- graphCMS
+- Webiny Headless CMS
 - Netlify
 
 ## Development
+
+Setup environment variables in `.env.local` file:
+
+Update the values in .env.local
 
 First, run the development server:
 

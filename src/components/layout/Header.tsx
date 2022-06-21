@@ -76,9 +76,8 @@ export default function Header({ large = false }: HeaderProps) {
                       <span
                         className={clsx(
                           'transition-colors',
-                          'bg-primary-300/0 group-hover:bg-primary-300/20 dark:group-hover:bg-primary-300/0',
-                          href === baseRoute &&
-                            '!bg-primary-300/50 dark:bg-gradient-to-tr dark:from-primary-300 dark:to-primary-400 dark:bg-clip-text dark:text-transparent'
+                          'bg-primary-300/0 group-hover:text-primary-300 ',
+                          href === baseRoute && 'text-primary-300'
                         )}
                       >
                         {t[`common-${href.replace(/\//, '')}`]}
