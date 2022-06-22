@@ -1,5 +1,6 @@
 .prose {
   max-width: 50rem;
+  font-size: 1.1rem;
 }
 
 .prose a {
@@ -37,10 +38,14 @@
   position: relative;
   display: block;
   margin-right: 0.5rem;
+  margin-top: unset;
   width: -moz-fit-content;
   width: fit-content;
 }
 
+.rich-text.prose :where(h1) {
+  margin-top: 2.5rem;
+}
 .rich-text.prose :where(h1, h2, h3, h4) > a {
   border-bottom: none;
 }
