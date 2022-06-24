@@ -51,7 +51,7 @@ export async function getStaticProps({
   locale: string;
   defaultLocale: string;
 }) {
-  const posts = sortByDate(await getPostsByTags(['event'], locale));
+  const posts = sortByDate(await getPostsByTags(['Event'], locale));
   const tags = getTags(posts);
 
   return {

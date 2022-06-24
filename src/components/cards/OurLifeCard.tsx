@@ -37,7 +37,7 @@ export default function OurLifeCard({
             {snippet.title}
           </h3>
 
-          <p className='mt-4 text-justify text-sm text-gray-600 dark:text-gray-300'>
+          <p className='mt-4 text-justify text-base text-gray-600 dark:text-gray-300'>
             {snippet.description}
           </p>
         </div>

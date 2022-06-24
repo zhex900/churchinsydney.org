@@ -1,51 +1,49 @@
-import { GRAPHQL_QUERY_LIMIT } from '@/constants';
+import { gql } from 'graphql-request';
 
-import { localeField } from './locale';
-import { fetchAPI } from './webinyClient';
+import { request } from '@/lib/graphql';
+
+import { parseTranslation } from './locale';
 
 import { Translations } from '@/types/types';
+
+type GraphQLResponse = {
+  translations: {
+    0: {
+      key: string;
+      namespace: string;
+      translations: {
+        0: { text: string };
+      };
+    };
+  };
+};
 
 export async function getTranslationsByNamespace(
   namespace: string[],
   locale: string
 ): Promise<Translations> {
-  const {
-    listTranslations: { data },
-  } = await fetchAPI(
-    `
-query($namespace: [String!]!) {
-	listTranslations(limit: ${GRAPHQL_QUERY_LIMIT}, where: { namespace_in: $namespace }) {
-		data {
-			key
-			namespace
-      text {
-        ${localeField(locale)}
+  const { translations } = (await request({
+    document: gql`
+      query ($locale: String!, $namespace: [String!]!) {
+        translations(filter: { namespace: { _in: $namespace } }) {
+          key
+          namespace
+          translations(filter: { languages_code: { code: { _eq: $locale } } }) {
+            text
+          }
+        }
       }
-		}
-	}
-}
-`,
-    {
-      preview: false,
-      variables: {
-        namespace,
-      },
-    }
-  );
+    `,
+    variables: {
+      locale,
+      namespace,
+    },
+  })) as GraphQLResponse;
 
-  return data.reduce(
-    (
-      result: Translations,
-      item: {
-        key: string;
-        namespace: string;
-        text: {
-          [key: string]: string;
-        };
-      }
-    ) => ({
+  return parseTranslation(translations).reduce(
+    (result, item) => ({
       ...result,
-      [`${item.namespace}-${item.key}`]: Object.values(item.text)[0],
+      [`${item.namespace}-${item.key}`]: item.text,
     }),
     {}
   );

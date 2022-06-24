@@ -11,17 +11,17 @@ export default function useProtectPage(tags: string[], settings: Settings) {
   const [cookies] = useCookies([COOKIES.MEMBERS_PASSWORD]);
 
   const memberPassword = settings[COOKIES.MEMBERS_PASSWORD];
-  const protectedTags = settings.protectedTags?.split(',');
-  const isProtected = !!intersection(tags, protectedTags).length;
+  const protectedTags = settings['protected-tags']?.split(',');
+
+  const isProtected = !!intersection(
+    tags.map((tag) => tag.toLocaleLowerCase()),
+    protectedTags
+  ).length;
   useEffect(() => {
-    setHaveAccess(cookies?.MEMBERS_PASSWORD === memberPassword || !isProtected);
-  }, [
-    cookies?.MEMBERS_PASSWORD,
-    isProtected,
-    tags,
-    protectedTags,
-    memberPassword,
-  ]);
+    setHaveAccess(
+      cookies[COOKIES.MEMBERS_PASSWORD] === memberPassword || !isProtected
+    );
+  }, [cookies, isProtected, tags, protectedTags, memberPassword]);
 
   return { haveAccess, isProtected, memberPassword };
 }

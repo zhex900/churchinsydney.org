@@ -1,13 +1,14 @@
 import clsx from 'clsx';
 import { format, formatDistanceToNow, isSameDay } from 'date-fns';
-import { useContext, useEffect, useState } from 'react';
+import { getMDXComponent } from 'mdx-bundler/client';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { formatEventDate } from '@/lib/utils';
 import useScrollSpy from '@/hooks/useScrollspy';
 
 import Accent from '@/components/Accent';
 import PostCard from '@/components/cards/PostCard';
-import RichTextRenderer from '@/components/content/richTextRenderer';
+import MDXComponents from '@/components/content/MDXComponents';
 import TableOfContents, {
   HeadingScrollSpy,
 } from '@/components/content/TableOfContents';
@@ -29,6 +30,11 @@ export default function Post({ post, recommendations }: PostProps) {
   const { translations: t } = useContext(AppContext);
   const [toc, setToc] = useState<HeadingScrollSpy>([]);
 
+  const Component = useMemo(
+    () => getMDXComponent(post.body as string),
+    [post.body]
+  );
+
   const activeSection = useScrollSpy();
 
   const minLevel =
@@ -49,16 +55,17 @@ export default function Post({ post, recommendations }: PostProps) {
     });
 
     setToc(headingArr);
-  }, [post.content]);
+  }, [post.body]);
 
-  const eventDate = post?.eventDate ? formatEventDate(post?.eventDate) : null;
+  const eventDate =
+    post.start && post.end ? formatEventDate(post.start, post.end) : null;
 
   return (
     <Layout>
       <Seo
         templateTitle={post.title}
-        description={post.description}
-        date={new Date(post.createdOn).toISOString()}
+        description={post.summary}
+        date={new Date(post.dateCreated).toISOString()}
       />
 
       <main>
@@ -74,15 +81,15 @@ export default function Post({ post, recommendations }: PostProps) {
                   {eventDate}
                 </p>
               )}
-              {post.savedOn && (
-                <div className='mt-4 flex flex-wrap gap-2 text-sm italic text-gray-700 dark:text-gray-200'>
+              {post.dateUpdated && (
+                <div className='mt-2 flex flex-wrap gap-2 text-sm italic text-gray-400 dark:text-gray-500'>
                   <p>
                     {t['post-last-updated']}:{' '}
                     {!isSameDay(
-                      new Date(post.createdOn),
-                      new Date(post.savedOn)
-                    ) && `${format(new Date(post.createdOn), DATE_FORMAT)}, `}
-                    {`${formatDistanceToNow(new Date(post.savedOn))} ${
+                      new Date(post.dateCreated),
+                      new Date(post.dateUpdated)
+                    ) && `${format(new Date(post.dateCreated), DATE_FORMAT)}, `}
+                    {`${formatDistanceToNow(new Date(post.dateUpdated))} ${
                       t['post-ago']
                     }`}
                   </p>
@@ -97,7 +104,14 @@ export default function Post({ post, recommendations }: PostProps) {
                 id='post-content'
                 className='rich-text prose mx-auto mt-4 w-full transition-colors dark:prose-invert'
               >
-                <RichTextRenderer data={post.content} />
+                <Component
+                  components={
+                    {
+                      ...MDXComponents,
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    } as any
+                  }
+                />
               </article>
 
               <aside className='py-4'>

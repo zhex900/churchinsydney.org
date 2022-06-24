@@ -7,16 +7,10 @@ export const IMAGE_SIZE = {
 };
 
 export const COOKIES = {
-  MEMBERS_PASSWORD: 'MEMBERS_PASSWORD',
+  MEMBERS_PASSWORD: 'members-password',
 };
 
 export const LAST_ORDER_INDEX = 999;
 
 export const DEFAULT_DOMAIN = 'churchinsydney.org';
-
-export const LOCALES_WEBINY = {
-  'zh-CN': 'zh-Hans-CN',
-  en: 'en-AU',
-};
-
-export const GRAPHQL_QUERY_LIMIT = 1000;
+export const GRAPHQL_QUERY_LIMIT = 2;

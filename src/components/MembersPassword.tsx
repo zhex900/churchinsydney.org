@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 import Accent from '@/components/Accent';
@@ -21,6 +21,7 @@ export default function MembersPassword({
   const [helperText, setHelperText] = useState(
     translations['post-member-login-helper-text']
   );
+
   const [password, setPassword] = useState('');
   const [, setCookie, removeCookie] = useCookies([COOKIES.MEMBERS_PASSWORD]);
   const router = useRouter();
@@ -38,6 +39,10 @@ export default function MembersPassword({
     });
     router.push(redirectTo);
   };
+
+  useEffect(() => {
+    setHelperText(translations['post-member-login-helper-text']);
+  }, [translations]);
 
   return (
     <Layout>
@@ -83,7 +88,7 @@ export default function MembersPassword({
                         )}
                       />
                       <Button onClick={onSubmit}>
-                        {translations['post-member-login-submit']}
+                        {translations['common-submit']}
                       </Button>
                     </div>
                   </div>

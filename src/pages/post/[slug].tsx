@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 
 import getRecommendations from '@/lib/getRecommendations';
+import { parseMDX } from '@/lib/mdx';
 import useProtectPage from '@/hooks/useProtectPage';
 
 import MembersPassword from '@/components/MembersPassword';
@@ -16,7 +17,7 @@ import { PostType, Settings, Translations } from '@/types/types';
 
 type SinglePostPageProps = {
   preview: boolean;
-  post: PostType;
+  post: PostType | null;
   recommendations: PostType[];
   translations: Translations;
   settings: Settings;
@@ -30,7 +31,13 @@ export default function SinglePostPage({
   settings,
 }: SinglePostPageProps) {
   const router = useRouter();
-  const { haveAccess } = useProtectPage(post.tags, settings);
+
+  const { haveAccess } = useProtectPage(post?.tags || [], settings);
+
+  if (!post) {
+    return null;
+  }
+
   if (!haveAccess && haveAccess !== null) {
     return (
       <AppContext.Provider
@@ -62,7 +69,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   return {
     paths: flatten(
       slugs.map(({ slug }: { slug: string }) =>
-        locales?.map((locale) => ({
+        (locales || []).map((locale) => ({
           params: {
             slug,
           },
@@ -79,16 +86,17 @@ export const getStaticProps: GetStaticProps = async ({
   preview = false,
   locale,
 }) => {
-  const post = await getPostBySlug(
-    params?.slug as string,
-    locale || 'en',
-    preview
-  );
+  const post = await getPostBySlug(params?.slug as string, locale || 'en');
 
   return {
     props: {
       preview,
-      post,
+      post: post
+        ? {
+            ...post,
+            body: await parseMDX(post.body),
+          }
+        : null,
       recommendations: await getRecommendations(
         params?.slug as string,
         locale || 'en'

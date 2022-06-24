@@ -18,15 +18,14 @@ export type PostType = {
   banner: string;
   slug: string;
   title: string;
-  description: string;
-  content: OutputBlockData[];
-  savedOn: string;
-  createdOn: string;
+  summary: string;
+  body: string;
   tags: string[];
-  likes?: number | null;
+  dateCreated: string;
+  dateUpdated: string | null;
+  start: string | null;
+  end: string | null;
   rank: number | null;
-  hidden: boolean;
-  eventDate?: EvenDate;
 };
 
 export type Translation = {
@@ -45,17 +44,17 @@ export type Link = {
   href: string;
 };
 
-export type ourBelief = {
+export type OurBelief = {
   text: string;
   ref: string;
-  isHeader: boolean;
+  header: boolean;
 };
 
-export type ourLife = {
+export type OurLife = {
   icon: string | null;
   title: string;
   description: string;
-  isHeader: boolean;
+  header: boolean;
 };
 
 export type Links = Link[];
@@ -73,19 +72,16 @@ export type Settings = {
 };
 export type Setting = {
   key: string;
-  value: string;
+  value: string | boolean;
 };
 
-import { OutputBlockData as BaseOutputBlockData } from '@editorjs/editorjs';
-export interface OutputBlockData extends BaseOutputBlockData {
-  data: {
-    className?: string;
-    textAlign?: string;
-    text: string;
-    caption?: string;
-    file?: string;
-    level: number;
-    items: string[];
-    style: string;
+export type RawTranslationsType = {
+  [key: string]: {
+    [key: string]: string;
   };
-}
+};
+export type RawDataWithTranslations = {
+  [key: string]: {
+    translations: RawTranslationsType;
+  };
+};

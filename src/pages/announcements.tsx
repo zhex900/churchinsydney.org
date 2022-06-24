@@ -45,7 +45,6 @@ export default function AnnouncementsPage({
 }
 
 export async function getStaticProps({ locale }: { locale: string }) {
-  // const locales = [locale, defaultLocale] as NextLocales[];
   const posts = sortByDate(await getPosts(locale));
   const tags = getTags(posts);
 

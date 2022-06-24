@@ -1,29 +1,39 @@
-import { localeField, transformLocaleFields } from './locale';
-import { fetchAPI } from './webinyClient';
+import { gql } from 'graphql-request';
 
-export async function getLinks(locale: string) {
-  const {
-    listLinks: { data },
-  } = await fetchAPI(
-    `
-{
-  listLinks(limit: 1000) {
-    data {
-      href
-      text {
-        ${localeField(locale)}
+import { request } from '@/lib/graphql';
+
+import { parseTranslation } from './locale';
+
+import { Link } from '@/types/types';
+
+type GraphQLResponse = {
+  links: {
+    0: {
+      href: string;
+      translations: {
+        0: { text: string; tooltip: string | null };
+      };
+    };
+  };
+};
+
+export async function getLinks(locale: string): Promise<Link[]> {
+  const { links } = (await request({
+    document: gql`
+      query ($locale: String!) {
+        links {
+          href
+          translations(filter: { languages_code: { code: { _eq: $locale } } }) {
+            text
+            tooltip
+          }
+        }
       }
-      tooltip {
-        ${localeField(locale)}
-      }
-    }
-  }
-}
-  `,
-    {
-      preview: false,
-      variables: {},
-    }
-  );
-  return data.map(transformLocaleFields(['text', 'tooltip']));
+    `,
+    variables: {
+      locale,
+    },
+  })) as GraphQLResponse;
+
+  return parseTranslation(links);
 }

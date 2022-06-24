@@ -1,32 +1,39 @@
-import { GRAPHQL_QUERY_LIMIT } from '@/constants';
+import { gql } from 'graphql-request';
 
-import { localeField, transformLocaleFields } from './locale';
-import { fetchAPI } from './webinyClient';
+import { request } from '@/lib/graphql';
 
-export async function getOurBeliefs(locale: string) {
-  const {
-    listOurBeliefs: { data },
-  } = await fetchAPI(
-    `
-{
-  listOurBeliefs(limit: ${GRAPHQL_QUERY_LIMIT}) {
-    data {
-      text {
-        ${localeField(locale)}
+import { parseTranslation } from './locale';
+
+import { OurBelief } from '@/types/types';
+
+type GraphQLResponse = {
+  our_beliefs: {
+    0: {
+      header: string;
+      translations: {
+        0: { text: string; ref: string };
+      };
+    };
+  };
+};
+
+export async function getOurBeliefs(locale: string): Promise<OurBelief[]> {
+  const { our_beliefs } = (await request({
+    document: gql`
+      query ($locale: String!) {
+        our_beliefs {
+          header
+          translations(filter: { languages_code: { code: { _eq: $locale } } }) {
+            text
+            ref
+          }
+        }
       }
-      ref {
-        ${localeField(locale)}
-      }
-      isHeader
-    }
-  }
-}
-  `,
-    {
-      preview: false,
-      variables: {},
-    }
-  );
+    `,
+    variables: {
+      locale,
+    },
+  })) as GraphQLResponse;
 
-  return data.map(transformLocaleFields(['text', 'ref']));
+  return parseTranslation(our_beliefs);
 }

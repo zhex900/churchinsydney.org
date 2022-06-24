@@ -23,7 +23,7 @@ import IconPizza from '@/icons/Pizza.svg';
 import IconPublic from '@/icons/Public.svg';
 import IconUni from '@/icons/Uni.svg';
 
-import { Links, ourLife, Settings, Translations } from '@/types/types';
+import { Links, OurLife, Settings, Translations } from '@/types/types';
 const icons = {
   Book: IconBook,
   Children: IconChildren,
@@ -41,11 +41,11 @@ export default function OurLifePage({
 }: {
   translations: Translations;
   links: Links;
-  ourLives: ourLife[];
+  ourLives: OurLife[];
   settings: Settings;
 }) {
   const isLoaded = useLoaded();
-  const ourLife = ourLives.find(({ isHeader }) => isHeader) || {
+  const ourLife = ourLives.find(({ header }) => header) || {
     title: '',
     description: '',
   };
@@ -73,7 +73,7 @@ export default function OurLifePage({
               >
                 {ourLives.map(
                   (ourLife, i) =>
-                    !ourLife.isHeader && (
+                    !ourLife.header && (
                       <OurLifeCard
                         key={ourLife.title}
                         snippet={{

@@ -15,7 +15,7 @@ import {
 } from '@/cms';
 import { AppContext } from '@/context/AppContext';
 
-import { Links, ourBelief, Settings, Translations } from '@/types/types';
+import { Links, OurBelief, Settings, Translations } from '@/types/types';
 
 export default function OurBeliefsPage({
   translations,
@@ -25,11 +25,11 @@ export default function OurBeliefsPage({
 }: {
   translations: Translations;
   links: Links;
-  ourBeliefs: ourBelief[];
+  ourBeliefs: OurBelief[];
   settings: Settings;
 }) {
   const isLoaded = useLoaded();
-  const header = ourBeliefs.find(({ isHeader }) => isHeader) || {
+  const header = ourBeliefs.find(({ header }) => header) || {
     text: '',
     ref: '',
   };
@@ -49,7 +49,7 @@ export default function OurBeliefsPage({
               <h1 className='mt-1' data-fade='1'>
                 <Accent>{header.text}</Accent>
               </h1>
-              <p className='mt-1 italic' data-fade='1'>
+              <p className='mt-1' data-fade='1'>
                 <Accent>{header.ref}</Accent>
               </p>
               <div className='mt-4' data-fade='2'>
@@ -60,9 +60,9 @@ export default function OurBeliefsPage({
                   >
                     {ourBeliefs.map(({ text, ref }, i) => (
                       <li className='mt-5' key={ref}>
-                        <p data-fade={i}>
+                        <p data-fade={i} className='text-base md:text-lg'>
                           {text} <br />
-                          <span className='italic'>{ref}</span>
+                          <span className=''>{ref}</span>
                         </p>
                       </li>
                     ))}

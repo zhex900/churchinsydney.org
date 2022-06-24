@@ -1,33 +1,30 @@
+import { gql } from 'graphql-request';
 import { Settings } from 'http2';
 
-import { GRAPHQL_QUERY_LIMIT } from '@/constants';
-
-import { fetchAPI } from './webinyClient';
+import { request } from '@/lib/graphql';
 
 import { Setting } from '@/types/types';
 
-export async function getSettings() {
-  const {
-    listSettings: { data },
-  } = await fetchAPI(
-    `
-{
-  listSettings(limit: ${GRAPHQL_QUERY_LIMIT}) {
-    data {
-      key
-      value
-    }
-  }
-}
-`,
-    {
-      preview: false,
-      variables: {},
-    }
-  );
+type GraphQLResponse = {
+  settings: {
+    [key: number]: Setting;
+  };
+};
 
-  return data?.reduce(
-    (result: Settings, item: Setting) => ({
+export async function getSettings(): Promise<Settings> {
+  const { settings } = (await request({
+    document: gql`
+      {
+        settings {
+          key
+          value
+        }
+      }
+    `,
+  })) as GraphQLResponse;
+
+  return Object.values(settings).reduce(
+    (result, item) => ({
       ...result,
       [item.key]: item.value,
     }),

@@ -65,7 +65,7 @@ export default function Image({
           <NextImage
             width={width}
             height={height}
-            src={`${url}?width=${width}`}
+            src={`${url}?format=webp&quality=50&fit=cover&height=${height}&width=${width}`}
             alt={alt}
             title={title || alt}
           />

@@ -22,7 +22,7 @@ function TopCornerIcon({ Icon }: { Icon: IconType }) {
     >
       <Icon
         tabIndex={-1}
-        className='bg-opacity-80 text-2xl dark:!bg-opacity-60'
+        className='bg-opacity-80 text-2xl text-green-500 dark:!bg-opacity-60'
       />
     </div>
   );

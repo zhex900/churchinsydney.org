@@ -101,7 +101,7 @@ export default function IndexPage({
             >
               <IoArrowDownOutline className='h-8 w-8 animate-bounce md:h-10 md:w-10' />
             </UnstyledLink>
-            {settings.showHeroImage === 'true' && (
+            {settings['show-hero-image'] === 'true' && (
               <HeroImage
                 className={clsx(
                   'absolute right-0 bottom-5 md:bottom-0',
@@ -208,8 +208,8 @@ export async function getStaticProps({
 
   return {
     props: {
-      currentEvents: await getPostsByTags(['event'], locale),
-      featuredPosts: await getPostsByTags(['featured'], locale),
+      currentEvents: await getPostsByTags(['Event'], locale),
+      featuredPosts: await getPostsByTags(['Featured'], locale),
       settings: await getSettings(),
       translations: await getTranslationsByNamespace(
         ['home', 'common', 'post'],

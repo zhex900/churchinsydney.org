@@ -23,13 +23,14 @@ export default function TOCLink({
       href={`#${id}`}
       id={`link-${id}`}
       className={clsx(
+        'pt-2',
         'font-medium hover:text-green-600 focus:outline-none dark:hover:text-green-400',
         'focus-visible:text-gray-700 dark:focus-visible:text-gray-200',
         activeSection === id
           ? 'text-gray-900 dark:text-gray-100'
           : 'text-gray-400 dark:text-gray-500'
       )}
-      style={{ marginLeft: (level - minLevel) * 16 }}
+      style={{ marginLeft: (level - minLevel) * 16, lineHeight: '22px' }}
     >
       {text}
     </UnstyledLink>

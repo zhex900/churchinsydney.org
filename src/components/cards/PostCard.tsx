@@ -23,7 +23,8 @@ export default function PostCard({
   checkTagged,
   onClick,
 }: PostCardProps) {
-  const eventDate = post?.eventDate ? formatEventDate(post?.eventDate) : null;
+  const eventDate =
+    post.start && post.end ? formatEventDate(post.start, post.end) : null;
 
   const { translations: t } = useContext(AppContext);
   return (
@@ -65,15 +66,17 @@ export default function PostCard({
           <h4 className='text-gray-800 dark:text-gray-100'>{post.title}</h4>
           <p className='mt-4 text-base text-gray-600 dark:text-gray-300'>
             <span className='italic text-gray-800 dark:text-gray-100'>
-              {eventDate ? eventDate : post.description}
+              {eventDate ? eventDate : post.summary}
             </span>
           </p>
-          <p className='mt-4 mb-2 text-xs text-gray-700 dark:text-gray-300'>
-            <span className='italic text-gray-800 dark:text-gray-100'>
-              {`${t['post-last-updated']}: ${formatDistanceToNow(
-                new Date(post.savedOn)
-              )} ${t['post-ago']}`}
-            </span>
+          <p className='mt-2 mb-2 text-xs '>
+            {post.dateUpdated && (
+              <span className='italic text-gray-400 dark:text-gray-500'>
+                {`${t['post-last-updated']}: ${formatDistanceToNow(
+                  new Date(post.dateUpdated)
+                )} ${t['post-ago']}`}
+              </span>
+            )}
           </p>
         </div>
       </UnstyledLink>

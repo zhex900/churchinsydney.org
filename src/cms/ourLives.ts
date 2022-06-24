@@ -1,33 +1,40 @@
-import { GRAPHQL_QUERY_LIMIT } from '@/constants';
+import { gql } from 'graphql-request';
 
-import { localeField, transformLocaleFields } from './locale';
-import { fetchAPI } from './webinyClient';
+import { request } from '@/lib/graphql';
 
-export async function getOurLives(locale: string) {
-  const {
-    listOurLives: { data },
-  } = await fetchAPI(
-    `
-{
-  listOurLives(limit: ${GRAPHQL_QUERY_LIMIT}) {
-    data {
-      title {
-        ${localeField(locale)}
+import { parseTranslation } from './locale';
+
+import { OurLife } from '@/types/types';
+
+type GraphQLResponse = {
+  our_lives: {
+    0: {
+      header: string;
+      translations: {
+        0: { description: string; title: string };
+      };
+    };
+  };
+};
+
+export async function getOurLives(locale: string): Promise<OurLife[]> {
+  const { our_lives } = (await request({
+    document: gql`
+      query ($locale: String!) {
+        our_lives {
+          icon
+          header
+          translations(filter: { languages_code: { code: { _eq: $locale } } }) {
+            description
+            title
+          }
+        }
       }
-      description {
-        ${localeField(locale)}
-      }
-      isHeader
-      icon
-    }
-  }
-}
-  `,
-    {
-      preview: false,
-      variables: {},
-    }
-  );
+    `,
+    variables: {
+      locale,
+    },
+  })) as GraphQLResponse;
 
-  return data.map(transformLocaleFields(['title', 'description']));
+  return parseTranslation(our_lives);
 }
