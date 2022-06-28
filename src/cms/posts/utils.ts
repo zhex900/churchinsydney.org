@@ -20,21 +20,19 @@ export const postFields = `
     rank: sort
   `;
 
+type PostTranslation = {
+  title: string;
+  summary: string | null;
+  body: string;
+};
+
 export type PostGraphQLResponse = {
   slug: string;
-  tags: {
-    [key: string]: string;
-  };
+  tags: [string];
   banner: {
     id: string;
   };
-  translations: {
-    0: {
-      title: string;
-      summary: string | null;
-      body: string;
-    };
-  };
+  translations: PostTranslation[];
   dateCreated: string;
   dateUpdated: string | null;
   start: string | null;
@@ -42,19 +40,18 @@ export type PostGraphQLResponse = {
   rank: number | null;
 };
 
-export type PostsGraphQLResponse = {
-  [key: string]: PostGraphQLResponse;
-};
+export type PostsGraphQLResponse = PostGraphQLResponse[];
 
-export const transformPost = (post: PostGraphQLResponse) => {
+type TransformedPostType = Omit<PostGraphQLResponse, 'translations'> &
+  PostTranslation;
+
+export const transformPost = (post: TransformedPostType) => {
   return {
     ...post,
     banner: `${process.env.CMS_API_ENDPOINT}/assets/${post.banner.id}`,
-    tags: Object.values(post.tags),
   };
 };
 
 export const transformPosts = (posts: PostsGraphQLResponse): PostType[] => {
-  // @TODO: fix return type
-  return parseTranslation(posts).map(transformPost) as unknown as PostType[];
+  return parseTranslation(posts).map(transformPost);
 };

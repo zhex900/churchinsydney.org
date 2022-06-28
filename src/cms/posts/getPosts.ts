@@ -9,7 +9,7 @@ import { PostType } from '@/types/types';
 export async function getPosts(locale: string): Promise<PostType[]> {
   const { posts } = (await request({
     document: gql`
-    query ($locale: String!) {
+    query GetPosts($locale: String!) {
       posts(
         filter: {status: {_eq: "published"}}
       ) {

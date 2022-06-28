@@ -64,7 +64,7 @@ export default function Post({ post, recommendations }: PostProps) {
     <Layout>
       <Seo
         templateTitle={post.title}
-        description={post.summary}
+        description={post.summary || ''}
         date={new Date(post.dateCreated).toISOString()}
       />
 

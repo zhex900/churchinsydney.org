@@ -12,7 +12,7 @@ export async function getPostsByTags(
 ): Promise<PostType[]> {
   const { posts } = (await request({
     document: gql`
-      query ($locale: String!) {
+      query GetPostsByTags($locale: String!) {
         posts(
           filter: {
             _or: [

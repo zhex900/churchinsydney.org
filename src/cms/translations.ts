@@ -7,15 +7,13 @@ import { parseTranslation } from './locale';
 import { Translations } from '@/types/types';
 
 type GraphQLResponse = {
-  translations: {
-    0: {
+  translations: [
+    {
       key: string;
       namespace: string;
-      translations: {
-        0: { text: string };
-      };
-    };
-  };
+      translations: [{ text: string }];
+    }
+  ];
 };
 
 export async function getTranslationsByNamespace(
@@ -24,7 +22,10 @@ export async function getTranslationsByNamespace(
 ): Promise<Translations> {
   const { translations } = (await request({
     document: gql`
-      query ($locale: String!, $namespace: [String!]!) {
+      query GetTranslationsByNamespace(
+        $locale: String!
+        $namespace: [String!]!
+      ) {
         translations(filter: { namespace: { _in: $namespace } }) {
           key
           namespace

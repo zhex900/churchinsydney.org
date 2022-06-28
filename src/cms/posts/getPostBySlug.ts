@@ -12,7 +12,7 @@ export async function getPostBySlug(
 ): Promise<PostType | undefined> {
   const { posts } = (await request({
     document: gql`
-    query ($slug: String!,$locale: String!) {
+    query GetPostBySlug($slug: String!,$locale: String!) {
       posts(
         filter: {slug:{_eq: $slug}, status: {_eq: "published"}}
       ) {

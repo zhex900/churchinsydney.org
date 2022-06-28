@@ -17,14 +17,15 @@ export interface TransProps {
  * to -> <h1>This is an <b>example</b><h1>
  */
 export default function Trans({ components, text }: TransProps): JSX.Element {
+  const _text = text || '';
   /**
    * Memoize the transformation
    */
   const result = useMemo(() => {
-    if (!components || components.length === 0) return text;
+    if (!components || components.length === 0) return _text;
 
-    return formatElements(text, components);
-  }, [components, text]) as unknown as JSX.Element;
+    return formatElements(_text, components);
+  }, [components, _text]) as unknown as JSX.Element;
 
   return result;
 }

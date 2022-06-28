@@ -1,9 +1,9 @@
 //https://usehooks-ts.com/react-hook/use-media-query
 import { useEffect, useState } from 'react';
 
-const DEFUALT_QUERY = '(max-width: 900px)';
+const DEFAULT_QUERY = '(max-width: 900px)';
 
-function useMediaQuery(query = DEFUALT_QUERY): boolean {
+function useMediaQuery(query = DEFAULT_QUERY): boolean {
   const getMatches = (query: string): boolean => {
     // Prevents SSR issues
     if (typeof window !== 'undefined') {

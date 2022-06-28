@@ -8,7 +8,7 @@ const auth = async (
   password = process.env.CMS_API_PASSWORD
 ) => {
   const query = gql`
-    mutation ($email: String!, $password: String!) {
+    mutation Login($email: String!, $password: String!) {
       auth_login(email: $email, password: $password) {
         access_token
         refresh_token
@@ -33,7 +33,7 @@ const auth = async (
 
 const refreshToken = async () => {
   const query = gql`
-    mutation ($refreshToken: String!) {
+    mutation RefreshToken($refreshToken: String!) {
       auth_refresh(refresh_token: $refreshToken, mode: json) {
         access_token
         refresh_token

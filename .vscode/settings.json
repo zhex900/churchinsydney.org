@@ -5,5 +5,24 @@
   "headwind.runOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
-  }
+  },
+  "cSpell.words": [
+    "Borales",
+    "cellspacing",
+    "churchinsydney",
+    "esbuild",
+    "flowbite",
+    "headlessui",
+    "Kellyville",
+    "lightbox",
+    "nextjs",
+    "postbuild",
+    "rehype",
+    "Scrollspy",
+    "sendgrid",
+    "svgr",
+    "typeahead",
+    "Unstyled",
+    "newtab"
+  ]
 }

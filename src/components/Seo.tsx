@@ -45,7 +45,7 @@ export default function Seo(props: SeoProps) {
       <meta content={meta.description} name='description' />
       <meta property='og:url' content={`${meta.url}${router.asPath}`} />
       <link rel='canonical' href={`${meta.url}${router.asPath}`} />
-      {/* Open Graph */}
+
       <meta property='og:type' content={meta.type} />
       <meta property='og:site_name' content={meta.siteName} />
       <meta property='og:description' content={meta.description} />

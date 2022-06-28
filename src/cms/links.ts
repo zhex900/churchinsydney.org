@@ -7,20 +7,18 @@ import { parseTranslation } from './locale';
 import { Link } from '@/types/types';
 
 type GraphQLResponse = {
-  links: {
-    0: {
+  links: [
+    {
       href: string;
-      translations: {
-        0: { text: string; tooltip: string | null };
-      };
-    };
-  };
+      translations: [{ text: string; tooltip: string | null }];
+    }
+  ];
 };
 
 export async function getLinks(locale: string): Promise<Link[]> {
   const { links } = (await request({
     document: gql`
-      query ($locale: String!) {
+      query GetLinks($locale: String!) {
         links {
           href
           translations(filter: { languages_code: { code: { _eq: $locale } } }) {

@@ -142,6 +142,7 @@ export default function IndexPage({
                     <ul className='relative h-full'>
                       {featuredPosts.length > 1 && (
                         <PostCard
+                          aria-label='featured post 1'
                           className={clsx(
                             'absolute max-w-[350px] transform-gpu',
                             'top-1/2 translate-y-[-55%] md:translate-y-[-50%] lg:translate-y-[-60%]',
@@ -154,6 +155,7 @@ export default function IndexPage({
                       )}
                       {featuredPosts.length > 0 && (
                         <PostCard
+                          aria-label='featured post 2'
                           className='mx-auto max-w-[350px]'
                           post={featuredPosts[0]}
                         />
@@ -198,12 +200,7 @@ export default function IndexPage({
   );
 }
 
-export async function getStaticProps({
-  locale,
-}: {
-  locale: string;
-  defaultLocale: string;
-}) {
+export async function getStaticProps({ locale }: { locale: string }) {
   generateRss();
 
   return {

@@ -7,20 +7,19 @@ import { parseTranslation } from './locale';
 import { OurLife } from '@/types/types';
 
 type GraphQLResponse = {
-  our_lives: {
-    0: {
-      header: string;
-      translations: {
-        0: { description: string; title: string };
-      };
-    };
-  };
+  our_lives: [
+    {
+      icon: string;
+      header: boolean;
+      translations: [{ description: string; title: string }];
+    }
+  ];
 };
 
 export async function getOurLives(locale: string): Promise<OurLife[]> {
   const { our_lives } = (await request({
     document: gql`
-      query ($locale: String!) {
+      query GetOurLives($locale: String!) {
         our_lives {
           icon
           header

@@ -18,7 +18,7 @@ export type PostType = {
   banner: string;
   slug: string;
   title: string;
-  summary: string;
+  summary: string | null;
   body: string;
   tags: string[];
   dateCreated: string;

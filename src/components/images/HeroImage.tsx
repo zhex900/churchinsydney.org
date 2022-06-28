@@ -5,6 +5,7 @@ export default function HeroImage(
 ) {
   return (
     <svg
+      aria-label='hero image'
       viewBox='0 0 700 550'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

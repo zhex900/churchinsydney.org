@@ -16,6 +16,18 @@ export default async function handler(
     'contact-us-to-email'
   );
 
+  if (!template) {
+    // eslint-disable-next-line no-console
+    console.error('No email template found');
+    return res.status(400).json({ status: 'ERROR' });
+  }
+
+  if (!toEmail) {
+    // eslint-disable-next-line no-console
+    console.error('To email not found');
+    return res.status(400).json({ status: 'ERROR' });
+  }
+
   const { name, phone, email, message } = body;
   const msg = {
     to: toEmail,

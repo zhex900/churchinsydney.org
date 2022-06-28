@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
+    jest: true,
   },
   plugins: ['@typescript-eslint', 'simple-import-sort'],
   extends: [
@@ -49,7 +50,6 @@ module.exports = {
             '^\\.\\./\\.\\./\\.\\.(?!/?$)',
           ],
           ['^@/types'],
-          // other that didnt fit in
           ['^'],
         ],
       },

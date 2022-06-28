@@ -1,9 +1,8 @@
 import { gql } from 'graphql-request';
-import { Settings } from 'http2';
 
 import { request } from '@/lib/graphql';
 
-import { Setting } from '@/types/types';
+import { Setting, Settings } from '@/types/types';
 
 type GraphQLResponse = {
   settings: {
@@ -14,7 +13,7 @@ type GraphQLResponse = {
 export async function getSettings(): Promise<Settings> {
   const { settings } = (await request({
     document: gql`
-      {
+      query GetSettings {
         settings {
           key
           value
