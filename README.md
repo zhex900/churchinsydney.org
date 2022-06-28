@@ -12,6 +12,8 @@
 - Tailwind CSS
 - Webiny Headless CMS
 - Netlify
+- Cypress
+- React testing library
 
 ## Development
 

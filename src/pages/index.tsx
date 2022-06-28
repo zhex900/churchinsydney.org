@@ -60,6 +60,7 @@ export default function IndexPage({
               <h1
                 className='mt-1 text-3xl md:text-5xl 2xl:text-6xl'
                 data-fade='2'
+                data-testid='home-verse'
               >
                 <Trans
                   text={translations['home-verse']}
@@ -126,12 +127,18 @@ export default function IndexPage({
                   data-fade='0'
                 >
                   <div className='mt-8 h-full w-full md:mt-0'>
-                    <h2 className='text-4xl md:text-6xl'>
+                    <h2
+                      className='text-4xl md:text-6xl'
+                      data-testid='home-introduction-title'
+                    >
                       <Accent className='inline decoration-clone leading-snug dark:leading-none'>
                         {translations['home-introduction-title']}
                       </Accent>
                     </h2>
-                    <div className='mt-4 text-base text-gray-600 dark:text-gray-300 md:text-lg'>
+                    <div
+                      className='mt-4 text-base text-gray-600 dark:text-gray-300 md:text-lg'
+                      data-testid='home-quote'
+                    >
                       {translations['home-quote']}
                       <span className='italic'>
                         {translations['home-quote-reference']}

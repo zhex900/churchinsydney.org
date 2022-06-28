@@ -15,14 +15,15 @@
     "headlessui",
     "Kellyville",
     "lightbox",
+    "newtab",
     "nextjs",
     "postbuild",
     "rehype",
     "Scrollspy",
     "sendgrid",
     "svgr",
+    "testid",
     "typeahead",
-    "Unstyled",
-    "newtab"
+    "Unstyled"
   ]
 }
