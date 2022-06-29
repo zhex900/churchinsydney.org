@@ -10,10 +10,11 @@
 - Nextjs
 - Typescript
 - Tailwind CSS
-- Webiny Headless CMS
+- Directus Headless CMS
 - Netlify
 - Cypress
 - React testing library
+- AWS CDK
 
 ## Development
 
