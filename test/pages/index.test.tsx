@@ -1,9 +1,8 @@
-import React from 'react';
+import { expect } from '@jest/globals';
 
 import Home, { getStaticProps } from '@/pages/index';
 
 import { render, screen, within } from '../testUtils';
-
 const { getByText, getByLabelText } = screen;
 
 jest.mock('next/router', () => ({
@@ -25,7 +24,7 @@ describe('Home page', () => {
       'home-quote',
       'home-quote-reference',
     ].forEach((key) => {
-      expect(screen.getByText(props.translations[key])).toBeInTheDocument();
+      expect(screen.getByText(props.translations[key])).toBeDefined();
     });
 
     const footerElement = screen.getByLabelText('footer label');
@@ -36,7 +35,7 @@ describe('Home page', () => {
         href
       );
     });
-    expect(screen.queryByLabelText('hero image')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('hero image')).toBeNull();
   });
 
   // happy path
@@ -70,7 +69,7 @@ describe('Home page', () => {
 
     // expect each translation text to be in the document
     Object.entries(props.translations).forEach(([, value]) => {
-      expect(getByText(value)).toBeInTheDocument();
+      expect(getByText(value)).toBeDefined();
     });
 
     const footerElement = getByLabelText('footer label');
@@ -81,7 +80,7 @@ describe('Home page', () => {
         href
       );
     });
-    expect(screen.queryByLabelText('hero image')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('hero image')).toBeNull();
   });
 
   it('Should empty current events should not show current event label', () => {
@@ -98,7 +97,7 @@ describe('Home page', () => {
     render(<Home {...props} />);
     expect(
       screen.queryByText(props.translations['home-current-events'])
-    ).not.toBeInTheDocument();
+    ).toBeNull();
   });
 
   it('No current events should not show current event label', () => {
@@ -115,7 +114,7 @@ describe('Home page', () => {
     render(<Home {...props} />);
     expect(
       screen.queryByText(props.translations['home-current-events'])
-    ).not.toBeInTheDocument();
+    ).toBeNull();
   });
 
   it('No featured posts should not show featured post', () => {
@@ -128,8 +127,8 @@ describe('Home page', () => {
     };
 
     render(<Home {...props} />);
-    expect(screen.queryByLabelText('featured post 1')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('featured post 2')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('featured post 1')).toBeNull();
+    expect(screen.queryByLabelText('featured post 2')).toBeNull();
   });
 
   it('Settings "show-hero-image" should show hero image', () => {
@@ -144,7 +143,7 @@ describe('Home page', () => {
     };
 
     render(<Home {...props} />);
-    expect(screen.queryByLabelText('hero image')).toBeInTheDocument();
+    expect(screen.queryByLabelText('hero image')).toBeDefined();
   });
 
   it('Settings "show-hero-image" should hide hero image', () => {
@@ -159,6 +158,6 @@ describe('Home page', () => {
     };
 
     render(<Home {...props} />);
-    expect(screen.queryByLabelText('hero image')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('hero image')).toBeNull();
   });
 });

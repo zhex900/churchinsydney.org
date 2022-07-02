@@ -38,5 +38,6 @@
     "testid",
     "typeahead",
     "Unstyled"
-  ]
+  ],
+  "git.ignoreLimitWarning": true
 }

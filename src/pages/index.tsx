@@ -93,6 +93,7 @@ export default function IndexPage({
               </div>
             </article>
             <UnstyledLink
+              data-testid='home-scroll-down'
               href='#intro'
               className={clsx(
                 'absolute bottom-2 left-1/2 -translate-x-1/2 md:bottom-10',

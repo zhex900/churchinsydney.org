@@ -1,17 +1,16 @@
-// https://github.com/tvkhoa/react-tippy/issues/169
+import { Tooltip, TooltipProps } from 'flowbite-react';
 import {
   cloneElement,
   FunctionComponent,
   PropsWithChildren,
   ReactNode,
 } from 'react';
-import { Tooltip, TooltipProps } from 'react-tippy';
 
 interface TooltipWrappedProps extends PropsWithChildren<TooltipProps> {
   children?: ReactNode;
 }
 
 const BaseTooltip: FunctionComponent<TooltipWrappedProps> = (props) =>
-  cloneElement(<Tooltip />, { ...props });
+  cloneElement(<Tooltip arrow={false} style='auto' {...props} />);
 
 export default BaseTooltip;
