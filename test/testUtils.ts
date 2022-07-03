@@ -1,8 +1,6 @@
 import { render } from '@testing-library/react';
 import { ReactElement } from 'react';
 
-// Add in any providers here if necessary:
-// (ReduxProvider, ThemeProvider, etc)
 const Providers = ({ children }: { children: ReactElement }) => {
   return children;
 };

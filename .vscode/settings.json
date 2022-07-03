@@ -37,7 +37,8 @@
     "svgr",
     "testid",
     "typeahead",
-    "Unstyled"
+    "Unstyled",
+    "vtest"
   ],
   "git.ignoreLimitWarning": true
 }

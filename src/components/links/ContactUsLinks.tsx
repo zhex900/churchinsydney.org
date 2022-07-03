@@ -49,10 +49,14 @@ export default function ContactUsLinks({
   ];
 
   return (
-    <div className='mt-8 flex items-center justify-center space-x-4 pt-2'>
+    <div
+      aria-label='contact us links'
+      className='mt-8 flex items-center justify-center space-x-4 pt-2'
+    >
       {contactUs.map((contact) => (
         <BaseTooltip
           key={contact.id}
+          aria-label={`${contact.id} tooltip`}
           content={
             <div>
               {`${copyStatus} `}
@@ -69,7 +73,10 @@ export default function ContactUsLinks({
               setTimeout(() => setCopyStatus(copyStatus), 1500);
             }}
           >
-            <button className='rounded-sm align-middle focus:outline-none focus-visible:ring focus-visible:ring-primary-300'>
+            <button
+              aria-label={`${contact.id}`}
+              className='rounded-sm align-middle focus:outline-none focus-visible:ring focus-visible:ring-primary-300'
+            >
               <contact.icon className='h-7 w-7 align-middle text-gray-600 hover:text-primary-300 dark:text-gray-300 dark:hover:text-primary-300' />
             </button>
           </CopyToClipboard>
