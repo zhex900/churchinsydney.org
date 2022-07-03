@@ -5,6 +5,7 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
+import Script from 'next/script';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -39,6 +40,19 @@ class MyDocument extends Document {
         <body className='bg-white transition-colors dark:bg-dark dark:text-white'>
           <Main />
           <NextScript />
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_ANALYTICS_ID}`}
+            strategy='afterInteractive'
+          />
+          <Script id='google-analytics' strategy='afterInteractive'>
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', ${process.env.NEXT_PUBLIC_ANALYTICS_ID});
+          `}
+          </Script>
         </body>
       </Html>
     );
