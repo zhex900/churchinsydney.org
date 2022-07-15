@@ -31,7 +31,7 @@ jobs:
           headless: true
           record: true
           config: baseUrl=${{ github.event.inputs.deployPrimeUrl }}
-          # command: yarn cypress:headless
+          command: npx cypress run --browser chrome --headless --config baseUrl=${{ github.event.inputs.deployPrimeUrl }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
