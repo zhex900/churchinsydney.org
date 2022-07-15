@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - run: echo "Current Git info $GITHUB_WORKFLOW $GITHUB_REF $GITHUB_SHA"
-      - run: echo "Testing url ${{ github.event.inputs.deployPrimeUrl }}"
+      - run: echo "Testing url-> ${{ github.event.inputs.deployPrimeUrl }}"
 
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install packages
-        run: yarn
+      # - name: Install packages
+      #   run: yarn
 
       # test the deployed site using
       # https://github.com/cypress-io/github-action
@@ -37,3 +37,4 @@ jobs:
           command: yarn cypress:headless
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
