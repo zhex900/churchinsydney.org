@@ -21,15 +21,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # - name: Install packages
-      #   run: yarn
+      - name: Install packages
+        run: yarn
 
       # test the deployed site using
       # https://github.com/cypress-io/github-action
       - name: Cypress run 🏃‍♀️
         uses: cypress-io/github-action@v2
         with:
-          install: false
+          install: true
           browser: chrome
           headless: true
           record: true
