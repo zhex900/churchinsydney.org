@@ -1,0 +1,56 @@
+name: Build and Deploy to Vercel
+on:
+  # push:
+  pull_request:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Cache node modules and next folder
+      - name: 📬 Caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn-lock.json') }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: 🧰 Install dependencies
+        run: yarn
+
+      - name: 📦 Build project
+        env:
+          CMS_API_ENDPOINT: ${{ secrets.CMS_API_ENDPOINT }}
+          CMS_API_USERNAME: ${{ secrets.CMS_API_USERNAME }}
+          CMS_API_PASSWORD: ${{ secrets.CMS_API_PASSWORD }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}
+        run: npx vercel build
+
+      - name: Deploy to Vercel Action
+        id: vercel-deploy
+        uses: zhex900/deploy-to-vercel-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ARGS: "--prebuilt"
+          CREATE_COMMENT: true
+
+      # - name: Trigger e2e tests
+      #   uses: mvasigh/dispatch-action@main
+      #   with:
+      #     # You should create a personal access token and store it in your repository
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     event_type: e2e
+      #     message: |
+      #       {
+      #         "deployPrimeUrl": "${{steps.vercel-deploy.outputs.PREVIEW_URL}}"
+      #       }

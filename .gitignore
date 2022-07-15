@@ -37,7 +37,8 @@ yarn-error.log*
 .env.production.local
 
 # vercel
-.vercel
+.vercel/output
+.vercel/README.txt
 
 # next-sitemap
 robots.txt
@@ -59,3 +60,6 @@ rss.xml
 **/public/worker-*.js.map
 .env.production
 public/sitemap-0.xml
+
+# Local Netlify folder
+.netlify

@@ -21,10 +21,20 @@
 - Directus Headless CMS
 - graphql
 
+## CI/CD
+- Github Actions
+  - CI
+    - Unit and DOM test
+    - Build the site
+    - Deploy PR, and push to master as preview to vercel
+    - Show preview URL in PR comments
+    - After preview deployment run Cypress
+    - Show Cypress result in PR comments
+  - CD
+    - Production deploy on release
+    - No need to run cypress
 ## Hosting
-- Netlify
-  - Site hosting
-  - CI/CD
+- Vercel
 
 ## Infrastructure
 - AWS CDK

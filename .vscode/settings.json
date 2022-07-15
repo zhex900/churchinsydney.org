@@ -38,6 +38,7 @@
     "testid",
     "typeahead",
     "Unstyled",
+    "vercel",
     "vtest"
   ],
   "git.ignoreLimitWarning": true
