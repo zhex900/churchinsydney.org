@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v3
       - run: |
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            git pull
+            git checkout master
             git checkout ${{ env.LATEST_RELEASE_TAG }} -B latest-release-${{ env.LATEST_RELEASE_TAG }}
           else
             git checkout ${{ github.ref_name }}
