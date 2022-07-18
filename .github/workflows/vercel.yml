@@ -1,11 +1,6 @@
 name: Build and Deploy to Vercel
 on:
   workflow_dispatch:
-    inputs:
-      isDispatch:
-        description: "Show this workflow only if the event is a workflow dispatch"
-        required: false
-        default: "DISPATCH"
   push:
     branches:
       - "master"
@@ -28,7 +23,7 @@ jobs:
         run: |
           echo "Trigger by event: ${{ github.event_name }}"
           echo "Latest release tag: ${{ env.LATEST_RELEASE_TAG }}"
-          echo "Git ref: ${{ github.ref }}"
+          echo "Git ref: ${{ github.ref_name }}"
 
       - name: Checkout latest release
         uses: actions/checkout@v3
@@ -37,15 +32,10 @@ jobs:
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             git checkout tags/${{ env.LATEST_RELEASE_TAG }} -B latest-release-${{ env.LATEST_RELEASE_TAG }}
           else
-            git checkout ${{ github.ref }}
+            git checkout ${{ github.ref_name }}
           fi
           git symbolic-ref HEAD
           ls
-        # with:
-        #   ref: ${{ steps.latest-release.outputs.release-tag }}
-
-      # - uses: actions/checkout@v3
-      # Cache node modules and next folder.
       - name: 📬 Caching
         uses: actions/cache@v2
         with:
