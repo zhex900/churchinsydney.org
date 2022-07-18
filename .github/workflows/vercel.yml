@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # Cache node modules and next folder
+      # Cache node modules and next folder.
       - name: 📬 Caching
         uses: actions/cache@v2
         with:
@@ -43,7 +43,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ARGS: "--prebuilt"
           CREATE_COMMENT: true
-        
+
       - name: Save deployed url
         run: |
           mkdir -p ./pr

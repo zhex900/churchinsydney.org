@@ -32,19 +32,21 @@ jobs:
       - name: "Unzip artifact"
         run: unzip pr_deployed_url.zip
 
-      - name: "Read the artifact"
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            let fs = require('fs');
-            const pr_deployed_url = fs.readFileSync('./pr_deployed_url');
-            echo pr_deployed_url;
-            export pr_deployed_url=pr_deployed_url
-            echo "::set-env name=pr_deployed_url::$pr_deployed_url"
+      # - name: "Read the artifact"
+      #   id: deploy-url
+      #   uses: actions/github-script@v6
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       let fs = require('fs');
+      #       const pr_deployed_url = fs.readFileSync('./pr_deployed_url');
+      #       echo DEPLOYED_URL=${pr_deployed_url}
 
       - name: Checkout
         uses: actions/checkout@v2
+        run: |
+          echo ./pr_deployed_url
+          echo "DEPLOYED_URL=(cat ./pr_deployed_url)" >> $GITHUB_ENV
 
       # test the deployed site using
       # https://github.com/cypress-io/github-action
@@ -55,7 +57,7 @@ jobs:
           browser: chrome
           headless: true
           record: true
-          command: npx cypress run --browser chrome --headless --config baseUrl=${{ $deployPrimeUrl }}
+          command: npx cypress run --browser chrome --headless --config baseUrl=${{ env.DEPLOYED_URL }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
