@@ -27,7 +27,7 @@ jobs:
       - name: Show environment variable
         run: |
           echo "Trigger by event: ${{ github.event_name }}"
-          echo "Latest release tag: ${{ env.LATEST_RELEASE_TAG }}""
+          echo "Latest release tag: ${{ env.LATEST_RELEASE_TAG }}"
           echo "Git ref: ${{ github.ref }}"
 
       - name: Checkout latest release
