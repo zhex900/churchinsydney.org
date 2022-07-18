@@ -1,6 +1,10 @@
 name: Build and Deploy to Vercel
 on:
   workflow_dispatch:
+    inputs:
+      publishId:
+        description: CMS publish id
+        required: true
   push:
     branches:
       - "master"
@@ -12,22 +16,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # if from a pull request, we need to checkout the PR branch
-
       - name: Get latest release with tag
         id: latest-release
         run: |
-          echo "LATEST_RELEASE_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')" >> $GITHUB_ENV
+          echo "LATEST_RELEASE_TAG=$(curl -s ${{ github.api_url }}/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')" >> $GITHUB_ENV
 
-      - name: Show environment variable
+      - name: Configure environment
         run: |
           echo "Trigger by event: ${{ github.event_name }}"
           echo "Latest release tag: ${{ env.LATEST_RELEASE_TAG }}"
           echo "Git ref: ${{ github.ref_name }}"
 
-      - name: Checkout latest release
+          RELEASE=${{ github.event.release.tag_name }}
+          if [[ "$RELEASE" != "" || ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo "Production deployment"
+            echo "PROD_BUILD=--prod" >> $GITHUB_ENV
+          else
+            echo "Preview deployment"
+            echo "PROD_BUILD=" >> $GITHUB_ENV
+          fi
+
+      - name: Checkout
         uses: actions/checkout@v3
-      - run: |
+
+      - name: Checkout latest release
+        run: |
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             git fetch --unshallow --tags
             git checkout tags/${{ env.LATEST_RELEASE_TAG }} -B latest-release-${{ env.LATEST_RELEASE_TAG }}
@@ -36,6 +49,7 @@ jobs:
           fi
           git symbolic-ref HEAD
           ls
+
       - name: 📬 Caching
         uses: actions/cache@v2
         with:
@@ -49,17 +63,29 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Is release
+      - name: Push run id to CMS
         run: |
-          RELEASE=${{ github.event.release.tag_name }}
-          if [[ "$RELEASE" != "" || ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            echo "Production deployment"
-            echo "PROD_BUILD=--prod" >> $GITHUB_ENV
-          else
-            echo "Preview deployment"
-            echo "PROD_BUILD=" >> $GITHUB_ENV
-          fi
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo "CMS publish id: ${{ github.event.inputs.publishId }}"
 
+            CMS_TOKEN="$(curl --request POST \
+              --url ${{ secrets.CMS_API_ENDPOINT}}/auth/login \
+              --header 'Content-Type: application/json' \
+              --data '{
+                "email": "${{ secrets.CMS_API_PUBLISH }}",
+                "password": "${{ secrets.CMS_API_PUBLISH_PASSWORD }}"
+              }' | jq -r '.data.access_token')" 
+            echo $CMS_TOKEN
+            echo "CMS_TOKEN=$CMS_TOKEN" >> $GITHUB_ENV
+            curl --request PATCH \
+              --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
+              --header "Authorization: Bearer $CMS_TOKEN" \
+              --header 'Content-Type: application/json' \
+              --data '{
+                "run_id": "${{ github.run_id }}"
+                "status": "deploying"
+              }'
+          fi
       - name: 🧰 Install dependencies
         run: yarn
 
@@ -92,3 +118,15 @@ jobs:
         with:
           name: pr_deployed_url
           path: pr/
+
+      - name: Push status to CMS
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            curl --request PATCH \
+              --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
+              --header "Authorization: Bearer ${{ env.CMS_TOKEN }}" \
+              --header 'Content-Type: application/json' \
+              --data '{
+                "status": "done"
+              }'
+          fi
