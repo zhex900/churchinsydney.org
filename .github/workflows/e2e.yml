@@ -42,11 +42,13 @@ jobs:
       #       const pr_deployed_url = fs.readFileSync('./pr_deployed_url');
       #       echo DEPLOYED_URL=${pr_deployed_url}
 
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Set DEPLOYED_URL
         run: |
           echo ./pr_deployed_url
           echo "DEPLOYED_URL=(cat ./pr_deployed_url)" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v2
 
       # test the deployed site using
       # https://github.com/cypress-io/github-action
