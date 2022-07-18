@@ -22,17 +22,17 @@ jobs:
       - name: Get latest release with tag
         id: latest-release
         run: |
-          echo "::set-output name=release-tag::$(curl -s https://api.github.com/repos/churchinsydney/${{ github.repository }}/releases/latest | jq '.tag_name' | sed 's/\"//g')"
+          echo "::set-output name=release-tag::$(curl -s https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/releases/latest | jq '.tag_name' | sed 's/\"//g')"
       - name: Confirm release tag
         run: |
+          echo "Event: ${{ github.event_name }}"
           echo ${{ steps.latest-release.outputs.release-tag }}
 
       - name: Checkout latest release
         uses: actions/checkout@v3
       - run: |
           echo ${{ github.ref }}
-          echo ${{ input.isDispatch }}
-          if [[ ${{ input.isDispatch }} == 'DISPATCH' ]]; then
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             git checkout tags/${{ github.ref }}
           else
             git checkout ${{ steps.latest-release.outputs.release-tag }}
@@ -59,7 +59,7 @@ jobs:
       - name: Is release
         run: |
           RELEASE=${{ github.event.release.tag_name }}
-          if [ "$RELEASE" != "" || ${{ input.isDispatch }} == 'DISPATCH' ]; then
+          if [ "$RELEASE" != "" || ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "Production deployment"
             echo "PROD_BUILD=--prod" >> $GITHUB_ENV
           else
