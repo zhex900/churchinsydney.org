@@ -30,7 +30,7 @@ jobs:
       - run: |
 
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            git checkout tags/${{ env.LATEST_RELEASE_TAG }} -B latest-release-${{ env.LATEST_RELEASE_TAG }}
+            git checkout ${{ env.LATEST_RELEASE_TAG }} -B latest-release-${{ env.LATEST_RELEASE_TAG }}
           else
             git checkout ${{ github.ref_name }}
           fi
