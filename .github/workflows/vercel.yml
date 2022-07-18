@@ -4,7 +4,9 @@ on:
     branches:
       - "master"
   pull_request:
-  
+  release:
+    types: [published]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,6 +26,17 @@ jobs:
         with:
           node-version: 16.x
 
+      - name: Is release
+        run: |
+          RELEASE=${{ github.event.release.tag_name }}
+          if [ "$RELEASE" != "" ]; then
+            echo "BUILD="--prod" >> $GITHUB_ENV
+            echo "DEPLOY="true" >> $GITHUB_ENV
+          else
+            echo "BUILD="" >> $GITHUB_ENV
+            echo "DEPLOY="false" >> $GITHUB_ENV
+          fi
+
       - name: 🧰 Install dependencies
         run: yarn
 
@@ -34,7 +47,7 @@ jobs:
           CMS_API_PASSWORD: ${{ secrets.CMS_API_PASSWORD }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}
-        run: npx vercel build
+        run: npx vercel build ${{ env.BUILD }}
 
       - name: Deploy to Vercel Action
         id: vercel-deploy
@@ -46,7 +59,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ARGS: "--prebuilt"
           CREATE_COMMENT: true
-          PRODUCTION: false
+          PRODUCTION: ${{ env.DEPLOY }}
 
       - name: Save deployed url
         run: |
