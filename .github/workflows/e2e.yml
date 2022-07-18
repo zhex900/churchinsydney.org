@@ -1,22 +1,47 @@
 name: e2e
 on:
-  workflow_dispatch:
-    inputs:
-      # siteName:
-      #   description: Site Name
-      #   required: false
-      deployPrimeUrl:
-        description: Deployed URL
-        required: true
-      # commit:
-      #   description: Original repo commit SHA
-      #   required: false
+  workflow_run:
+    workflows: [Build and Deploy to Vercel]
+    types:
+      - completed
 jobs:
   e2e:
     runs-on: ubuntu-20.04
     steps:
-      - run: echo "Current Git info $GITHUB_WORKFLOW $GITHUB_REF $GITHUB_SHA"
-      - run: echo "Testing url-> ${{ github.event.inputs.deployPrimeUrl }}"
+      - name: "Download artifact"
+        uses: actions/github-script@v5
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "pr_deployed_url"
+            })[0];
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            let fs = require('fs');
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/pr_deployed_url.zip`, Buffer.from(download.data));
+
+      - name: "Unzip artifact"
+        run: unzip pr_deployed_url.zip
+
+      - name: "Read the artifact"
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            let fs = require('fs');
+            const pr_deployed_url = fs.readFileSync('./pr_deployed_url');
+            echo pr_deployed_url;
+            export pr_deployed_url=pr_deployed_url
+            echo "::set-env name=pr_deployed_url::$pr_deployed_url"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,8 +55,7 @@ jobs:
           browser: chrome
           headless: true
           record: true
-          config: baseUrl=${{ github.event.inputs.deployPrimeUrl }}
-          command: npx cypress run --browser chrome --headless --config baseUrl=${{ github.event.inputs.deployPrimeUrl }}
+          command: npx cypress run --browser chrome --headless --config baseUrl=${{ $deployPrimeUrl }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

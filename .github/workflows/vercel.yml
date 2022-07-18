@@ -43,14 +43,12 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ARGS: "--prebuilt"
           CREATE_COMMENT: true
-
-      # - name: Trigger e2e tests
-      #   uses: mvasigh/dispatch-action@main
-      #   with:
-      #     # You should create a personal access token and store it in your repository
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     event_type: e2e
-      #     message: |
-      #       {
-      #         "deployPrimeUrl": "${{steps.vercel-deploy.outputs.PREVIEW_URL}}"
-      #       }
+        
+      - name: Save deployed url
+        run: |
+          mkdir -p ./pr
+          echo ${{steps.vercel-deploy.outputs.PREVIEW_URL}} > ./pr/pr_deployed_url
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pr_deployed_url
+          path: pr/
