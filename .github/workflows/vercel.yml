@@ -29,11 +29,10 @@ jobs:
       - name: Is release
         run: |
           RELEASE=${{ github.event.release.tag_name }}
-          echo $RELEASE
           if [ "$RELEASE" != "" ]; then
-            echo "PROD_BUILD="--prod" >> $GITHUB_ENV
+            echo "PROD_BUILD=--prod" >> $GITHUB_ENV
           else
-            echo "PROD_BUILD="" >> $GITHUB_ENV
+            echo "PROD_BUILD=" >> $GITHUB_ENV
           fi
 
       - name: 🧰 Install dependencies
