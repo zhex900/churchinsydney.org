@@ -29,12 +29,11 @@ jobs:
       - name: Is release
         run: |
           RELEASE=${{ github.event.release.tag_name }}
+          echo $RELEASE
           if [ "$RELEASE" != "" ]; then
-            echo "BUILD="--prod" >> $GITHUB_ENV
-            echo "DEPLOY="true" >> $GITHUB_ENV
+            echo "PROD_BUILD="--prod" >> $GITHUB_ENV
           else
-            echo "BUILD="" >> $GITHUB_ENV
-            echo "DEPLOY="false" >> $GITHUB_ENV
+            echo "PROD_BUILD="" >> $GITHUB_ENV
           fi
 
       - name: 🧰 Install dependencies
@@ -47,7 +46,7 @@ jobs:
           CMS_API_PASSWORD: ${{ secrets.CMS_API_PASSWORD }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}
-        run: npx vercel build ${{ env.BUILD }}
+        run: npx vercel build ${{ env.PROD_BUILD }}
 
       - name: Deploy to Vercel Action
         id: vercel-deploy
@@ -59,7 +58,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ARGS: "--prebuilt"
           CREATE_COMMENT: true
-          PRODUCTION: ${{ env.DEPLOY }}
+          PRODUCTION: ${{ env.PROD_BUILD != "" }}
 
       - name: Save deployed url
         run: |
