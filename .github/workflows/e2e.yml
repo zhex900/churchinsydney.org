@@ -44,8 +44,8 @@ jobs:
 
       - name: Set DEPLOYED_URL
         run: |
-          echo ./pr_deployed_url
-          echo "DEPLOYED_URL=(cat ./pr_deployed_url)" >> $GITHUB_ENV
+          cat ./pr_deployed_url
+          echo "DEPLOYED_URL=$(cat ./pr_deployed_url)" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v2
