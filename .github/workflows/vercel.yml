@@ -1,5 +1,11 @@
 name: Build and Deploy to Vercel
 on:
+  workflow_dispatch:
+    inputs:
+      isDispatch:
+        description: "Show this workflow only if the event is a workflow dispatch"
+        required: false
+        default: "DISPATCH"
   push:
     branches:
       - "master"
@@ -11,7 +17,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      # if from a pull request, we need to checkout the PR branch
+
+      - name: Get latest release with tag
+        id: latest-release
+        run: |
+          echo "::set-output name=release-tag::$(curl -s https://api.github.com/repos/churchinsydney/${{ github.repository }}/releases/latest | jq '.tag_name' | sed 's/\"//g')"
+      - name: Confirm release tag
+        run: |
+          echo ${{ steps.latest-release.outputs.release-tag }}
+
+      - name: Checkout latest release
+        uses: actions/checkout@v3
+      - run: |
+          echo ${{ github.ref }}
+          echo ${{ input.isDispatch }}
+          if [[ ${{ input.isDispatch }} == 'DISPATCH' ]]; then
+            git checkout tags/${{ github.ref }}
+          else
+            git checkout ${{ steps.latest-release.outputs.release-tag }}
+          fi
+          git symbolic-ref HEAD
+        # with:
+        #   ref: ${{ steps.latest-release.outputs.release-tag }}
+
+      - uses: actions/checkout@v3
       # Cache node modules and next folder.
       - name: 📬 Caching
         uses: actions/cache@v2
@@ -29,9 +59,11 @@ jobs:
       - name: Is release
         run: |
           RELEASE=${{ github.event.release.tag_name }}
-          if [ "$RELEASE" != "" ]; then
+          if [ "$RELEASE" != "" || ${{ input.isDispatch }} == 'DISPATCH' ]; then
+            echo "Production deployment"
             echo "PROD_BUILD=--prod" >> $GITHUB_ENV
           else
+            echo "Preview deployment"
             echo "PROD_BUILD=" >> $GITHUB_ENV
           fi
 

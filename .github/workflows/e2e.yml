@@ -38,23 +38,13 @@ jobs:
       - name: "Unzip artifact"
         run: unzip pr_deployed_url.zip
 
-      # - name: "Read the artifact"
-      #   id: deploy-url
-      #   uses: actions/github-script@v6
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       let fs = require('fs');
-      #       const pr_deployed_url = fs.readFileSync('./pr_deployed_url');
-      #       echo DEPLOYED_URL=${pr_deployed_url}
-
       - name: Set DEPLOYED_URL
         run: |
           cat ./pr_deployed_url
           echo "DEPLOYED_URL=$(cat ./pr_deployed_url)" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # test the deployed site using
       # https://github.com/cypress-io/github-action
