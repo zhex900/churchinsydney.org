@@ -52,7 +52,7 @@ jobs:
       - name: Is release
         run: |
           RELEASE=${{ github.event.release.tag_name }}
-          if [ "$RELEASE" != "" || ${{ github.event_name }} == 'workflow_dispatch' ]; then
+          if [[ "$RELEASE" != "" || ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             echo "Production deployment"
             echo "PROD_BUILD=--prod" >> $GITHUB_ENV
           else
