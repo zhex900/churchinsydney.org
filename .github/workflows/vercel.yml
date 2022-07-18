@@ -22,7 +22,7 @@ jobs:
       - name: Get latest release with tag
         id: latest-release
         run: |
-          echo "LATEST_RELEASE_TAG=$(curl -s https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/releases/latest | jq -r '.tag_name')" >> $GITHUB_ENV
+          echo "LATEST_RELEASE_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')" >> $GITHUB_ENV
 
       - name: Show environment variable
         run: |
@@ -35,7 +35,7 @@ jobs:
       - run: |
 
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            git checkout tags/${{ env.LATEST_RELEASE_TAG }}
+            git checkout tags/${{ env.LATEST_RELEASE_TAG }} -B latest-release-${{ env.LATEST_RELEASE_TAG }}
           else
             git checkout ${{ github.ref }}
           fi
