@@ -35,9 +35,9 @@ jobs:
       - run: |
 
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            git checkout ${{ github.ref }}
-          else
             git checkout tags/${{ env.LATEST_RELEASE_TAG }}
+          else
+            git checkout ${{ github.ref }}
           fi
           git symbolic-ref HEAD
           ls
