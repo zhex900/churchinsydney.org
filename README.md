@@ -38,7 +38,7 @@
 
 ## Infrastructure
 - AWS CDK
-  - cms.churchinsydnye.org S3 redirect
+  - cms.churchinsydney.org S3 redirect
   - www.churchinsydney.ort DNS redirect
 - Sendgrid (contact us emailer)
 
