@@ -13,6 +13,32 @@ on:
     types: [published]
 
 jobs:
+  push-run-id-to-cms:
+    runs-on: ubuntu-latest
+    if: (${{ github.event_name }} == 'workflow_dispatch')
+    steps:
+      - name: Push run id to CMS
+        run: |
+            echo "CMS publish id: ${{ github.event.inputs.publishId }}"
+
+            CMS_TOKEN="$(curl --request POST \
+              --url ${{ secrets.CMS_API_ENDPOINT}}/auth/login \
+              --header 'Content-Type: application/json' \
+              --data '{
+                "email": "${{ secrets.CMS_API_PUBLISH }}",
+                "password": "${{ secrets.CMS_API_PUBLISH_PASSWORD }}"
+              }' | jq -r '.data.access_token')" 
+            echo $CMS_TOKEN
+            echo "CMS_TOKEN=$CMS_TOKEN" >> $GITHUB_ENV
+            curl --request PATCH \
+              --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
+              --header "Authorization: Bearer $CMS_TOKEN" \
+              --header 'Content-Type: application/json' \
+              --data '{
+                "run_id": "${{ github.run_id }}"
+                "status": "deploying"
+              }'
+
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -63,29 +89,6 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Push run id to CMS
-        run: |
-          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            echo "CMS publish id: ${{ github.event.inputs.publishId }}"
-
-            CMS_TOKEN="$(curl --request POST \
-              --url ${{ secrets.CMS_API_ENDPOINT}}/auth/login \
-              --header 'Content-Type: application/json' \
-              --data '{
-                "email": "${{ secrets.CMS_API_PUBLISH }}",
-                "password": "${{ secrets.CMS_API_PUBLISH_PASSWORD }}"
-              }' | jq -r '.data.access_token')" 
-            echo $CMS_TOKEN
-            echo "CMS_TOKEN=$CMS_TOKEN" >> $GITHUB_ENV
-            curl --request PATCH \
-              --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
-              --header "Authorization: Bearer $CMS_TOKEN" \
-              --header 'Content-Type: application/json' \
-              --data '{
-                "run_id": "${{ github.run_id }}"
-                "status": "deploying"
-              }'
-          fi
       - name: 🧰 Install dependencies
         run: yarn
 
@@ -118,15 +121,17 @@ jobs:
         with:
           name: pr_deployed_url
           path: pr/
-
+    
+  notify-cms:
+    runs-on: ubuntu-latest
+    if: (${{ github.event_name }} == 'workflow_dispatch')
+    steps:
       - name: Push status to CMS
         run: |
-          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            curl --request PATCH \
-              --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
-              --header "Authorization: Bearer ${{ env.CMS_TOKEN }}" \
-              --header 'Content-Type: application/json' \
-              --data '{
-                "status": "done"
-              }'
-          fi
+          curl --request PATCH \
+            --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
+            --header "Authorization: Bearer ${{ env.CMS_TOKEN }}" \
+            --header 'Content-Type: application/json' \
+            --data '{
+              "status": ${{ github.event.workflow_run.conclusion }}
+            }'
