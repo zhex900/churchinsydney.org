@@ -1,4 +1,5 @@
 export const DATE_FORMAT = 'dd MMMM yyyy';
+export const TIME_ZONE = 'Australia/Sydney';
 
 export const IMAGE_SIZE = {
   width: 1200,

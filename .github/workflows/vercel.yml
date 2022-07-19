@@ -113,9 +113,7 @@ jobs:
         run: |
           mkdir -p ./pr
           echo ${{steps.vercel-deploy.outputs.PREVIEW_URL}} > ./pr/pr_deployed_url
-          if [[ ${{ env.PROD_BUILD != '' }} ]]; then
-            echo ${{ secrets.PROD_URL }} > ./pr/pr_deployed_url
-          fi
+          cat ./pr/pr_deployed_url
       - uses: actions/upload-artifact@v2
         with:
           name: pr_deployed_url

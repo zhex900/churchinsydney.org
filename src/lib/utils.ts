@@ -1,7 +1,8 @@
-import { format, getDate, isSameMonth, isSameYear } from 'date-fns';
+import { getDate, isSameMonth, isSameYear } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { countBy, map, sortBy, toPairs } from 'lodash';
 
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, TIME_ZONE } from '@/constants';
 
 import { PostType } from '@/types/types';
 
@@ -43,10 +44,22 @@ export function formatEventDate(startDate: string, endDate: string) {
   const end = new Date(endDate);
 
   if (isSameMonth(start, end) && isSameYear(start, end)) {
-    return `${getDate(start)}-${getDate(end)}, ${format(start, 'MMMM yyyy')}`;
+    return `${getDate(start)}-${getDate(end)}, ${formatInTimeZone(
+      start,
+      TIME_ZONE,
+      'MMMM yyyy'
+    )}`;
   } else if (isSameYear(start, end)) {
-    return `${format(start, 'dd MMMM')} - ${format(end, DATE_FORMAT)}`;
+    return `${formatInTimeZone(
+      start,
+      TIME_ZONE,
+      'dd MMMM'
+    )} - ${formatInTimeZone(end, TIME_ZONE, DATE_FORMAT)}`;
   }
 
-  return `${format(start, DATE_FORMAT)} - ${format(end, DATE_FORMAT)}`;
+  return `${formatInTimeZone(
+    start,
+    TIME_ZONE,
+    DATE_FORMAT
+  )} - ${formatInTimeZone(end, TIME_ZONE, DATE_FORMAT)}`;
 }
