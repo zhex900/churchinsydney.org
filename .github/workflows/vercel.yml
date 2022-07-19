@@ -28,14 +28,13 @@ jobs:
               "email": "${{ secrets.CMS_API_PUBLISH }}",
               "password": "${{ secrets.CMS_API_PUBLISH_PASSWORD }}"
             }' | jq -r '.data.access_token')" 
-          echo $CMS_TOKEN
-          echo "CMS_TOKEN=$CMS_TOKEN" >> $GITHUB_ENV
           curl --request PATCH \
             --url "${{ secrets.CMS_API_ENDPOINT}}/items/publish/${{ github.event.inputs.publishId }}" \
             --header "Authorization: Bearer $CMS_TOKEN" \
             --header 'Content-Type: application/json' \
             --data '{
               "run_id": "${{ github.run_id }}",
+              "run_number": "${{ github.run_number }}",
               "status": "deploying"
             }'
 
@@ -131,9 +130,16 @@ jobs:
       - name: Push status to CMS
         run: |
           echo ${{ github.event.workflow_run.conclusion }}
+          CMS_TOKEN="$(curl --request POST \
+            --url "${{ secrets.CMS_API_ENDPOINT}}/auth/login" \
+            --header 'Content-Type: application/json' \
+            --data '{
+              "email": "${{ secrets.CMS_API_PUBLISH }}",
+              "password": "${{ secrets.CMS_API_PUBLISH_PASSWORD }}"
+            }' | jq -r '.data.access_token')" 
           curl --request PATCH \
             --url "${{ secrets.CMS_API_ENDPOINT}}/items/publish/${{ github.event.inputs.publishId }}" \
-            --header "Authorization: Bearer ${{ env.CMS_TOKEN }}" \
+            --header "Authorization: Bearer $CMS_TOKEN" \
             --header 'Content-Type: application/json' \
             --data '{
               "status": "${{ github.event.workflow_run.conclusion }}"
