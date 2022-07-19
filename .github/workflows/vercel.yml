@@ -31,7 +31,7 @@ jobs:
           echo $CMS_TOKEN
           echo "CMS_TOKEN=$CMS_TOKEN" >> $GITHUB_ENV
           curl --request PATCH \
-            --url "${{ secrets.CMS_API_ENDPOINT}}/items/publish/${{ github.event.inputs.publishId }} \
+            --url "${{ secrets.CMS_API_ENDPOINT}}/items/publish/${{ github.event.inputs.publishId }}" \
             --header "Authorization: Bearer $CMS_TOKEN" \
             --header 'Content-Type: application/json' \
             --data '{
