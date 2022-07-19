@@ -142,5 +142,5 @@ jobs:
             --header "Authorization: Bearer $CMS_TOKEN" \
             --header 'Content-Type: application/json' \
             --data '{
-              "status": "${{ github.event.workflow_run.conclusion }}"
+              "status": "${{ job.status }}"
             }'
