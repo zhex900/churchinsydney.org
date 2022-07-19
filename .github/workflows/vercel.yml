@@ -130,10 +130,11 @@ jobs:
     steps:
       - name: Push status to CMS
         run: |
+          echo ${{ github.event.workflow_run.conclusion }}
           curl --request PATCH \
             --url "${{ secrets.CMS_API_ENDPOINT}}/items/publish/${{ github.event.inputs.publishId }}" \
             --header "Authorization: Bearer ${{ env.CMS_TOKEN }}" \
             --header 'Content-Type: application/json' \
             --data '{
-              "status": ${{ github.event.workflow_run.conclusion }}
+              "status": "${{ github.event.workflow_run.conclusion }}"
             }'
