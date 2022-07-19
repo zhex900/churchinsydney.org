@@ -35,7 +35,7 @@ jobs:
             --header "Authorization: Bearer $CMS_TOKEN" \
             --header 'Content-Type: application/json' \
             --data '{
-              "run_id": "${{ github.run_id }}"
+              "run_id": "${{ github.run_id }}",
               "status": "deploying"
             }'
 
@@ -131,7 +131,7 @@ jobs:
       - name: Push status to CMS
         run: |
           curl --request PATCH \
-            --url ${{ secrets.CMS_API_ENDPOINT}}/items/publish/3 \
+            --url "${{ secrets.CMS_API_ENDPOINT}}/items/publish/${{ github.event.inputs.publishId }}" \
             --header "Authorization: Bearer ${{ env.CMS_TOKEN }}" \
             --header 'Content-Type: application/json' \
             --data '{
