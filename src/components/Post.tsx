@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { formatDistanceToNow, isSameDay } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { format, formatDistanceToNow, isSameDay } from 'date-fns';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
@@ -17,7 +16,7 @@ import Image from '@/components/images/Image';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
-import { DATE_FORMAT, IMAGE_SIZE, TIME_ZONE } from '@/constants';
+import { DATE_FORMAT, IMAGE_SIZE } from '@/constants';
 import { AppContext } from '@/context/AppContext';
 
 import { PostType } from '@/types/types';
@@ -90,9 +89,9 @@ export default function Post({ post, recommendations }: PostProps) {
                       new Date(post.dateCreated),
                       new Date(post.dateUpdated)
                     ) &&
-                      `${formatInTimeZone(
+                      `${format(
                         new Date(post.dateCreated),
-                        TIME_ZONE,
+
                         DATE_FORMAT
                       )}, `}
                     {`${formatDistanceToNow(new Date(post.dateUpdated))} ${

@@ -41,7 +41,7 @@ export default function PostCard({
     >
       <UnstyledLink
         className='block h-full rounded-md focus:outline-none focus-visible:ring focus-visible:ring-primary-300'
-        href={`/post/${post.slug}`}
+        href={`/${post.slug}`}
       >
         <div className='relative'>
           <PostCardImage post={post} />

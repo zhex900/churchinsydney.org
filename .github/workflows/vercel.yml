@@ -95,7 +95,7 @@ jobs:
           CMS_API_PASSWORD: ${{ secrets.CMS_API_PASSWORD }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}
-        run: npx vercel build ${{ env.PROD_BUILD }}
+        run: sudo timedatectl set-timezone Australia/Sydney; npx vercel build ${{ env.PROD_BUILD }}
 
       - name: Deploy to Vercel Action
         id: vercel-deploy
