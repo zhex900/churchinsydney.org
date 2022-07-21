@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-force */
 describe('Contact us page', () => {
   // happy path
   it('contact us page should be able to sent email', () => {
@@ -8,10 +9,14 @@ describe('Contact us page', () => {
       Math.random().toString(36).substring(2, 15);
     const name = `Cypress Test ${randomString} `;
 
-    cy.get('[name="name"]').type(name);
-    cy.get('[name="phone"]').type('0412345678');
-    cy.get('[name="email"]').type('cypress.test.john.doe@gmail.com');
-    cy.get('[name="message"]').type('Hi, I am testing cypress');
+    cy.get('[name="name"]').type(name, { force: true });
+    cy.get('[name="phone"]').type('0412345678', { force: true });
+    cy.get('[name="email"]').type('cypress.test.john.doe@gmail.com', {
+      force: true,
+    });
+    cy.get('[name="message"]').type('Hi, I am testing cypress', {
+      force: true,
+    });
 
     // click submit button
     cy.get('[type="submit"]').click();
