@@ -1,7 +1,8 @@
-import mail from '@sendgrid/mail';
+import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { getEmailTemplateBySlug } from '@/cms';
+import { MAILGUN_ENDPOINT } from '@/constants';
 
 import { ContactUsFormData } from '@/types/types';
 
@@ -32,8 +33,8 @@ export default async function handler(
   const msg = {
     to: toEmail,
     from: toEmail,
-    subject: `Church website contact us form, from: ${name}`,
-    text: `Church website contact us form, from: ${name}`,
+    subject: `Church website contact us, ${name}`,
+    text: `Church website contact us, ${name}`,
     html: template
       .replace(/_NAME_/g, name)
       .replace(/_PHONE_/g, phone)
@@ -41,9 +42,16 @@ export default async function handler(
       .replace(/_MESSAGE_/g, message),
   };
 
-  mail.setApiKey(process.env.SENDGRID_API_KEY || '');
   try {
-    await mail.send(msg);
+    await axios({
+      method: 'post',
+      url: MAILGUN_ENDPOINT,
+      auth: {
+        username: 'api',
+        password: process.env.MAILGUN_API_KEY || '',
+      },
+      params: msg,
+    });
     res.status(200).json({ status: 'OK' });
     // res.status(500).json({ status: 'ERROR' });
   } catch (error: unknown) {

@@ -89,13 +89,13 @@ jobs:
         run: yarn
 
       - name: 📦 Build project
-        env:
-          CMS_API_ENDPOINT: ${{ secrets.CMS_API_ENDPOINT }}
-          CMS_API_USERNAME: ${{ secrets.CMS_API_USERNAME }}
-          CMS_API_PASSWORD: ${{ secrets.CMS_API_PASSWORD }}
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}
-        run: sudo timedatectl set-timezone Australia/Sydney; npx vercel build ${{ env.PROD_BUILD }}
+        run: |
+          echo "CMS_API_ENDPOINT=${{ secrets.CMS_API_ENDPOINT }}" >> .env
+          echo "CMS_API_USERNAME=${{ secrets.CMS_API_USERNAME }}" >> .env
+          echo "CMS_API_PASSWORD=${{ secrets.CMS_API_PASSWORD }}" >> .env
+          echo "MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_ANALYTICS_ID=${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}" >> .env
+          sudo timedatectl set-timezone Australia/Sydney; npx vercel build ${{ env.PROD_BUILD }}
 
       - name: Deploy to Vercel Action
         id: vercel-deploy

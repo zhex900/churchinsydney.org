@@ -15,3 +15,6 @@ export const LAST_ORDER_INDEX = 999;
 
 export const DEFAULT_DOMAIN = 'churchinsydney.org';
 export const GRAPHQL_QUERY_LIMIT = 2;
+
+export const MAILGUN_ENDPOINT =
+  'https://api.mailgun.net/v3/churchinsydney.org/messages';
