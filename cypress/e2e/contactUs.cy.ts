@@ -7,6 +7,7 @@ describe('Contact us page', () => {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
     const name = `Cypress Test ${randomString} `;
+
     cy.get('[name="name"]').type(name);
     cy.get('[name="phone"]').type('0412345678');
     cy.get('[name="email"]').type('cypress.test.john.doe@gmail.com');
