@@ -1,0 +1,730 @@
+{
+  "en": {
+    "translations": [
+      {
+        "key": "copied-to-clipboard",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Copied to clipboard"
+          }
+        ]
+      },
+      {
+        "key": "welcome",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "Welcome!"
+          }
+        ]
+      },
+      {
+        "key": "close",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Close"
+          }
+        ]
+      },
+      {
+        "key": "update-not-now",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Not now"
+          }
+        ]
+      },
+      {
+        "key": "update",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Update"
+          }
+        ]
+      },
+      {
+        "key": "update-available-description",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "A new version is available. Please refresh the page to update."
+          }
+        ]
+      },
+      {
+        "key": "update-available",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Update available"
+          }
+        ]
+      },
+      {
+        "key": "skip-tag",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Skip tag"
+          }
+        ]
+      },
+      {
+        "key": "table-of-contents",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "Table of Contents"
+          }
+        ]
+      },
+      {
+        "key": "sorry-nothing-here",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Sorry, nothing here"
+          }
+        ]
+      },
+      {
+        "key": "choose-topic",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "Choose topic"
+          }
+        ]
+      },
+      {
+        "key": "by-last-update",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "By the last update"
+          }
+        ]
+      },
+      {
+        "key": "by-start-date",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "By start date"
+          }
+        ]
+      },
+      {
+        "key": "by-rank",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "By rank"
+          }
+        ]
+      },
+      {
+        "key": "submit",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Submit"
+          }
+        ]
+      },
+      {
+        "key": "verse",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "God desires"
+          }
+        ]
+      },
+      {
+        "key": "exit",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Exit"
+          }
+        ]
+      },
+      {
+        "key": "click-here",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Click here"
+          }
+        ]
+      },
+      {
+        "key": "preview-mode",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Preview mode"
+          }
+        ]
+      },
+      {
+        "key": "locale-zh-cn",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "中"
+          }
+        ]
+      },
+      {
+        "key": "locale-en",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "en"
+          }
+        ]
+      },
+      {
+        "key": "click-to-copy",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Click to copy"
+          }
+        ]
+      },
+      {
+        "key": "events",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Events"
+          }
+        ]
+      },
+      {
+        "key": "announcements",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Announcements"
+          }
+        ]
+      },
+      {
+        "key": "our-life",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Our Life"
+          }
+        ]
+      },
+      {
+        "key": "our-belief",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Our Belief"
+          }
+        ]
+      },
+      {
+        "key": "all-rights-reserved",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "All Rights Reserved"
+          }
+        ]
+      },
+      {
+        "key": "church-in-sydney",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Church in Sydney"
+          }
+        ]
+      },
+      {
+        "key": "contact-us",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "Contact Us"
+          }
+        ]
+      },
+      {
+        "key": "you-might-also-like",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "You might also like"
+          }
+        ]
+      },
+      {
+        "key": "last-updated",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "Last updated"
+          }
+        ]
+      },
+      {
+        "key": "ago",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "ago"
+          }
+        ]
+      },
+      {
+        "key": "member-login-incorrect-password-please-try-again",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "Incorrect password. Please try again."
+          }
+        ]
+      },
+      {
+        "key": "member-login-helper-text",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "Please enter the member's password"
+          }
+        ]
+      },
+      {
+        "key": "members-login",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "Member's Login"
+          }
+        ]
+      },
+      {
+        "key": "quote-reference",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "The Practical and Organic Building Up of the Church"
+          }
+        ]
+      },
+      {
+        "key": "introduction-title",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "Wonderful Church Life!"
+          }
+        ]
+      },
+      {
+        "key": "current-events",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "Current Events"
+          }
+        ]
+      },
+      {
+        "key": "see-more-events",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "See more events"
+          }
+        ]
+      },
+      {
+        "key": "quote",
+        "namespace": "home",
+        "translations": [
+          {
+            "text": "God’s heart and will in His New Testament economy, God’s good pleasure, the counsel of His will, and His purpose are to have a Body for the enlargement and expression of Christ, the embodiment of the processed Triune God (Eph. 1:9-11, 22-23; 3:9-11)."
+          }
+        ]
+      }
+    ]
+  },
+  "zh-CN": {
+    "translations": [
+      {
+        "key": "copied-to-clipboard",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "已复制到剪贴板"
+          }
+        ]
+      },
+      {
+        "key": "close",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "关"
+          }
+        ]
+      },
+      {
+        "key": "update-not-now",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "现在不要"
+          }
+        ]
+      },
+      {
+        "key": "update",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "更新"
+          }
+        ]
+      },
+      {
+        "key": "update-available-description",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "有一个新版本可用。请刷新页面以更新。"
+          }
+        ]
+      },
+      {
+        "key": "update-available",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "可用更新"
+          }
+        ]
+      },
+      {
+        "key": "skip-tag",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "跳过标签"
+          }
+        ]
+      },
+      {
+        "key": "sorry-nothing-here",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "抱歉，这里什么都没有"
+          }
+        ]
+      },
+      {
+        "key": "by-last-update",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "按最后一次更新"
+          }
+        ]
+      },
+      {
+        "key": "by-start-date",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "按开始日期"
+          }
+        ]
+      },
+      {
+        "key": "by-rank",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "按等级"
+          }
+        ]
+      },
+      {
+        "key": "submit",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "提交"
+          }
+        ]
+      },
+      {
+        "key": "exit",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "退出"
+          }
+        ]
+      },
+      {
+        "key": "click-here",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "点击这里"
+          }
+        ]
+      },
+      {
+        "key": "preview-mode",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "预览模式"
+          }
+        ]
+      },
+      {
+        "key": "locale-zh-cn",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "CH"
+          }
+        ]
+      },
+      {
+        "key": "locale-en",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "EN"
+          }
+        ]
+      },
+      {
+        "key": "click-to-copy",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "点击复制"
+          }
+        ]
+      },
+      {
+        "key": "events",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "活动"
+          }
+        ]
+      },
+      {
+        "key": "announcements",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "通告"
+          }
+        ]
+      },
+      {
+        "key": "our-life",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "我们的生活"
+          }
+        ]
+      },
+      {
+        "key": "our-belief",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "我们的信仰"
+          }
+        ]
+      },
+      {
+        "key": "all-rights-reserved",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "版权所有"
+          }
+        ]
+      },
+      {
+        "key": "church-in-sydney",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "悉尼召会"
+          }
+        ]
+      },
+      {
+        "key": "contact-us",
+        "namespace": "common",
+        "translations": [
+          {
+            "text": "联系我们"
+          }
+        ]
+      },
+      {
+        "key": "table-of-contents",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "目录"
+          }
+        ]
+      },
+      {
+        "key": "choose-topic",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "选择主题"
+          }
+        ]
+      },
+      {
+        "key": "you-might-also-like",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "你可能还喜欢"
+          }
+        ]
+      },
+      {
+        "key": "last-updated",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "最近更新时间"
+          }
+        ]
+      },
+      {
+        "key": "ago",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "前"
+          }
+        ]
+      },
+      {
+        "key": "member-login-incorrect-password-please-try-again",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "密码错误。请再试一次。"
+          }
+        ]
+      },
+      {
+        "key": "member-login-helper-text",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "请输入会员密码"
+          }
+        ]
+      },
+      {
+        "key": "members-login",
+        "namespace": "post",
+        "translations": [
+          {
+            "text": "会员登入"
+          }
+        ]
+      },
+      {
+				"key": "welcome",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "欢迎!"
+					}
+				]
+			},
+			{
+				"key": "verse",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "<0>祂愿意</0>万人得救, 并且完全认识<1>真理</1>。<2></2><3>提摩太前书 二:四</3>"
+					}
+				]
+			},
+			{
+				"key": "quote-reference",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "哥林多前书 1:9 注解 3"
+					}
+				]
+			},
+			{
+				"key": "introduction-title",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "美好的教会生活！"
+					}
+				]
+			},
+			{
+				"key": "current-events",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "现在活动"
+					}
+				]
+			},
+			{
+				"key": "see-more-events",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "查看更多活动"
+					}
+				]
+			},
+			{
+				"key": "quote",
+				"namespace": "home",
+				"translations": [
+					{
+						"text": "我们蒙召所进入的基督，乃是包罗万有的。祂是神赐给我们的分，（2，）是神的能力和智慧，成了我们的公义、圣别和救赎。（24，30。）为着叫我们得荣耀，（二7，罗八30，）祂是荣耀的主。（二8。）祂是神的深奥（神深奥的事），（二10，）是神建造的惟一根基，（三11，）是我们的逾越节、（五7、）无酵饼、（五8、）灵食、灵水和灵磐石，（十3～4，）是头，（十一3，）是身体，（十二12，）是初熟的果子，（十五20，23，）第二个人，（十五47，）和末后的亚当；（十五45；）祂是这样的一位，成了赐生命的灵，（十五45，）好给我们接受到我们里面，作我们的一切。神已将这位至少有二十项丰富的包罗万有者赐给我们，作我们的分，给我们享受。"
+					}
+				]
+			}
+    ]
+  }
+}

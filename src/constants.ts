@@ -18,3 +18,5 @@ export const GRAPHQL_QUERY_LIMIT = 2;
 
 export const MAILGUN_ENDPOINT =
   'https://api.mailgun.net/v3/churchinsydney.org/messages';
+
+export const COPY_CLIPBOARD_RESET = 1500;

@@ -1,11 +1,48 @@
 import { describe, expect, test } from 'vitest';
 
+import { COPY_CLIPBOARD_RESET } from '@/constants';
 import Home, { getStaticProps } from '@/pages/index';
 
-import { render, screen, within } from '../testUtils';
+import { act, render, screen, within } from '../testUtils';
+
 const { getByText, getByLabelText } = screen;
 
 describe('Home page', () => {
+  test('Click contact us, should copy to clipboard', async () => {
+    window.prompt = vi.fn();
+    const mockCommand = vi.fn();
+    document.execCommand = mockCommand;
+
+    const { props } = await getStaticProps({ locale: 'en' });
+
+    render(<Home {...props} />);
+
+    const links = screen.queryByLabelText('contact us links');
+    expect(links).toBeInTheDocument();
+    if (links) {
+      for await (const key of ['email', 'phone', 'address']) {
+        expect(screen.queryByLabelText(`${key} tooltip`)).toHaveTextContent(
+          `Click to copy ${props.settings[key]}`
+        );
+
+        act(() => {
+          within(links).getByLabelText(key).click();
+        });
+        expect(mockCommand).toHaveBeenCalledWith('copy');
+        expect(screen.queryByLabelText(`${key} tooltip`)).toHaveTextContent(
+          `Copied to clipboard ${props.settings[key]}`
+        );
+
+        // wait for reset
+        await act(() => {
+          return new Promise((resolve) => {
+            setTimeout(resolve, COPY_CLIPBOARD_RESET + 2);
+          });
+        });
+      }
+    }
+  });
+
   test('Static props hydrate should renders home page', async () => {
     const { props } = await getStaticProps({ locale: 'en' });
 

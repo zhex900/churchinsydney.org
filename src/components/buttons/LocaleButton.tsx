@@ -14,6 +14,7 @@ export default function LocaleButton() {
     'en';
 
   const label = t[`common-locale-${nextLang.toLocaleLowerCase()}`];
+
   return (
     <button
       className={clsx(
@@ -23,6 +24,7 @@ export default function LocaleButton() {
         'hover:border-primary-300 hover:text-primary-300 dark:hover:border-primary-300 dark:hover:text-primary-300',
         'focus-visible:border-primary-300 focus-visible:text-primary-300 dark:focus-visible:border-primary-300 dark:focus-visible:text-primary-300'
       )}
+      aria-label='change-language'
       onClick={() => {
         router.push(router.asPath, router.asPath, { locale: nextLang });
       }}

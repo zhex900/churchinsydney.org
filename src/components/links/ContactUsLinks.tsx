@@ -5,6 +5,8 @@ import { FiMail, FiMapPin, FiPhoneCall } from 'react-icons/fi';
 import Accent from '@/components/Accent';
 import BaseTooltip from '@/components/tooltip/BaseTooltip';
 
+import { COPY_CLIPBOARD_RESET } from '@/constants';
+
 import { Translations } from '@/types/types';
 
 type ContactUsProps = {
@@ -70,7 +72,7 @@ export default function ContactUsLinks({
             text={contact.value as string}
             onCopy={() => {
               setCopyStatus(copiedToClipBoard);
-              setTimeout(() => setCopyStatus(copyStatus), 1500);
+              setTimeout(() => setCopyStatus(copyStatus), COPY_CLIPBOARD_RESET);
             }}
           >
             <button
