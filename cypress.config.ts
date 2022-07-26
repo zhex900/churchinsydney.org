@@ -7,7 +7,10 @@ export default defineConfig({
     baseUrl: 'http://localhost:3000',
     viewportHeight: 1000,
     setupNodeEvents(on, _) {
-      installLogsPrinter(on);
+      installLogsPrinter(on, {
+        includeSuccessfulHookLogs: true,
+        printLogsToConsole: 'always',
+      });
     },
   },
   blockHosts: ['www.google-analytics.com', 'ssl.google-analytics.com'],

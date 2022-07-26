@@ -36,7 +36,7 @@ describe('Contact us page', () => {
           })
           .then((response) => response.body.items.length === 1),
       {
-        timeout: 6000,
+        timeout: 10000,
         interval: 500,
       }
     );
