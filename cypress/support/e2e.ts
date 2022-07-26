@@ -14,8 +14,10 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+import installLogsCollector from 'cypress-terminal-report/src/installLogsCollector';
 import './commands';
 
+installLogsCollector();
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

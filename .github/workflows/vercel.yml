@@ -44,6 +44,9 @@ jobs:
       - name: Get latest release with tag
         id: latest-release
         run: |
+          echo ${{ github.head_ref }}
+          echo ${{ github.ref_name }}
+          echo "Ref: ${{ github.ref }}"
           echo "LATEST_RELEASE_TAG=$(curl -s ${{ github.api_url }}/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')" >> $GITHUB_ENV
 
       - name: Configure environment
@@ -109,15 +112,19 @@ jobs:
           CREATE_COMMENT: true
           PRODUCTION: ${{ env.PROD_BUILD != '' }}
 
-      - name: Save deployed url
+      - name: Trigger E2E
         run: |
-          mkdir -p ./pr
-          echo ${{steps.vercel-deploy.outputs.PREVIEW_URL}} > ./pr/pr_deployed_url
-          cat ./pr/pr_deployed_url
-      - uses: actions/upload-artifact@v2
-        with:
-          name: pr_deployed_url
-          path: pr/
+          echo "Preview URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}"
+          curl --request POST \
+            --url "https://api.github.com/repos/${{ github.repository }}/actions/workflows/e2e.yml/dispatches" \
+            --header "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            --header 'Content-Type: application/json' \
+            --data '{
+              "ref": "${{ github.head_ref }}",
+              "inputs" : {
+                "url": "${{ steps.vercel-deploy.outputs.PREVIEW_URL }}"
+              }
+            }'
 
   notify-cms:
     runs-on: ubuntu-latest
