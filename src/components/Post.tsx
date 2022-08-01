@@ -29,6 +29,14 @@ type PostProps = {
 export default function Post({ post, recommendations }: PostProps) {
   const { translations: t } = useContext(AppContext);
   const [toc, setToc] = useState<HeadingScrollSpy>([]);
+  const [lastUpdated, setLastUpdated] = useState('');
+
+  useEffect(() => {
+    // prevent server side rendering
+    if (post.dateUpdated && window) {
+      setLastUpdated(formatDistanceToNow(new Date(post.dateUpdated)));
+    }
+  }, [post.dateUpdated]);
 
   const Component = useMemo(
     () => getMDXComponent(post.body as string),
@@ -94,9 +102,7 @@ export default function Post({ post, recommendations }: PostProps) {
 
                         DATE_FORMAT
                       )}, `}
-                    {`${formatDistanceToNow(new Date(post.dateUpdated))} ${
-                      t['post-ago']
-                    }`}
+                    {`${lastUpdated} ${t['post-ago']}`}
                   </p>
                 </div>
               )}

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { formatDistanceToNow } from 'date-fns';
 import { useContext } from 'react';
+import { useEffect, useState } from 'react';
 
 import { formatEventDate } from '@/lib/utils';
 
@@ -23,6 +24,15 @@ export default function PostCard({
   checkTagged,
   onClick,
 }: PostCardProps) {
+  const [lastUpdated, setLastUpdated] = useState('');
+
+  useEffect(() => {
+    // prevent server side rendering
+    if (post.dateUpdated && window) {
+      setLastUpdated(formatDistanceToNow(new Date(post.dateUpdated)));
+    }
+  }, [post.dateUpdated]);
+
   const eventDate =
     post.start && post.end ? formatEventDate(post.start, post.end) : null;
 
@@ -72,9 +82,7 @@ export default function PostCard({
           <p className='mt-2 mb-2 text-xs '>
             {post.dateUpdated && (
               <span className='italic text-gray-400 dark:text-gray-500'>
-                {`${t['post-last-updated']}: ${formatDistanceToNow(
-                  new Date(post.dateUpdated)
-                )} ${t['post-ago']}`}
+                {`${t['post-last-updated']}: ${lastUpdated} ${t['post-ago']}`}
               </span>
             )}
           </p>

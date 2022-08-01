@@ -123,7 +123,7 @@ jobs:
             --data '{
               "ref": "${{ github.event.pull_request.head.ref }}",
               "inputs" : {
-                "url": "https://churchinsydney-n0c69ov7u-churchinsydney.vercel.app/"
+                "url": "${{ steps.vercel-deploy.outputs.PREVIEW_URL }}"
               }
             }'
 
