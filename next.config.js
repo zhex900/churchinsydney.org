@@ -2,6 +2,7 @@
 /** @type {import('next').NextConfig} */
 
 const axios = require('axios');
+
 axios.defaults.baseURL = process.env.CMS_API_ENDPOINT;
 const CMS_URL = new URL(process.env.CMS_API_ENDPOINT);
 

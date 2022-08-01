@@ -93,6 +93,10 @@ jobs:
 
       - name: 📦 Build project
         run: |
+          echo "DEPLOY_COMMIT=${{ github.sha }}" >> .env
+          echo "DEPLOY_BRANCH=${{ github.head_ref }}" >> .env
+          echo "DEPLOY_REF=${{ github.ref_name }}" >> .env
+          echo "DEPLOY_SOURCE=${{ github.event_name }}" >> .env
           echo "CMS_API_ENDPOINT=${{ secrets.CMS_API_ENDPOINT }}" >> .env
           echo "CMS_API_USERNAME=${{ secrets.CMS_API_USERNAME }}" >> .env
           echo "CMS_API_PASSWORD=${{ secrets.CMS_API_PASSWORD }}" >> .env
