@@ -16,12 +16,12 @@ import {
   getTranslationsByNamespace,
 } from '@/cms';
 import { AppContext } from '@/context/AppContext';
-import IconBook from '@/icons/Book.svg';
-import IconChildren from '@/icons/Children.svg';
-import IconHome from '@/icons/Home.svg';
-import IconPizza from '@/icons/Pizza.svg';
-import IconPublic from '@/icons/Public.svg';
-import IconUni from '@/icons/Uni.svg';
+import IconBook from '@/icons/Book';
+import IconChildren from '@/icons/Children';
+import IconHome from '@/icons/Home';
+import IconPizza from '@/icons/Pizza';
+import IconPublic from '@/icons/Public';
+import IconUni from '@/icons/Uni';
 
 import { Links, OurLife, Settings, Translations } from '@/types/types';
 const icons = {
@@ -57,12 +57,17 @@ export default function OurLifePage({
         <main>
           <section className={clsx(isLoaded && 'fade-in-start')}>
             <div className='layout min-h-main py-20'>
-              <h1 className='text-3xl md:text-5xl' data-fade='0'>
+              <h1
+                className='text-3xl md:text-5xl'
+                data-fade='0'
+                aria-label='our-life-title'
+              >
                 <Accent>{translations['common-our-life']}</Accent>
               </h1>
               <p
                 className='mt-2 text-gray-600 dark:text-gray-300'
                 data-fade='1'
+                aria-label='our-life-description'
               >
                 {ourLife.description}
               </p>

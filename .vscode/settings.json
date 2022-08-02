@@ -40,7 +40,9 @@
     "typeahead",
     "Unstyled",
     "vercel",
-    "vtest"
+    "vtest",
+    "timedatectl",
+    "unshallow"
   ],
   "git.ignoreLimitWarning": true
 }
