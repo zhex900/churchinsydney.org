@@ -16,12 +16,12 @@ import {
   getTranslationsByNamespace,
 } from '@/cms';
 import { AppContext } from '@/context/AppContext';
-import IconBook from '@/icons/Book';
-import IconChildren from '@/icons/Children';
-import IconHome from '@/icons/Home';
-import IconPizza from '@/icons/Pizza';
-import IconPublic from '@/icons/Public';
-import IconUni from '@/icons/Uni';
+import IconBook from '@/icons/book.svg';
+import IconChildren from '@/icons/children.svg';
+import IconHome from '@/icons/home.svg';
+import IconPizza from '@/icons/pizza.svg';
+import IconPublic from '@/icons/public.svg';
+import IconUni from '@/icons/uni.svg';
 
 import { Links, OurLife, Settings, Translations } from '@/types/types';
 const icons = {

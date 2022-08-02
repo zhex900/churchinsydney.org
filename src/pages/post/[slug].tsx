@@ -1,5 +1,5 @@
 import { flatten } from 'lodash';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 
 import getRecommendations from '@/lib/getRecommendations';
@@ -81,11 +81,15 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({
+export async function getStaticProps({
+  locale,
   params,
   preview = false,
-  locale,
-}) => {
+}: {
+  locale: string;
+  params: { slug: string };
+  preview?: boolean;
+}) {
   const post = await getPostBySlug(params?.slug as string, locale || 'en');
 
   return {
@@ -108,4 +112,4 @@ export const getStaticProps: GetStaticProps = async ({
       ),
     },
   };
-};
+}

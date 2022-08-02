@@ -8,9 +8,9 @@ const homePageContent = {
 
 describe('Home page', () => {
   it('Home page content should exist', () => {
+    cy.intercept('/images/logo.svg').as('logo');
     cy.visit('/');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000);
+    cy.wait('@logo');
     cy.title().should('eq', 'Church in Sydney');
 
     cy.get('[data-testid="home-verse"]').should(

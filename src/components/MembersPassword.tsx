@@ -74,6 +74,7 @@ export default function MembersPassword({
                       'focus:border-primary-300 focus:outline-none focus:ring-0 dark:focus:border-primary-300'
                     )}
                     type='password'
+                    aria-label='members-password'
                     placeholder={translations['post-member-login-password']}
                     required
                     onChange={(e) => setPassword(e.target.value)}
@@ -87,7 +88,7 @@ export default function MembersPassword({
                           'opacity-75 transition duration-1000 group-hover:opacity-100 group-hover:duration-200'
                         )}
                       />
-                      <Button onClick={onSubmit}>
+                      <Button aria-label='submit-button' onClick={onSubmit}>
                         {translations['common-submit']}
                       </Button>
                     </div>

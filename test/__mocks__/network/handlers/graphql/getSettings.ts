@@ -34,7 +34,7 @@ export const getSettings = graphql.query('GetSettings', (req, res, ctx) => {
         },
         {
           key: 'members-password',
-          value: 'Amen',
+          value: 'password',
         },
         {
           key: 'netlify-site-name',
