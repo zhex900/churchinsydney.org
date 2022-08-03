@@ -1,27 +1,23 @@
-name: e2e
+name: Scheduled CMS login
+
+# Controls when the workflow will run
 on:
-  workflow_dispatch:
-    inputs:
-      url:
-        description: deployed url
-        required: true
+  # Triggers the workflow every 1 minutes
+  schedule:
+    - cron: "*/1 * * * *"
 jobs:
-  e2e:
+  cron:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - run: echo "Preview URL ${{ github.event.inputs.url }}"
-      # https://github.com/cypress-io/github-action
       - name: Cypress run 🏃‍♀️
         uses: cypress-io/github-action@v4.1.1
         with:
           env: MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }},CMS_CYPRESS_USERNAME=${{ secrets.CMS_CYPRESS_USERNAME }},CMS_CYPRESS_PASSWORD=${{ secrets.CMS_CYPRESS_PASSWORD }}
           install: true
           browser: chrome
-          record: true
-          config: baseUrl=${{ github.event.inputs.url }}
+          record: false
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
