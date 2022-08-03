@@ -15,6 +15,7 @@ jobs:
       - name: Cypress run 🏃‍♀️
         uses: cypress-io/github-action@v4.1.1
         with:
+          spec: cypress/e2e/cms.cy.ts
           env: MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }},CMS_CYPRESS_USERNAME=${{ secrets.CMS_CYPRESS_USERNAME }},CMS_CYPRESS_PASSWORD=${{ secrets.CMS_CYPRESS_PASSWORD }}
           install: true
           browser: chrome
