@@ -4,9 +4,9 @@ name: Scheduled CMS login
 on:
   # Triggers the workflow every Sunday
   schedule:
-    - cron: "*/1 * * * *"
+    - cron: "* * * * 0"
 jobs:
-  cron:
+  cms-login:
     runs-on: ubuntu-latest
 
     steps:
