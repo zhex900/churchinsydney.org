@@ -1,9 +1,8 @@
-import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 
 import Home, { getStaticProps } from '@/pages/index';
 
-import { render, screen } from '../testUtils';
+import { act, render, screen } from '../testUtils';
 
 let _locale = 'en';
 
@@ -29,18 +28,22 @@ describe('Locale page', () => {
   test('Locale should change after clicking locale button', async () => {
     const { props } = await getStaticProps({ locale: 'en' });
 
-    render(<Home {...props} />);
+    const { user } = render(<Home {...props} />);
 
     const element = screen.getByLabelText('change-language');
 
     expect(element).toHaveTextContent('中');
     // change to zh-CN
-    await userEvent.click(element);
-    expect(element).toHaveTextContent('en');
+    await act(async () => {
+      await user.click(element);
+    });
+    await new Promise((r) => setTimeout(r, 500));
+    expect(screen.getByLabelText('change-language')).toHaveTextContent('en');
     expect(_locale).toBe('zh-CN');
 
     // change back to en
-    await userEvent.click(element);
+    await user.click(element);
+    expect(screen.getByLabelText('change-language')).toHaveTextContent('en');
     expect(_locale).toBe('en');
     expect(element).toHaveTextContent('en');
   });

@@ -11,6 +11,12 @@ describe('Our Belief page', () => {
       cy.url().should('include', '/our-belief/');
     });
   });
+
+  it(`/our-belief should open Our Belief page`, () => {
+    cy.visit('/our-belief');
+    cy.title().should('eq', 'Our Belief | churchinsydney.org');
+    cy.url().should('include', '/our-belief/');
+  });
 });
 
 export {};

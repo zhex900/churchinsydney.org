@@ -94,7 +94,7 @@ export default function Posts({
         post.title.toLowerCase().includes(search.toLowerCase()) ||
         (post?.summary &&
           post?.summary.toLowerCase().includes(search.toLowerCase())) ||
-        // Check if splitted search contained in tag
+        // Check if search contained in tag
         search
           .toLowerCase()
           .split(' ')
@@ -220,6 +220,7 @@ export default function Posts({
             <ul
               className='mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3'
               data-fade='5'
+              aria-label='post-cards'
             >
               {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (

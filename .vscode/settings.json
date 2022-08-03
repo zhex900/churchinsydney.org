@@ -42,7 +42,8 @@
     "vercel",
     "vtest",
     "timedatectl",
-    "unshallow"
+    "unshallow",
+    "macbook"
   ],
   "git.ignoreLimitWarning": true
 }

@@ -42,7 +42,11 @@ describe('Contact us page', () => {
     );
   });
 
-  //error handling
+  it(`/contact-us should open Contact Us page`, () => {
+    cy.visit('/contact-us');
+    cy.title().should('eq', 'Contact Us | churchinsydney.org');
+    cy.url().should('include', '/contact-us/');
+  });
 });
 
 export {};

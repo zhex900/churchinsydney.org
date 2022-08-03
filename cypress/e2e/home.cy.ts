@@ -31,6 +31,18 @@ describe('Home page', () => {
       homePageContent['home-quote']
     );
   });
+
+  it('Click on phone should copy phone to clipboard', () => {
+    cy.visit('/');
+
+    // Disable window prompt which is used in link creation by copy-to-clipboard library
+    cy.window().then((win) => {
+      cy.stub(win, 'prompt').returns(win.prompt);
+    });
+
+    cy.get('button[aria-label="phone"]').click(); //.trigger('mousedown');
+    cy.window().its('prompt').should('be.called');
+  });
 });
 
 export {};
