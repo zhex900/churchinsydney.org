@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 
-const axios = require('axios');
+const { getPosts, getRedirect } = require('./src/cms/api');
 
-axios.defaults.baseURL = process.env.CMS_API_ENDPOINT;
 const CMS_URL = new URL(process.env.CMS_API_ENDPOINT);
 
 module.exports = {
@@ -24,35 +23,18 @@ module.exports = {
     localeDetection: true,
   },
   trailingSlash: true,
-  async rewrites() {
-    const {
-      data: {
-        data: { access_token },
-      },
-    } = await axios.post(`/auth/login`, {
-      email: process.env.CMS_API_USERNAME,
-      password: process.env.CMS_API_PASSWORD,
-    });
-
-    const {
-      data: { data: redirect },
-    } = await axios.get('/items/redirect?limit=-1', {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-
-    const {
-      data: { data: posts },
-    } = await axios.get(
-      '/items/posts?limit=-1&filter={ "status": { "_eq": "published" }}',
+  async redirects() {
+    return [
       {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
-
+        source: '/cms',
+        destination: process.env.CMS_API_ENDPOINT,
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    const posts = await getPosts();
+    const redirect = await getRedirect();
     return [
       ...posts.map(({ slug }) => ({
         source: `/${slug}`,

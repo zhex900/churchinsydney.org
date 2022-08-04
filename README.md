@@ -1,11 +1,11 @@
 <div align="center">
   <h1>churchinsydney.org</h1>
-  <p>💠 Build with Next.js, TS, GraphQL, Tailwind CSS.</p>
+  <p>💠 Build with Next.js, Directus.io, TS, GraphQL, Tailwind CSS.</p>
 </div>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/5aca700e-e8ab-4e5d-b435-9214cb3fe8a0/deploy-status)](https://app.netlify.com/sites/churchinsydney/deploys)
+[![Build and Deploy to Vercel](https://github.com/churchinsydney/churchinsydney.org/actions/workflows/vercel.yml/badge.svg)](https://github.com/churchinsydney/churchinsydney.org/actions/workflows/vercel.yml)
 
-[![churchinsydney.org](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/413bgh/master&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/413bgh/runs)
+[![churchinsydney.org](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/413bgh&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/413bgh/runs)
 
 ![CI workflow](https://github.com/churchinsydney/churchinsydney.org/actions/workflows/unit-tests.yml/badge.svg)
 
@@ -15,7 +15,7 @@
 - Nextjs
 - Typescript
 - Tailwind CSS
-- flowbite UI components
+- Flowbite UI components
 
 ## CMS
 - Directus Headless CMS
@@ -26,7 +26,7 @@
   - CI
     - Unit and DOM test
     - Build the site
-    - Deploy PR, and push to master as preview to vercel
+    - Deploy to vercel
     - Show preview URL in PR comments
     - After preview deployment run Cypress
     - Show Cypress result in PR comments

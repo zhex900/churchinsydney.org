@@ -15,7 +15,7 @@ describe('CMS', () => {
       cy.contains('Continue').click();
       cy.wait('@settings');
       cy.wait('@auth');
-      cy.wait('@page');
+      cy.wait('@page', { timeout: 10000 });
       cy.get('.name').should('contain.text', 'churchinsydney.org');
       cy.contains('No Collections').should('be.visible');
       cy.request('POST', `${url.replace('/admin', '')}auth/logout`);
