@@ -50,7 +50,7 @@
 
 # Development
 
-Setup environment variables in `.env.local` file:
+Setup environment variables in `.env.local` file
 
 Update the values in .env.local
 
