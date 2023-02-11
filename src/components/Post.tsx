@@ -76,7 +76,7 @@ export default function Post({ post, recommendations }: PostProps) {
         date={new Date(post.dateCreated).toISOString()}
       />
 
-      <main>
+      <main suppressHydrationWarning>
         <section>
           <div className='layout'>
             <div className='pb-4 dark:border-gray-600'>

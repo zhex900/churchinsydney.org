@@ -63,8 +63,8 @@ export default function Image({
       >
         <div className='absolute top-0 left-0'>
           <NextImage
-            width={width}
-            height={height}
+            width={parseInt(`${width}`)}
+            height={parseInt(`${height}`)}
             src={`${url}?format=webp&quality=50&fit=cover&height=${height}&width=${width}`}
             alt={alt}
             title={title || alt}

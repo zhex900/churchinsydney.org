@@ -5,6 +5,7 @@ export const hasNewDeploy = rest.get('/api/has-new-deploy', (_, res, ctx) => {
     ctx.status(200),
     ctx.json({
       username: 'admin',
+      version: 1,
     })
   );
 });

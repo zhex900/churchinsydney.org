@@ -10,9 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
       - uses: Borales/actions-yarn@v3.0.0
         with:
           cmd: install
+
       - uses: Borales/actions-yarn@v3.0.0
         with:
           cmd: test
+        env:
+          CI_TEST: true

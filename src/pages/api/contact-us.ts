@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { getEmailTemplateBySlug } from '@/cms';
-import { MAILGUN_ENDPOINT } from '@/constants';
+import { MAIL_ENDPOINT } from '@/constants';
 
 import { ContactUsFormData } from '@/types/types';
 
@@ -31,11 +31,18 @@ export default async function handler(
 
   const { name, phone, email, message } = body;
   const msg = {
-    to: toEmail,
-    from: toEmail,
+    sender: {
+      name: 'Church website',
+      email: toEmail,
+    },
+    to: [
+      {
+        email: toEmail,
+        name: 'Church website',
+      },
+    ],
     subject: `Church website contact us, ${name}`,
-    text: `Church website contact us, ${name}`,
-    html: template
+    htmlContent: template
       .replace(/_NAME_/g, name)
       .replace(/_PHONE_/g, phone)
       .replace(/_EMAIL_/g, email)
@@ -43,20 +50,19 @@ export default async function handler(
   };
 
   try {
-    await axios({
+    const { data } = await axios({
       method: 'post',
-      url: MAILGUN_ENDPOINT,
-      auth: {
-        username: 'api',
-        password: process.env.MAILGUN_API_KEY || '',
+      url: MAIL_ENDPOINT,
+      headers: {
+        'api-key': process.env.MAIL_API_KEY || '',
       },
-      params: msg,
+      data: msg,
     });
-    res.status(200).json({ status: 'OK' });
+    res.status(200).json({ status: 'OK', ...data });
     // res.status(500).json({ status: 'ERROR' });
   } catch (error: unknown) {
     // eslint-disable-next-line no-console
     console.error(JSON.stringify(error, null, 2));
-    res.status(400).json({ status: 'ERROR' });
+    res.status(400).json({ status: 'ERROR', error });
   }
 }

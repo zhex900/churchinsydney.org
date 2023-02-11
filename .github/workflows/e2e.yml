@@ -17,7 +17,7 @@ jobs:
       - name: Cypress run 🏃‍♀️
         uses: cypress-io/github-action@v4.1.1
         with:
-          env: MEMBERS_PASSWORD=${{secrets.MEMBERS_PASSWORD}},MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }},CMS_CYPRESS_USERNAME=${{ secrets.CMS_CYPRESS_USERNAME }},CMS_CYPRESS_PASSWORD=${{ secrets.CMS_CYPRESS_PASSWORD }}
+          env: CMS_ADMIN_PASSWORD=${{secrets.CMS_ADMIN_PASSWORD}},CMS_ADMIN_USERNAME=${{secrets.CMS_ADMIN_USERNAME}},MEMBERS_PASSWORD=${{secrets.MEMBERS_PASSWORD}},MAIL_API_KEY=${{ secrets.MAIL_API_KEY }},CMS_CYPRESS_USERNAME=${{ secrets.CMS_CYPRESS_USERNAME }},CMS_CYPRESS_PASSWORD=${{ secrets.CMS_CYPRESS_PASSWORD }}
           install: true
           browser: chrome
           record: true

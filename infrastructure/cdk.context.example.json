@@ -1,5 +1,0 @@
-{
-  "BASE_DOMAIN_NAME": "churchinsydney.org",
-  "CMS_HOSTNAME": "slug.directus.app",
-  "CERTIFICATE_ARN_US_EAST_1": "arn:aws:acm:us-east-1:awsAccountId:certificate/certId"
-}

@@ -41,6 +41,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
       - name: Get latest release with tag
         id: latest-release
         run: |
@@ -83,11 +88,6 @@ jobs:
             ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn-lock.json') }}
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-
       - name: 🧰 Install dependencies
         run: yarn
 
@@ -100,19 +100,19 @@ jobs:
           echo "CMS_API_ENDPOINT=${{ secrets.CMS_API_ENDPOINT }}" >> .env
           echo "CMS_API_USERNAME=${{ secrets.CMS_API_USERNAME }}" >> .env
           echo "CMS_API_PASSWORD=${{ secrets.CMS_API_PASSWORD }}" >> .env
-          echo "MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }}" >> .env
+          echo "MAIL_API_KEY=${{ secrets.MAIL_API_KEY }}" >> .env
           echo "NEXT_PUBLIC_ANALYTICS_ID=${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}" >> .env
           sudo timedatectl set-timezone Australia/Sydney; npx vercel build ${{ env.PROD_BUILD }}
 
       - name: Deploy to Vercel Action
         id: vercel-deploy
-        uses: zhex900/deploy-to-vercel-action@master
+        uses: Merott/deploy-to-vercel-action@prebuilt
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ARGS: "--prebuilt"
+          PREBUILT: true
           CREATE_COMMENT: true
           TRIM_COMMIT_MESSAGE: true
           PRODUCTION: ${{ env.PROD_BUILD != '' }}
@@ -121,16 +121,16 @@ jobs:
         run: |
           echo "Preview URL: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}"
           curl --request POST \
-            --url "https://api.github.com/repos/${{ github.repository }}/actions/workflows/e2e.yml/dispatches" \
-            --header "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            --header 'Accept: application/vnd.github+json' \
-            --header 'Content-Type: application/json' \
-            --data '{
-              "ref": "${{ github.event.pull_request.head.ref }}",
-              "inputs" : {
-                "url": "${{ steps.vercel-deploy.outputs.PREVIEW_URL }}"
-              }
-            }'
+          --url "https://api.github.com/repos/${{ github.repository }}/actions/workflows/e2e.yml/dispatches" \
+          --header "Authorization: token ${{ secrets.GH_TOKEN }}" \
+          --header 'Accept: application/vnd.github+json' \
+          --header 'Content-Type: application/json' \
+          --data '{
+            "ref": "${{ github.event.pull_request.head.ref }}",
+            "inputs" : {
+              "url": "${{ steps.vercel-deploy.outputs.PREVIEW_URL }}"
+            }
+          }'
 
   notify-cms:
     runs-on: ubuntu-latest

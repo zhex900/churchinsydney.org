@@ -34,6 +34,7 @@ export default function Logo() {
       src='/images/logo.svg'
       width={240}
       height={80}
+      priority
     />
   );
 }

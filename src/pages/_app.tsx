@@ -28,7 +28,11 @@ function ErrorFallback({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ThemeProvider attribute='class' defaultTheme='dark' enableSystem={false}>
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='light'
+        enableSystem={false}
+      >
         <CookiesProvider>
           <Flowbite theme={theme}>
             <Component {...pageProps} />

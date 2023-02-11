@@ -21,7 +21,10 @@ export default function Footer() {
           translations={t}
         />
 
-        <p className='mt-8 text-sm text-gray-600 dark:text-gray-300'>
+        <p
+          suppressHydrationWarning
+          className='mt-8 text-sm text-gray-600 dark:text-gray-300'
+        >
           {new Date().getFullYear()} © {t['common-church-in-sydney']}
           {' • '}
           {t['common-all-rights-reserved']}
