@@ -2,15 +2,15 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
-import { DEFAULT_DOMAIN } from '@/constants';
+import { SITE_TITLE } from '@/constants';
 import { AppContext } from '@/context/AppContext';
 
 const defaultMeta = {
-  title: 'Church in Sydney',
-  siteName: DEFAULT_DOMAIN,
+  title: SITE_TITLE,
+  siteName: process.env.SITE_URL,
   description: 'Welcome 👋',
-  url: `https://${DEFAULT_DOMAIN}/`,
-  image: `https://${DEFAULT_DOMAIN}/favicon/apple-icon-180x180.png`,
+  url: `https://${process.env.SITE_URL}/`,
+  image: `https://${process.env.SITE_URL}/favicon/apple-icon-180x180.png`,
   type: 'website',
   robots: 'follow, index',
 };

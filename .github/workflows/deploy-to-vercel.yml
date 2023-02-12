@@ -93,6 +93,7 @@ jobs:
 
       - name: 📦 Build project
         run: |
+          echo "SITE_URL=${{ vars.SITE_URL }}" >> .env
           echo "DEPLOY_COMMIT=${{ github.sha }}" >> .env
           echo "DEPLOY_BRANCH=${{ github.head_ref }}" >> .env
           echo "DEPLOY_REF=${{ github.ref_name }}" >> .env

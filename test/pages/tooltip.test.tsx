@@ -6,6 +6,11 @@ import { act, render, screen, within } from '../testUtils';
 
 const { getByText } = screen;
 
+const settings = {
+  phone: '123456789',
+  address: '1234 Main St, City, State, 12345',
+};
+
 describe('Tooltip', () => {
   test('Footer link tooltip should show on hover', async () => {
     const props = {
@@ -22,7 +27,7 @@ describe('Tooltip', () => {
         },
       ],
       translations: {},
-      settings: {},
+      settings,
       currentEvents: [],
       featuredPosts: [],
     };

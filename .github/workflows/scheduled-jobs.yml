@@ -20,6 +20,6 @@ jobs:
           install: true
           browser: chrome
           record: false
-          config: baseUrl=https://dev.churchinsydney.org
+          config: baseUrl=${{vars.SITE_URL}}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

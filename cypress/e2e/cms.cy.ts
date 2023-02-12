@@ -1,6 +1,6 @@
 describe('CMS', () => {
   it('cms subdomain should redirect and login into cms should work', () => {
-    cy.visit('https://dev.churchinsydney.org/cms');
+    cy.visit('/cms');
     cy.intercept('**/settings').as('settings');
     cy.intercept('**/auth').as('auth');
     cy.intercept('**/users/me/track/page').as('page');

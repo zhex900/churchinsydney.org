@@ -30,7 +30,7 @@ export const getSettings = graphql.query('GetSettings', (req, res, ctx) => {
         },
         {
           key: 'address',
-          value: '169 Foxall Road North Kellyville NSW 2155',
+          value: '169 Foxall Road, North Kellyville, NSW, 2155',
         },
         {
           key: 'members-password',

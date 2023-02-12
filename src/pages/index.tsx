@@ -12,6 +12,7 @@ import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
+import StructuredData from '@/components/StructuredData';
 import Trans from '@/components/translation/Trans';
 
 import {
@@ -38,7 +39,6 @@ export default function IndexPage({
   settings: Settings;
 }) {
   const isLoaded = useLoaded();
-
   return (
     <AppContext.Provider
       value={{
@@ -49,6 +49,7 @@ export default function IndexPage({
     >
       <Layout>
         <Seo />
+        <StructuredData address={settings.address} phone={settings.phone} />
         <main>
           <section
             className={clsx(

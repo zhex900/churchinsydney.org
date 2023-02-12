@@ -6,6 +6,10 @@ import { act, render, screen, within } from '../testUtils';
 
 const { getByText, getByLabelText } = screen;
 
+const settings = {
+  phone: '123456789',
+  address: '1234 Main St, City, State, 12345',
+};
 describe('Home page', () => {
   test('Click contact us, should copy to clipboard', async () => {
     vi.useFakeTimers();
@@ -90,7 +94,7 @@ describe('Home page', () => {
         'home-quote': '"I am a quote"',
         'home-quote-reference': '- John Doe',
       },
-      settings: {},
+      settings,
       currentEvents: [],
       featuredPosts: [],
     };
@@ -119,7 +123,7 @@ describe('Home page', () => {
       translations: {
         'home-current-events': 'Current events',
       },
-      settings: {},
+      settings,
       currentEvents: [],
       featuredPosts: [],
     };
@@ -136,7 +140,7 @@ describe('Home page', () => {
       translations: {
         'home-current-events': 'Current events',
       },
-      settings: {},
+      settings,
       currentEvents: [],
       featuredPosts: [],
     };
@@ -151,7 +155,7 @@ describe('Home page', () => {
     const props = {
       links: [],
       translations: {},
-      settings: {},
+      settings,
       currentEvents: [],
       featuredPosts: [],
     };
@@ -167,6 +171,7 @@ describe('Home page', () => {
       translations: {},
       settings: {
         'show-hero-image': 'true',
+        ...settings,
       },
       currentEvents: [],
       featuredPosts: [],
@@ -182,6 +187,7 @@ describe('Home page', () => {
       translations: {},
       settings: {
         'show-hero-image': 'false',
+        ...settings,
       },
       currentEvents: [],
       featuredPosts: [],

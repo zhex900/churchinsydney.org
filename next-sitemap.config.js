@@ -1,7 +1,11 @@
 module.exports = {
-  siteUrl: 'https://churchinsydney.org/',
+  siteUrl: process.env.SITE_URL,
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }],
+    policies: [
+      { userAgent: '*', allow: '/' },
+      { userAgent: '*', disallow: '/api' },
+      { userAgent: '*', disallow: '/zh-CN' },
+    ],
   },
 };
