@@ -15,7 +15,7 @@ const defaultData = {
   },
   url: process.env.SITE_URL,
   telephone: '',
-  logo: `${process.env.SITE_URL}/images/logo.svg`,
+  logo: `/images/logo.svg`,
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
