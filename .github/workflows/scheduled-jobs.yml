@@ -1,25 +1,25 @@
-name: Scheduled CMS login
+# name: Scheduled CMS login
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow at 00:00 every 7 day.
-  schedule:
-    - cron: "0 0 * * 0"
-jobs:
-  cms-login:
-    runs-on: ubuntu-latest
+# # Controls when the workflow will run
+# on:
+#   # Triggers the workflow at 00:00 every 7 day.
+#   schedule:
+#     - cron: "0 0 * * 0"
+# jobs:
+#   cms-login:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cypress run 🏃‍♀️
-        uses: cypress-io/github-action@v4.1.1
-        with:
-          spec: cypress/e2e/cms.cy.ts
-          env: CMS_ADMIN_PASSWORD=${{secrets.CMS_ADMIN_PASSWORD}},CMS_ADMIN_USERNAME=${{secrets.CMS_ADMIN_USERNAME}},MAIL_API_KEY=${{ secrets.MAIL_API_KEY }},CMS_CYPRESS_USERNAME=${{ secrets.CMS_CYPRESS_USERNAME }},CMS_CYPRESS_PASSWORD=${{ secrets.CMS_CYPRESS_PASSWORD }}
-          install: true
-          browser: chrome
-          record: false
-          config: baseUrl=${{vars.SITE_URL}}
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Cypress run 🏃‍♀️
+#         uses: cypress-io/github-action@v4.1.1
+#         with:
+#           spec: cypress/e2e/cms.cy.ts
+#           env: CMS_ADMIN_PASSWORD=${{secrets.CMS_ADMIN_PASSWORD}},CMS_ADMIN_USERNAME=${{secrets.CMS_ADMIN_USERNAME}},MAIL_API_KEY=${{ secrets.MAIL_API_KEY }},CMS_CYPRESS_USERNAME=${{ secrets.CMS_CYPRESS_USERNAME }},CMS_CYPRESS_PASSWORD=${{ secrets.CMS_CYPRESS_PASSWORD }}
+#           install: true
+#           browser: chrome
+#           record: false
+#           config: baseUrl=${{vars.SITE_URL}}
+#         env:
+#           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
